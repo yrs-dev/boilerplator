@@ -10,6 +10,5 @@ namespace CommonInterfaces
     interface IGenerator
     {
         bool generateCode(string filePath, Datamodel dml);
-
     }
 }
