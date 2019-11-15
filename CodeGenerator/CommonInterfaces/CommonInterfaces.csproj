@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E3C67EB2-6AA8-44DC-949D-A44A11A84C46}</ProjectGuid>
+    <ProjectGuid>{AA99E002-7D47-4DC1-9FAB-B856D675BB48}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeGenerator.Reader</RootNamespace>
-    <AssemblyName>CodeGenerator.Reader</AssemblyName>
+    <RootNamespace>CommonInterfaces</RootNamespace>
+    <AssemblyName>CommonInterfaces</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,8 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datamodel.cs" />
+    <Compile Include="IController.cs" />
+    <Compile Include="IGenerator.cs" />
+    <Compile Include="IReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator.Reader\CodeGenerator.Reader.csproj">
+      <Project>{e3c67eb2-6aa8-44dc-949d-a44a11a84c46}</Project>
+      <Name>CodeGenerator.Reader</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
