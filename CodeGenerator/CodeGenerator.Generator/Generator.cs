@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommonInterfaces;
 
-namespace CodeGenerator.Reader
+namespace CodeGenerator.Generator
 {
-    public class Datamodel
+    public class Generator : IGenerator
     {
-        
     }
 }

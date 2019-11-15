@@ -7,7 +7,7 @@ using CodeGenerator.Reader;
 
 namespace CommonInterfaces
 {
-    interface IReader
+    public interface IReader
     {
         Datamodel getDatamodel(string filePath);
     }
