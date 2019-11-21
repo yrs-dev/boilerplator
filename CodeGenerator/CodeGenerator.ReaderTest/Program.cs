@@ -25,6 +25,14 @@ namespace CodeGenerator.ReaderTest
                     {
                         Console.WriteLine("Class Name : {0}", CodeGenerator.Reader.Reader.getValue(reader.ReadSubtree()));
                     }
+                    if (reader.Name == "y:AttributeLabel" && reader.NodeType == XmlNodeType.Element)
+                    {
+                        Console.WriteLine("Attribute Names : {0}", CodeGenerator.Reader.Reader.getValue(reader.ReadSubtree()));
+                    }
+                    if (reader.Name == "y:MethodLabel" && reader.NodeType == XmlNodeType.Element)
+                    {
+                        Console.WriteLine("Method Names : {0}", CodeGenerator.Reader.Reader.getValue(reader.ReadSubtree()));
+                    }
                 }
             }
             finally
