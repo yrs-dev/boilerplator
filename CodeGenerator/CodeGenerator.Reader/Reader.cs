@@ -11,6 +11,17 @@ namespace CodeGenerator.Reader
 {
     class Reader : IReader
     {
-
+        public static string getText(XmlReader xtr)
+        {
+            string t = "";
+            while (xtr.Read())
+            {
+                if (xtr.HasValue)
+                {
+                    t += xtr.Value;
+                }
+            }
+            return t;
+        }
     }
 }
