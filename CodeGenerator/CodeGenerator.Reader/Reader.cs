@@ -9,9 +9,9 @@ using System.Xml.Linq;
 
 namespace CodeGenerator.Reader
 {
-    class Reader : IReader
+    public class Reader : IReader
     {
-        public static string getText(XmlReader xtr)
+        public static string getValue(XmlReader xtr)
         {
             string t = "";
             while (xtr.Read())
