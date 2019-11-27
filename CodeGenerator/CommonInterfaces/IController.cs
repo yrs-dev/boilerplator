@@ -8,6 +8,6 @@ namespace CommonInterfaces
 {
     interface IController
     {
-        bool startProcess(string filePath_Model, string filePath_Output);
+        bool StartProcess(string filePath_Model, string filePath_Output);
     }
 }
