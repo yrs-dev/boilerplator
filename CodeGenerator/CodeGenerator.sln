@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.ReaderTest", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.GeneratorTest", "CodeGenerator.GeneratorTest\CodeGenerator.GeneratorTest.csproj", "{BC5A3F59-E109-4568-BA22-4F6C73415328}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.Datamodel", "CodeGenerator.Datamodel\CodeGenerator.Datamodel.csproj", "{A21803E5-C8EA-4D00-AE91-FBC99AC4AAC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{BC5A3F59-E109-4568-BA22-4F6C73415328}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC5A3F59-E109-4568-BA22-4F6C73415328}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC5A3F59-E109-4568-BA22-4F6C73415328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A21803E5-C8EA-4D00-AE91-FBC99AC4AAC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A21803E5-C8EA-4D00-AE91-FBC99AC4AAC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A21803E5-C8EA-4D00-AE91-FBC99AC4AAC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A21803E5-C8EA-4D00-AE91-FBC99AC4AAC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{21ABB5AC-DC2E-40E6-B284-0DA3CDE180C6} = {03CBB55B-C226-417E-8A00-DFDECAB88953}
 		{24B089DA-82FA-4865-84D1-3A1E3E38497F} = {03CBB55B-C226-417E-8A00-DFDECAB88953}
 		{BC5A3F59-E109-4568-BA22-4F6C73415328} = {03CBB55B-C226-417E-8A00-DFDECAB88953}
+		{A21803E5-C8EA-4D00-AE91-FBC99AC4AAC3} = {8BB48865-ABE7-48D6-9706-A579FF268B51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D88A975-FCC7-4A21-AF43-ED4B80A679F7}
