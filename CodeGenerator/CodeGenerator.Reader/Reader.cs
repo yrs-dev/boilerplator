@@ -11,17 +11,22 @@ namespace CodeGenerator.Reader
 {
     public class Reader : IReader
     {
-        public static string getValue(XmlReader xtr)
+        public static string getValue(XmlReader reader)
         {
             string t = "";
-            while (xtr.Read())
+            while (reader.Read())
             {
-                if (xtr.HasValue)
+                if (reader.HasValue)
                 {
-                    t += xtr.Value;
+                    t += reader.Value;
                 }
             }
             return t;
+        }
+
+        public Datamodel getDatamodel(string filePath)
+        {
+            throw new NotImplementedException();
         }
     }
 }
