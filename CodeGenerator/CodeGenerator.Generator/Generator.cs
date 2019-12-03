@@ -9,5 +9,14 @@ namespace CodeGenerator.Generator
 {
     public class Generator : IGenerator
     {
+
+        bool generateCode(string filePath, Datamodel dml)
+        {
+
+
+
+            return true;
+        }
+
     }
 }

@@ -7,7 +7,7 @@ using CodeGenerator.Reader;
 
 namespace CommonInterfaces
 {
-    interface IGenerator
+    public interface IGenerator
     {
         bool generateCode(string filePath, Datamodel dml);
     }
