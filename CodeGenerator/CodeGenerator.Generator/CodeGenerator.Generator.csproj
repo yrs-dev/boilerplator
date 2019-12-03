@@ -44,5 +44,15 @@
     <Compile Include="Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator.Reader\CodeGenerator.Reader.csproj">
+      <Project>{e3c67eb2-6aa8-44dc-949d-a44a11a84c46}</Project>
+      <Name>CodeGenerator.Reader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{aa99e002-7d47-4dc1-9fab-b856d675bb48}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
