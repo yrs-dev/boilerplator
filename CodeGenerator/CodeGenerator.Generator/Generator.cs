@@ -10,7 +10,7 @@ namespace CodeGenerator.Generator
     public class Generator : IGenerator
     {
 
-        public bool generateCode(string filePath, CodeGenerator.Reader.Datamodel dml)
+        public bool generateCode(string filePath, Datamodel.Datamodel dml)
         {
 
             // Get output location
@@ -31,6 +31,7 @@ namespace CodeGenerator.Generator
 
             return true;
         }
+
 
     }
 }
