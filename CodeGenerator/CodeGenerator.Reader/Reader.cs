@@ -3,30 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonInterfaces;
 using System.Xml;
+using CodeGenerator.Datamodel;
 using System.Xml.Linq;
+using System.IO;
+using CommonInterfaces;
 
 namespace CodeGenerator.Reader
 {
-    public class Reader : IReader
+    public class Reader : CommonInterfaces.IReader
     {
         public static string getValue(XmlReader reader)
         {
-            string t = "";
+            string text = "";
             while (reader.Read())
             {
                 if (reader.HasValue)
                 {
-                    t += reader.Value;
+                    text += reader.Value;
                 }
             }
-            return t;
+            return text;
         }
 
-        public Datamodel getDatamodel(string filePath)
-        {
-            throw new NotImplementedException();
+
+         public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
+         {
+             throw new NotImplementedException();
+         }
+
+
         }
     }
+
 }
