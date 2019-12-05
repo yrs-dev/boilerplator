@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeGenerator.Datamodel
 {
-    public class UML_Class
+    public class UML_Class : UML_Base
     {
 
         public List<UML_Method> ListUmlMethods { get; set; }
