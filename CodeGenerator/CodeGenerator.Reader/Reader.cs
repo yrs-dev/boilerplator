@@ -27,6 +27,35 @@ namespace CodeGenerator.Reader
         }
 
 
+        public static UML_Attribute getAttributes(XmlReader reader)
+        {
+            UML_Attribute attribute = new UML_Attribute();
+
+            while (reader.Read())
+            {
+                if (reader.HasValue && reader.Name == "y:AttributeLabel")
+                {
+                    string readerValue = reader.HasValue.ToString();
+                    char[] arr = new char[readerValue.Length];
+
+                    using (StringReader sr = new StringReader(readerValue))
+                    {
+                        sr.Read(arr, 0, arr.Length);
+                        string attributeName = sr.Read(arr, 1, arr.Length).ToString();
+
+                        if (arr[0].ToString() == "+")
+                        {
+                            attribute.name = attributeName;
+                            attribute.accessModifier = '+';
+                            attribute.type = "Attribute";
+                        }
+                    }
+                }
+            }
+            return attribute;
+        }
+
+
          public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
          {
              throw new NotImplementedException();
