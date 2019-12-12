@@ -8,7 +8,7 @@ namespace CodeGenerator.Datamodel
 {
     public class Datamodel
     {
-
+        // List to store all classes found in the diagram
         public List<UML_Class> ListUmlClasses { get; set; }
 
     }

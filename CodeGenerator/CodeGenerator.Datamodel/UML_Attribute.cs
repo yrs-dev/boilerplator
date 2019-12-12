@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CodeGenerator.Datamodel
 {
-    // public int randomNumber;
     public class UML_Attribute : UML_Base
     {
 
-        // everything already defined in uml base
+        // "void", "int", etc.
+        public string type { get; set; }
 
     }
 }
