@@ -46,7 +46,6 @@
     <Compile Include="UML_Attribute.cs" />
     <Compile Include="UML_Base.cs" />
     <Compile Include="UML_Class.cs" />
-    <Compile Include="UML_Connector.cs" />
     <Compile Include="UML_Interface.cs" />
     <Compile Include="UML_Method.cs" />
   </ItemGroup>
