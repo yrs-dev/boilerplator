@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace CodeGenerator.Datamodel
 {
-    public class UML_Method : UML_Attribute
+    public class UML_Parameter
     {
-        // List to store method parameters, may be empty
-        public List<UML_Parameter> parameters { get; set; }
 
+        public string parameterName;
+
+        public string parameterType;
     }
 }

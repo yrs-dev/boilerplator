@@ -10,8 +10,8 @@ namespace CodeGenerator.Datamodel
     {
 
         // Relations
-        public List<UML_Class> ListParents { get; set; }
-        public List<UML_Interface> ListImplementedInterfaces { get; set; }
+        public List<UML_Class> parents { get; set; }
+        public List<UML_Interface> implementedInterfaces { get; set; }
 
  
 

@@ -48,6 +48,7 @@
     <Compile Include="UML_Class.cs" />
     <Compile Include="UML_Interface.cs" />
     <Compile Include="UML_Method.cs" />
+    <Compile Include="UML_Parameter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
