@@ -6,23 +6,17 @@ using System.Threading.Tasks;
 
 namespace CodeGenerator.Datamodel
 {
-    public class UML_Class : UML_Base
+    public class UML_Class : UML_Interface
     {
 
-        // Acknowledge as interface -> all specifier will be understood as public by controller
-        bool isInterface = false;
+        // Relations
+        public List<UML_Class> ListParents { get; set; }
+        public List<UML_Interface> ListImplementedInterfaces { get; set; }
 
-        // List to store methods specified in the class diagram belonging to one class
-        public List<UML_Method> ListUmlMethods { get; set; }
-
-        // List to store attributes specified in the class diagram belonging to one class
-        public List<UML_Attribute> ListUmlAttributes { get; set; }
-
-
-
+ 
 
         // Constructor
-        public UML_Class(string classname) { 
+        public UML_Class(string classname) : base(classname) { 
             
             // Assign name
             this.name = classname;
