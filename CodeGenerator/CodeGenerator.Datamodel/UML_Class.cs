@@ -13,7 +13,6 @@ namespace CodeGenerator.Datamodel
         public List<UML_Class> parents { get; set; }
         public List<UML_Interface> implementedInterfaces { get; set; }
 
- 
 
         // Constructor
         public UML_Class(string classname) : base(classname) { 

@@ -8,7 +8,7 @@ using CommonInterfaces;
 using CodeGenerator.Datamodel;
 
 /* TODO:
- * parameter and parametertype same length?
+ * uml class: parents and interfaces proper syntax, string instead of object?
  * 
  * 
  * 
@@ -60,8 +60,42 @@ namespace CodeGenerator.Generator
         // Helper methods
         void writeClass(StreamWriter classFile, UML_Class umlClass)
         {
-            string classString = $"class {umlClass.name} {{";
-            classFile.WriteLine(classString);
+            // Write beginning
+            StringBuilder sb = new StringBuilder($"class {umlClass.name}");
+
+            // Maybe append parents
+            if(umlClass.parents.Count > 0 || umlClass.implementedInterfaces.Count > 0)
+            {
+                sb.Append(" :");
+            }
+
+            // Maybe append parents
+            if (umlClass.parents.Count > 0)
+            {
+                string prefix = "";
+                foreach (UML_Class parentClass in umlClass.parents)
+                {
+                    sb.Append($"{prefix} {parentClass.name}");
+                    prefix = ",";
+                }
+            }
+
+            // Maybe append interfaces
+            if (umlClass.implementedInterfaces.Count > 0)
+            {
+                string prefix = "";
+                foreach (UML_Interface implementedInterface in umlClass.implementedInterfaces)
+                {
+                    sb.Append($"{prefix} {implementedInterface.name}");
+                    prefix = ",";
+                }
+            }
+
+            // Last line
+            sb.Append(")\n{");
+
+            // Write built string
+            classFile.WriteLine(sb.ToString());
         }
 
 
