@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeGenerator.Datamodel
 {
-    public class UML_Class : UML_Interface
+    public class UML_Class : UML_BaseExtension
     {
 
         // Relations
@@ -15,7 +15,7 @@ namespace CodeGenerator.Datamodel
 
 
         // Constructor
-        public UML_Class(string classname) : base(classname) { 
+        public UML_Class(string classname) { 
             
             // Assign name
             this.name = classname;

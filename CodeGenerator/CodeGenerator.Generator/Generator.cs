@@ -35,61 +35,29 @@ namespace CodeGenerator.Generator
                     writeClass(classFile, umlClass);
 
                     // Write attributes
-                    foreach(UML_Attribute umlAttribute in umlClass.umlAttributes)
-                    {
-                        writeAttribute(classFile, umlAttribute);
-                    }
+                    writeAttribute(classFile, umlClass.umlAttributes);
 
                     // Write methods
-                    foreach (UML_Method umlMethod in umlClass.umlMethods)
-                    {
-                        writeMethod(classFile, umlMethod);
-                    }
+                    writeMethod(classFile, umlClass.umlMethods);
 
                     // Ending line
                     classFile.WriteLine("}");
 
                 }
-
             }
             return true;
         }
 
 
 
-        // Helper methods
+        // Writes the class line
         void writeClass(StreamWriter classFile, UML_Class umlClass)
         {
             // Write beginning
             StringBuilder sb = new StringBuilder($"class {umlClass.name}");
 
-            // Maybe append parents
-            if(umlClass.parents.Count > 0 || umlClass.implementedInterfaces.Count > 0)
-            {
-                sb.Append(" :");
-            }
-
-            // Maybe append parents
-            if (umlClass.parents.Count > 0)
-            {
-                string prefix = "";
-                foreach (UML_Class parentClass in umlClass.parents)
-                {
-                    sb.Append($"{prefix} {parentClass.name}");
-                    prefix = ",";
-                }
-            }
-
-            // Maybe append interfaces
-            if (umlClass.implementedInterfaces.Count > 0)
-            {
-                string prefix = "";
-                foreach (UML_Interface implementedInterface in umlClass.implementedInterfaces)
-                {
-                    sb.Append($"{prefix} {implementedInterface.name}");
-                    prefix = ",";
-                }
-            }
+            // Append parents, interfaces
+            writeClass_appendElements(classFile, umlClass, sb);
 
             // Last line
             sb.Append(")\n{");
@@ -98,36 +66,84 @@ namespace CodeGenerator.Generator
             classFile.WriteLine(sb.ToString());
         }
 
-
-
-        void writeAttribute(StreamWriter classFile, UML_Attribute umlAttribute)
+        // Appends to the class line
+        void writeClass_appendElements(StreamWriter classFile, UML_Class umlClass, StringBuilder sb)
         {
-            string attributeString = $"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name};";
-            classFile.WriteLine(attributeString);
+
+            // Append colon
+            bool aditionalElementsPresent = umlClass.parents.Count > 0 || umlClass.implementedInterfaces.Count > 0;
+            if (aditionalElementsPresent)
+            {
+                sb.Append(" :");
+            }
+
+            // Append parents
+            if (umlClass.parents.Count > 0)
+            {
+                foreach (UML_Class parentClass in umlClass.parents)
+                {
+                    sb.Append($"{parentClass.name}, ");
+                }
+            }
+
+            // Append interfaces
+            if (umlClass.implementedInterfaces.Count > 0)
+            {
+                foreach (UML_Interface implementedInterface in umlClass.implementedInterfaces)
+                {
+                    sb.Append($"{implementedInterface.name}, ");
+                }
+            }
+
+            // Delete last comma
+            if (aditionalElementsPresent)
+            {
+                sb.Length = sb.Length - 2;
+            }
         }
 
 
 
-        void writeMethod(StreamWriter classFile, UML_Method umlMethod)
+        void writeAttribute(StreamWriter classFile, List<UML_Attribute> umlAttributes)
         {
-            StringBuilder sb = new StringBuilder();
 
-            // First line
-            sb.Append($"{umlMethod.accessModifier} {umlMethod.type} {umlMethod.name} (");
-            foreach(UML_Parameter umlParameter in umlMethod.parameters)
+            // Iterate over attribute list
+            foreach(UML_Attribute umlAttribute in umlAttributes)
             {
-                sb.Append($"{umlParameter.parameterName} {umlParameter.parameterType}, ");
+                // Write attribute to file
+                string attributeString = $"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name};";
+                classFile.WriteLine(attributeString);
             }
+            
+        }
 
-            sb.Length = sb.Length -2; // Delete trailing ,
-            sb.Append(")");
 
-            // Write body
-            sb.Append("\n{\n\tthrow new System.NotImplementedException();\n}");
 
-            // Write built string
-            classFile.WriteLine(sb.ToString());
+        void writeMethod(StreamWriter classFile, List<UML_Method> umlMethods)
+        {
 
+            // Iterate over method list
+            foreach (UML_Method umlMethod in umlMethods)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                // First line
+                sb.Append($"{umlMethod.accessModifier} {umlMethod.type} {umlMethod.name} (");
+                foreach (UML_Parameter umlParameter in umlMethod.parameters)
+                {
+                    sb.Append($"{umlParameter.parameterName} {umlParameter.parameterType}, ");
+                }
+
+                sb.Length = sb.Length - 2; // Delete trailing ,
+                sb.Append(")");
+
+                // Write body
+                sb.Append("\n{\n\tthrow new System.NotImplementedException();\n}");
+
+                // Write built string
+                classFile.WriteLine(sb.ToString());
+
+            }
         }
 
         
