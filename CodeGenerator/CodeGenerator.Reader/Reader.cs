@@ -23,6 +23,29 @@ namespace CodeGenerator.Reader
 {
     public class Reader : CommonInterfaces.IReader
     {
+        // Main method
+        static void Read(string filepath)
+        {
+            XmlReader reader = null;
+
+            try
+            {
+                // Reader Object for read Graphml File
+                reader = new XmlTextReader(filepath);
+
+                while (reader.Read())
+                {
+                    UML_Class graphClass = AnalyzeNodeLabel(reader);
+                    graphClass.umlAttributes = AnalyzeAttributeLabel(reader);
+                    graphClass.umlMethods = AnalyzeMethodLabel(reader);
+                }
+            }
+            finally
+            {
+
+            }
+        } 
+
         // Method gets the name of the class
         public static UML_Class AnalyzeNodeLabel(XmlReader reader)
         {
@@ -62,13 +85,13 @@ namespace CodeGenerator.Reader
 
 
         // Method gets the Attributes for each class
-        public static UML_Attribute AnalyzeAttributeLabel (XmlReader reader)
+        public static List<UML_Attribute> AnalyzeAttributeLabel (XmlReader reader)
         {
             return null;
         }
 
         // Method gets the Methods for each class
-        public static UML_Method AnalyzeMethodLabel (XmlReader reader)
+        public static List<UML_Method> AnalyzeMethodLabel (XmlReader reader)
         {
             return null;
         }
