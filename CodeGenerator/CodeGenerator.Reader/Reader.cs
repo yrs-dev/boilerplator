@@ -9,6 +9,16 @@ using System.Xml.Linq;
 using System.IO;
 using CommonInterfaces;
 
+/* TODO:
+ * AnalyzeAttributeLabel : Method structure & structure for storing data
+ * 
+ * AnalyzeMethodLabel : Method structure & structure for storing data
+ * 
+ * AnalyzeInheritance : <data id=""> 
+ *  --> Every Class object need id
+ * 
+ */
+
 namespace CodeGenerator.Reader
 {
     public class Reader : CommonInterfaces.IReader
@@ -49,6 +59,7 @@ namespace CodeGenerator.Reader
             }
             return className;
         }
+
 
         // Method gets the Attributes for each class
         public static UML_Attribute AnalyzeAttributeLabel (XmlReader reader)
