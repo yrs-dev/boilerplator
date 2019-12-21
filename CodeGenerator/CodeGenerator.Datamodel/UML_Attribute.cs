@@ -12,5 +12,16 @@ namespace CodeGenerator.Datamodel
         // "void", "int", etc.
         public string type { get; set; }
 
+        public UML_Attribute()
+        {
+
+        }
+
+        public UML_Attribute(object attribute)
+        {
+            string attributeName = attribute.ToString();
+            this.name = attributeName;
+        }
+
     }
 }

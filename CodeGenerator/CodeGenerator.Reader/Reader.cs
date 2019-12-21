@@ -100,10 +100,10 @@ namespace CodeGenerator.Reader
                 for (int i = 0; i < readerArray.Length; i++)
                 {
                     UML_Attribute attribute = new UML_Attribute(readerArray.GetValue(i));
+                    classAttributes.Add(attribute);
                 }
             } 
-
-            return null;
+            return classAttributes;
         }
 
         // Method gets the Methods for each class
