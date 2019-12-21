@@ -16,6 +16,7 @@ using CommonInterfaces;
  * 
  * AnalyzeInheritance : <data id=""> 
  *  --> Every Class object need id
+ *  --> Parents : Class or Interface?
  * 
  */
 
@@ -23,6 +24,7 @@ namespace CodeGenerator.Reader
 {
     public class Reader : CommonInterfaces.IReader
     {
+
         // Main method
         static void Read(string filepath)
         {
@@ -87,6 +89,20 @@ namespace CodeGenerator.Reader
         // Method gets the Attributes for each class
         public static List<UML_Attribute> AnalyzeAttributeLabel (XmlReader reader)
         {
+           // UML_Attribute attribute = new UML_Attribute();
+            List<UML_Attribute> classAttributes = new List<UML_Attribute>();
+
+            if (reader.Name == "y:AttributeLabel" && reader.NodeType == XmlNodeType.Element)
+            {
+                string readerValue = reader.ReadInnerXml();
+                string[] readerArray = readerValue.Split(' ').Select(x => x.Trim('+', '-', '#')).ToArray();
+
+                for (int i = 0; i < readerArray.Length; i++)
+                {
+                    UML_Attribute attribute = new UML_Attribute(readerArray.GetValue(i));
+                }
+            } 
+
             return null;
         }
 
