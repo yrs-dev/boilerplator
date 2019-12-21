@@ -41,6 +41,17 @@ namespace CodeGenerator.Reader
             return className;
         }
 
+        
+        public static UML_Attribute AnalyzeAttributeLabel (XmlReader reader)
+        {
+            return null;
+        }
+
+        public static UML_Method AnalyzeMethodLabel (XmlReader reader)
+        {
+            return null;
+        }
+
          public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
          {
              throw new NotImplementedException();
