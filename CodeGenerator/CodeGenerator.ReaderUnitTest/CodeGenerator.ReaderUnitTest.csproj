@@ -58,14 +58,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="classdiagram.graphml" />
+    <None Include="completedDiagram.graphml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator.Datamodel\CodeGenerator.Datamodel.csproj">
+      <Project>{a21803e5-c8ea-4d00-ae91-fbc99ac4aac3}</Project>
+      <Name>CodeGenerator.Datamodel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeGenerator.Reader\CodeGenerator.Reader.csproj">
+      <Project>{e3c67eb2-6aa8-44dc-949d-a44a11a84c46}</Project>
+      <Name>CodeGenerator.Reader</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
