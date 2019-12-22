@@ -20,7 +20,7 @@
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="c" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.689453125" x="35.1552734375" xml:space="preserve" y="3.0">Employee</y:NodeLabel>
           <y:UML clipContent="true" constraint="" hasDetailsColor="false" omitDetails="false" stereotype="" use3DEffect="true">
-            <y:AttributeLabel xml:space="preserve">+name : string</y:AttributeLabel>
+            <y:AttributeLabel xml:space="preserve">+name:string</y:AttributeLabel>
             <y:MethodLabel xml:space="preserve">getName():String
 getTitle():String
 getStaffNo():Number
