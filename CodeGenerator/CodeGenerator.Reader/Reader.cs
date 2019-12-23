@@ -96,10 +96,7 @@ namespace CodeGenerator.Reader
                 if (reader.Name == "y:AttributeLabel" && reader.NodeType == XmlNodeType.Element)
                 {
                     string readerValue = reader.ReadInnerXml();
-                    UML_Attribute attributte = getAccesmodifier(readerValue);
-
-                    classAttributes.Add(attributte);
-
+                    classAttributes = getAttribute(readerValue);
                     // +name:string
                     //string[] readerArray = readerValue.Split(' ').Select(x => x.Trim(':')).ToArray();
                     // ["+","name",":","string"]
@@ -111,48 +108,50 @@ namespace CodeGenerator.Reader
                     //}
                 }
             }
+
             return classAttributes;
         }
 
-        static UML_Attribute getAccesmodifier(string attr)
+        static List<UML_Attribute> getAttribute(string attr)
         {
             string modifierPublic = "+";
             string modifierPrivate = "-";
             string modifierProtected = "#";
 
-            UML_Attribute attribute = new UML_Attribute();
+            List<UML_Attribute> listAttributes = new List<UML_Attribute>();
+            List<string> readerValueArray = new List<string>();
+            readerValueArray = System.Text.RegularExpressions.Regex.Split(attr, @"\s{2,}").ToList<string>();
 
-            string[] readerValueArray = attr.Split(':').ToArray();
-
-            if (readerValueArray[0].Contains(modifierPublic) == true)
+            foreach (string stringValue in readerValueArray)
             {
-                attribute.accessModifier = '+';
-                attribute.name = readerValueArray[0].Trim('+');
-                attribute.type = readerValueArray[1];
+                UML_Attribute attribute = new UML_Attribute();
+                var kvp = stringValue.Split(':');
+                string current = kvp[1].Trim();
+
+                if (readerValueArray.Any(s => s.StartsWith(modifierPublic)) == true)
+                {
+                    attribute.accessModifier = '+';
+                    attribute.name = kvp[0].Trim('+', ' ');
+                    attribute.type = current;
+                }
+
+                if (readerValueArray.Any(s => s.StartsWith(modifierPrivate)) == true)
+                {
+                    attribute.accessModifier = '-';
+                    attribute.name = kvp[0].Trim('-', ' ');
+                    attribute.type = current;
+                }
+
+                if (readerValueArray.Any(s => s.StartsWith(modifierProtected)) == true)
+                {
+                    attribute.accessModifier = '#';
+                    attribute.name = kvp[0].Trim('#', ' ');
+                    attribute.type = current;
+                }
+                listAttributes.Add(attribute);
             }
 
-            if (readerValueArray[0].Contains(modifierPrivate) == true)
-            {
-                attribute.accessModifier = '-';
-                attribute.name = readerValueArray[0].Trim('-');
-                attribute.type = readerValueArray[1];
-            }
-
-            if (readerValueArray[0].Contains(modifierProtected) == true)
-            {
-                attribute.accessModifier = '#';
-                attribute.name = readerValueArray[0].Trim('#');
-                attribute.type = readerValueArray[1];
-            }
-
-            else
-            {
-                attribute.accessModifier = '?';
-                attribute.name = readerValueArray[0];
-                attribute.type = readerValueArray[1];
-            }
-
-            return attribute;
+            return listAttributes;
         }
 
         // Method gets the Methods for each class
