@@ -23,5 +23,9 @@ namespace CodeGenerator.Datamodel
             this.name = attributeName;
         }
 
+        public override bool Equals(object obj)
+        {
+            return this.accessModifier == ((UML_Attribute)obj).accessModifier && this.name == ((UML_Attribute)obj).name && this.type == ((UML_Attribute)obj).type;
+        }
     }
 }
