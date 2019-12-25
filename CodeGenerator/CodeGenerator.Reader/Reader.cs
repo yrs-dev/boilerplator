@@ -147,10 +147,64 @@ namespace CodeGenerator.Reader
         // Method gets the Methods for each class
         public static List<UML_Method> AnalyzeMethodLabel (XmlReader reader)
         {
-            return null;
+            List<UML_Method> classMethods = new List<UML_Method>();
+            while (reader.Read())
+            {
+                if (reader.Name == "y:MethodLabel" && reader.NodeType == XmlNodeType.Element)
+                {
+                    string readerValue = reader.ReadInnerXml();
+                    classMethods = getMethod(readerValue);
+                }
+            }
+            return classMethods;
         }
 
-         public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
+        public static List<UML_Method> getMethod(string methods)
+        {
+            List<UML_Method> listMethods = new List<UML_Method>();
+            List<string> readerValueList = new List<string>();
+            readerValueList = System.Text.RegularExpressions.Regex.Split(methods, @"\s{2,}").ToList<string>();
+
+            foreach (string stringValue in readerValueList)
+            {
+                string modifierPublic = "+";
+                string modifierPrivate = "-";
+                string modifierProtected = "#";
+
+                UML_Method method = new UML_Method();
+                var tmp = stringValue.Split(':');
+
+                if (readerValueList.Any(s => s.StartsWith(modifierPublic)) == true)
+                {
+                    method.accessModifier = '+';
+                    method.name = tmp[0].Trim('+', ' ');
+                    method.type = tmp[1].Trim();
+                    method.parameters = getParameter(stringValue);
+                }
+
+                if (readerValueList.Any(s => s.StartsWith(modifierPrivate)) == true)
+                {
+                    method.accessModifier = '-';
+                    method.name = tmp[0].Trim('-', ' ');
+                    method.type = tmp[1].Trim();
+                    method.parameters = getParameter(stringValue);
+                }
+
+                if (readerValueList.Any(s => s.StartsWith(modifierProtected)) == true)
+                {
+                    method.accessModifier = '+';
+                    method.name = tmp[0].Trim('+', ' ');
+                    method.type = tmp[1].Trim();
+                    method.parameters = getParameter(stringValue);
+                }
+
+                listMethods.Add(method);
+            }
+
+            return listMethods;
+        }
+
+        public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
          {
              throw new NotImplementedException();
          }
