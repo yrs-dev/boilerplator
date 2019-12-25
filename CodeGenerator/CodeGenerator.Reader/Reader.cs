@@ -10,11 +10,11 @@ using System.IO;
 using CommonInterfaces;
 
 /* TODO:
- * AnalyzeAttributeLabel : Method structure & structure for storing data
+ * AnalyzeAttributeLabel : Method structure & structure for storing data [DONE]
  * 
- * AnalyzeMethodLabel : Method structure & structure for storing data
+ * AnalyzeMethodLabel : Method structure & structure for storing data [IN PROCESS..]
  * 
- * AnalyzeInheritance : <data id=""> 
+ * AnalyzeInheritance : <data id="">  [NOT STARTED YET]
  *  --> Every Class object need id
  *  --> Parents : Class or Interface?
  * 
@@ -202,6 +202,49 @@ namespace CodeGenerator.Reader
             }
 
             return listMethods;
+        }
+
+        static List<UML_Parameter> getParameter(string value)
+        {
+            List<UML_Parameter> listParamters = new List<UML_Parameter>();
+            int firstIndex = value.IndexOf('(');
+            int lastIndex = value.IndexOf(')');
+
+            value.Split(' ')
+                .Where(s => string.IsNullOrEmpty(s) == false)
+                .ToList()
+                .ForEach(i =>
+                {
+                    var sections = value.Substring(firstIndex, lastIndex).Split(':');
+                    UML_Parameter parameter = new UML_Parameter()
+                    {
+                        parameterName = sections[0],
+                        parameterType = sections[1]
+                    };
+                    listParamters.Add(parameter);
+                });
+
+
+            //try
+            //{
+            //    foreach (string stringValue in valueList)
+            //    {
+            //        UML_Parameter parameter = new UML_Parameter();
+            //        var param = stringValue.Split(':').ToString();
+            //        var parametername = param.Split(' ');
+            //        int nameIndex = parametername.Length;
+            //        var parametertype = param.Substring(nameIndex, param.First().ToString().Length);
+
+            //        listParamters.Add(parameter);
+            //    }
+            //}
+            //finally 
+            //{
+
+            //}
+
+            return listParamters;
+
         }
 
         public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
