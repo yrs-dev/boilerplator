@@ -89,7 +89,6 @@ namespace CodeGenerator.Reader
         // Method gets the Attributes for each class
         public static List<UML_Attribute> AnalyzeAttributeLabel (XmlReader reader)
         {
-           // UML_Attribute attribute = new UML_Attribute();
             List<UML_Attribute> classAttributes = new List<UML_Attribute>();
             while (reader.Read())
             {
@@ -97,15 +96,6 @@ namespace CodeGenerator.Reader
                 {
                     string readerValue = reader.ReadInnerXml();
                     classAttributes = getAttribute(readerValue);
-                    // +name:string
-                    //string[] readerArray = readerValue.Split(' ').Select(x => x.Trim(':')).ToArray();
-                    // ["+","name",":","string"]
-
-                    //for (int i = 0; i < readerArray.Length; i++)
-                    //{
-                    //    UML_Attribute attribute = new UML_Attribute(readerArray.GetValue(i));
-                    //    classAttributes.Add(attribute);
-                    //}
                 }
             }
 
