@@ -10,11 +10,18 @@ using System.IO;
 using CommonInterfaces;
 
 /* TODO:
+ * AnalyzeNodeLabel: Method structure & structure for storing data  [DONE]
+ *  --> Add new *Id* property for *UML_Class* objects  [NOT STARTED YET]
+ *      --> important for checking inheritance !!
+ * 
  * AnalyzeAttributeLabel : Method structure & structure for storing data [DONE]
+ *  --> new Method for **checkAccesmodifier** [IN PROCESS..]
  * 
  * AnalyzeMethodLabel : Method structure & structure for storing data [IN PROCESS..]
- *  --> fix Problem: method.type => IndexOutOfRangeException [BUG]
- *  --> parameters: getParameter method refactor the logic & structure [IN PROCESS..]
+ *  --> fix Problem: method.type => IndexOutOfRangeException [DONE]
+ *  --> parameters: **getParameter()** method refactor the logic & structure [IN PROCESS..]
+ *      --> possible Exceptions: IndexOutOfRangeException => **getMethod()** -> *UML_Method* -> *object*.type  [RESEARCHING..]
+ *  --> new Method for **checkAcessmodifier**   [NOT STARTED YET]
  * 
  * AnalyzeInheritance : <data id="">  [NOT STARTED YET]
  *  --> Every Class object need id
