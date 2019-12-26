@@ -104,7 +104,9 @@ namespace CodeGenerator.Reader
             {
                 if (reader.Name == "y:AttributeLabel" && reader.NodeType == XmlNodeType.Element)
                 {
+                    // Storing text of the <y:AttributeLabel>
                     string readerValue = reader.ReadInnerXml();
+                    // Method for parsing the attributes
                     classAttributes = getAttribute(readerValue);
                 }
             }
@@ -114,20 +116,27 @@ namespace CodeGenerator.Reader
 
         static List<UML_Attribute> getAttribute(string attr)
         {
+            // Possible accessmodifiers
             string modifierPublic = "+";
             string modifierPrivate = "-";
             string modifierProtected = "#";
 
             List<UML_Attribute> listAttributes = new List<UML_Attribute>();
             List<string> readerValueArray = new List<string>();
+            // Splitting the string input at whitespaces
             readerValueArray = System.Text.RegularExpressions.Regex.Split(attr, @"\s{2,}").ToList<string>();
 
+            // Looping through all splitted string-elements
             foreach (string stringValue in readerValueArray)
             {
                 UML_Attribute attribute = new UML_Attribute();
+
+                // Separating name and type
                 var kvp = stringValue.Split(':');
+                // Cutting of whitespaces
                 string current = kvp[1].Trim();
 
+                // Provisionally checking accesmodifier
                 if (readerValueArray.Any(s => s.StartsWith(modifierPublic)) == true)
                 {
                     attribute.accessModifier = '+';
@@ -162,7 +171,9 @@ namespace CodeGenerator.Reader
             {
                 if (reader.Name == "y:MethodLabel" && reader.NodeType == XmlNodeType.Element)
                 {
+                    // Storing text of the <y:MethodLabel>
                     string readerValue = reader.ReadInnerXml();
+                    // Method for parsing the methods
                     classMethods = getMethod(readerValue);
                 }
             }
@@ -171,18 +182,23 @@ namespace CodeGenerator.Reader
 
         public static List<UML_Method> getMethod(string methods)
         {
+            // Possible accessmodifier
             string modifierPublic = "+";
             string modifierPrivate = "-";
             string modifierProtected = "#";
 
             List<UML_Method> listMethods = new List<UML_Method>();
-            List <string> readerValueList = System.Text.RegularExpressions.Regex.Split(methods, @"\s{2,}").ToList<string>();
-            
+            // Splitting the string input at whitespaces
+            List<string> readerValueList = System.Text.RegularExpressions.Regex.Split(methods, @"\s{2,}").ToList<string>();
+
+            // Looping through all splitted string-elements
             foreach (string stringValue in readerValueList)
             {
                 UML_Method method = new UML_Method();
+                // Separating name and type
                 var tmp = stringValue.Split(':');
 
+                // Provisionally checking accessmodifier
                 if (readerValueList.Any(s => s.StartsWith(modifierPublic)) == true)
                 {
                     method.accessModifier = '+';
