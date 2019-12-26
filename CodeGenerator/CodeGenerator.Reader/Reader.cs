@@ -13,10 +13,13 @@ using CommonInterfaces;
  * AnalyzeAttributeLabel : Method structure & structure for storing data [DONE]
  * 
  * AnalyzeMethodLabel : Method structure & structure for storing data [IN PROCESS..]
+ *  --> fix Problem: method.type => IndexOutOfRangeException [BUG]
+ *  --> parameters: getParameter method refactor the logic & structure [IN PROCESS..]
  * 
  * AnalyzeInheritance : <data id="">  [NOT STARTED YET]
  *  --> Every Class object need id
  *  --> Parents : Class or Interface?
+ * 
  * 
  */
 
@@ -161,43 +164,63 @@ namespace CodeGenerator.Reader
 
         public static List<UML_Method> getMethod(string methods)
         {
-            List<UML_Method> listMethods = new List<UML_Method>();
-            List<string> readerValueList = new List<string>();
-            readerValueList = System.Text.RegularExpressions.Regex.Split(methods, @"\s{2,}").ToList<string>();
+            string modifierPublic = "+";
+            string modifierPrivate = "-";
+            string modifierProtected = "#";
 
+            List<UML_Method> listMethods = new List<UML_Method>();
+            List <string> readerValueList = System.Text.RegularExpressions.Regex.Split(methods, @"\s{2,}").ToList<string>();
+            
             foreach (string stringValue in readerValueList)
             {
-                string modifierPublic = "+";
-                string modifierPrivate = "-";
-                string modifierProtected = "#";
-
                 UML_Method method = new UML_Method();
                 var tmp = stringValue.Split(':');
 
                 if (readerValueList.Any(s => s.StartsWith(modifierPublic)) == true)
                 {
                     method.accessModifier = '+';
-                    method.name = tmp[0].Trim('+', ' ');
-                    method.type = tmp[1].Trim();
+                    method.name = tmp[0].Trim('+');
+                    if (stringValue.Contains(':') == true)
+                    {
+                        method.type = tmp[1].Trim();
+                    }
                     method.parameters = getParameter(stringValue);
                 }
 
                 if (readerValueList.Any(s => s.StartsWith(modifierPrivate)) == true)
                 {
                     method.accessModifier = '-';
-                    method.name = tmp[0].Trim('-', ' ');
-                    method.type = tmp[1].Trim();
+                    method.name = tmp[0].Trim('-');
+                    if (stringValue.Contains(':') == true)
+                    {
+                        method.type = tmp[1].Trim();
+                    }
                     method.parameters = getParameter(stringValue);
                 }
 
                 if (readerValueList.Any(s => s.StartsWith(modifierProtected)) == true)
                 {
-                    method.accessModifier = '+';
-                    method.name = tmp[0].Trim('+', ' ');
+                    method.accessModifier = '#';
+                    method.name = tmp[0].Trim('#');
+                    if (stringValue.Contains(':') == true)
+                    {
+                        method.type = tmp[1].Trim();
+                    }
                     method.type = tmp[1].Trim();
                     method.parameters = getParameter(stringValue);
                 }
 
+                else
+                {
+                    method.accessModifier = '\0';
+                    method.name = tmp[0].Trim('(',')');
+                    if (stringValue.Contains(':') == true)
+                    {
+                        method.type = tmp[1];
+                    }
+                    method.parameters = null;
+                }
+               
                 listMethods.Add(method);
             }
 
@@ -210,21 +233,42 @@ namespace CodeGenerator.Reader
             int firstIndex = value.IndexOf('(');
             int lastIndex = value.IndexOf(')');
 
-            value.Split(' ')
-                .Where(s => string.IsNullOrEmpty(s) == false)
-                .ToList()
-                .ForEach(i =>
-                {
-                    var sections = value.Substring(firstIndex, lastIndex).Split(':');
-                    UML_Parameter parameter = new UML_Parameter()
-                    {
-                        parameterName = sections[0],
-                        parameterType = sections[1]
-                    };
-                    listParamters.Add(parameter);
-                });
+            //value.Split(' ')
+            //    .Where(s => string.IsNullOrEmpty(s) == false)
+            //    .ToList()
+            //    .ForEach(i =>
+            //    {
+            //        var sections = value.Substring(firstIndex, lastIndex).Split(':');
+            //        UML_Parameter parameter = new UML_Parameter()
+            //        {
+            //            parameterName = sections[0],
+            //            parameterType = sections[1]
+            //        };
+            //        listParamters.Add(parameter);
+            //    });
 
-
+            //if (value.Substring(firstIndex, lastIndex).Length > 3)
+            //{
+            //    foreach (var stringValue in value)
+            //    {
+            //        var sections = value.Substring(firstIndex, lastIndex).Split(':');
+            //        UML_Parameter parameter = new UML_Parameter()
+            //        {
+            //            parameterName = sections[0],
+            //            parameterType = sections[1]
+            //        };
+            //        listParamters.Add(parameter);
+            //    }
+            //}
+            //else
+            //{
+            //    UML_Parameter parameter = new UML_Parameter()
+            //    {
+            //        parameterName = null,
+            //        parameterType = null
+            //    };
+            //    listParamters.Add(parameter);
+            //}
             //try
             //{
             //    foreach (string stringValue in valueList)

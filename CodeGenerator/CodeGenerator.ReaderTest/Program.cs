@@ -12,6 +12,6 @@ namespace CodeGenerator.ReaderTest
 {
     class Program
     {
-   
+        
     }
 }
