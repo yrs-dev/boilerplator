@@ -8,7 +8,6 @@ using CommonInterfaces;
 using CodeGenerator.Datamodel;
 
 /* TODO:
- * uml class: parents and interfaces proper syntax, string instead of object?
  * 
  * 
  * 
@@ -45,7 +44,29 @@ namespace CodeGenerator.Generator
 
                 }
             }
-            return true;
+            // Iterate over interfaces
+            foreach (UML_Interface umlInterface in dml.umlInterfaces)
+            {
+                // Create new file
+                using (StreamWriter interfaceFile = new StreamWriter(filePath + umlInterface.name + ".cs"))
+                {
+
+                    // Write class
+                    writeClass(classFile, umlClass);
+
+                    // Write attributes
+                    writeAttribute(classFile, umlClass.umlAttributes);
+
+                    // Write methods
+                    writeMethod(classFile, umlClass.umlMethods);
+
+                    // Ending line
+                    classFile.WriteLine("}");
+
+                }
+            }
+
+             return true;
         }
 
 

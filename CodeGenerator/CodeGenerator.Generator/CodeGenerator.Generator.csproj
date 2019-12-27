@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseGenerator.cs" />
+    <Compile Include="ClassGenerator.cs" />
     <Compile Include="Generator.cs" />
+    <Compile Include="InterfaceGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
