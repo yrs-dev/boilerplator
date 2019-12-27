@@ -3,7 +3,11 @@ using System.IO;
 using CommonInterfaces;
 using CodeGenerator.Datamodel;
 
-
+/* TODO: 
+ * bool error return
+ * base class for class-, interfacegenerator
+ * test run
+ */
 
 
 namespace CodeGenerator.Generator
