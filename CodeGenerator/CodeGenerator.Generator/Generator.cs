@@ -50,7 +50,12 @@ namespace CodeGenerator.Generator
 
 
 
-        // Writes the class line
+        /// <summary>
+        /// Writes the introductory class line with the name matching what is found in the UML_Class object.
+        /// </summary>
+        /// <param name="classFile">File to be written into.</param>
+        /// <param name="umlClass">UML_Class object containing information about to be written class.</param>
+        /// <returns>Nothing.</returns>
         void writeClass(StreamWriter classFile, UML_Class umlClass)
         {
             // Write beginning
@@ -66,7 +71,14 @@ namespace CodeGenerator.Generator
             classFile.WriteLine(sb.ToString());
         }
 
-        // Appends to the class line
+
+
+        /// <summary>
+        /// Writes elements belonging to the class declaration that may or may not be neccessary (e.g. parent classes or interfaces)
+        /// </summary>
+        /// <param name="classFile">File to be written into.</param>
+        /// <param name="umlClass">UML_Class object containing information about to be written class.</param>
+        /// <param name="sb">Currently used StringBuilder.</param>
         void writeClass_appendElements(StreamWriter classFile, UML_Class umlClass, StringBuilder sb)
         {
 
@@ -103,7 +115,12 @@ namespace CodeGenerator.Generator
         }
 
 
-
+        /// <summary>
+        /// Writes attributes into a specified file with the name and type matching what is found in the passed list of attributes that belong to the current class.
+        /// </summary>
+        /// <param name="classFile">File to be written into.</param>
+        /// <param name="umlAttributes">List of all attributes found in the Class Diagram.</param>
+        /// <returns>Nothing.</returns>
         void writeAttribute(StreamWriter classFile, List<UML_Attribute> umlAttributes)
         {
 
@@ -118,7 +135,12 @@ namespace CodeGenerator.Generator
         }
 
 
-
+        /// <summary>
+        /// Writes empty functions into a specified file with the name and parameters matching what is found in the passed list of methods that belong to the current class.
+        /// </summary>
+        /// <param name="classFile">File to be written into.</param>
+        /// <param name="umlMethods">List of all methods found in the Class Diagram.</param>
+        /// <returns>Nothing.</returns>
         void writeMethod(StreamWriter classFile, List<UML_Method> umlMethods)
         {
 
