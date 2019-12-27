@@ -44,7 +44,7 @@ namespace CodeGenerator.Generator
                 {
 
                     // Create InterfaceGenerator object
-                    InterfaceGenerator iGen = new InterfaceGenerator(classFile, umlClass);
+                    InterfaceGenerator iGen = new InterfaceGenerator(interfaceFile, umlInterface);
 
                     // Generate class
                     iGen.generateInterface();

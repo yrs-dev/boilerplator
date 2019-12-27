@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using CommonInterfaces;
 using CodeGenerator.Datamodel;
 
 namespace CodeGenerator.Generator
@@ -55,7 +51,7 @@ namespace CodeGenerator.Generator
             writeClass_appendElements(sb);
 
             // Last line
-            sb.Append(")\n{");
+            sb.Append("\n{");
 
             // Write built string
             classFile.WriteLine(sb.ToString());
@@ -132,13 +128,16 @@ namespace CodeGenerator.Generator
                 StringBuilder sb = new StringBuilder();
 
                 // First line
-                sb.Append($"{umlMethod.accessModifier} {umlMethod.type} {umlMethod.name} (");
+                sb.Append($"{umlMethod.accessModifier} {umlMethod.type} {umlMethod.name}(");
                 foreach (UML_Parameter umlParameter in umlMethod.parameters)
                 {
                     sb.Append($"{umlParameter.parameterName} {umlParameter.parameterType}, ");
                 }
 
-                sb.Length = sb.Length - 2; // Delete trailing ,
+                // Delete trailing ,
+                sb.Length -= 2;
+
+                // Close parantheses
                 sb.Append(")");
 
                 // Write body
