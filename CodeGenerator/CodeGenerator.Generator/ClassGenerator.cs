@@ -9,9 +9,7 @@ using CodeGenerator.Datamodel;
 
 namespace CodeGenerator.Generator
 {
-    /// <summary>  
-    /// Class responsible for generating UML classes. 
-    /// </summary> 
+    /// <summary> Class responsible for generating UML classes. </summary> 
     public class ClassGenerator
     {
         /// <summary> Variable to store the currently used file. </summary> 
@@ -21,9 +19,7 @@ namespace CodeGenerator.Generator
         private UML_Class umlClass;
 
 
-        /// <summary>  
-        /// Constructor for the class. Takes the current file and the data object as input.
-        /// </summary> 
+        /// <summary> Constructor for the class. Takes the current file and the data object as input. </summary> 
         public ClassGenerator(StreamWriter classFile, UML_Class umlClass)
         {
             this.classFile = classFile;
@@ -32,9 +28,7 @@ namespace CodeGenerator.Generator
 
 
 
-        /// <summary>
-        /// Top-method orchestrating the generator steps.
-        /// </summary>
+        /// <summary> Top-method orchestrating the generator steps. </summary>
         public void generateClass()
         {
             // Write class
@@ -51,9 +45,7 @@ namespace CodeGenerator.Generator
         }
 
 
-        /// <summary>
-        /// Writes the introductory class line with the name matching what is found in the UML_Class object.
-        /// </summary>
+        /// <summary> Writes the introductory class line with the name matching what is found in the UML_Class object. </summary>
         void writeClass()
         {
             // Write beginning
@@ -71,9 +63,7 @@ namespace CodeGenerator.Generator
 
 
 
-        /// <summary>
-        /// Writes elements belonging to the class declaration that may or may not be neccessary (e.g. parent classes or interfaces)
-        /// </summary>
+        /// <summary> Writes elements belonging to the class declaration that may or may not be neccessary (e.g. parent classes or interfaces). </summary>
         /// <param name="sb">Currently used StringBuilder.</param>
         void writeClass_appendElements(StringBuilder sb)
         {
@@ -111,9 +101,7 @@ namespace CodeGenerator.Generator
         }
 
 
-        /// <summary>
-        /// Writes attributes into a specified file with the name and type matching what is found in the passed list of attributes that belong to the current class.
-        /// </summary>
+        /// <summary> Writes attributes into a specified file with the name and type matching what is found in the passed list of attributes that belong to the current class. </summary>
         void writeAttributes()
         {
 
@@ -131,9 +119,7 @@ namespace CodeGenerator.Generator
         }
 
 
-        /// <summary>
-        /// Writes empty functions into a specified file with the name and parameters matching what is found in the passed list of methods that belong to the current class.
-        /// </summary>
+        /// <summary> Writes empty functions into a specified file with the name and parameters matching what is found in the passed list of methods that belong to the current class. </summary>
         void writeMethods()
         {
 
