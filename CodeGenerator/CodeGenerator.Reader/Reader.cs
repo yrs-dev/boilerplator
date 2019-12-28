@@ -36,7 +36,7 @@ namespace CodeGenerator.Reader
     {
 
         // Main method
-        static void Read(string filepath)
+        public void Read(string filepath)
         {
             XmlReader reader = null;
 
@@ -47,9 +47,28 @@ namespace CodeGenerator.Reader
 
                 while (reader.Read())
                 {
-                    UML_Class graphClass = AnalyzeNodeLabel(reader);
-                    graphClass.umlAttributes = AnalyzeAttributeLabel(reader);
-                    graphClass.umlMethods = AnalyzeMethodLabel(reader);
+                    Datamodel.Datamodel datamodel = new Datamodel.Datamodel();
+                    UML_Base baseModel = checkInterfaceOrClass<UML_Base>(reader);
+
+                    if (baseModel.GetType() == typeof(UML_Class) && baseModel != null)
+                    {
+                        UML_Class classModel = new UML_Class(baseModel.name) 
+                        {
+                            umlAttributes = AnalyzeAttributeLabel(reader),
+                            umlMethods = AnalyzeMethodLabel(reader)
+                        };
+                        datamodel.umlClasses.Add(classModel);
+                    }
+                        
+                    if (baseModel.GetType() == typeof(UML_Interface) && baseModel != null)
+                    {
+                        UML_Interface interfaceModel = new UML_Interface(baseModel.name)
+                        { 
+                            umlAttributes = AnalyzeAttributeLabel(reader),
+                            umlMethods = AnalyzeMethodLabel(reader)
+                        };
+                        datamodel.umlInterfaces.Add(interfaceModel);
+                    }
                 }
             }
             finally
@@ -58,8 +77,26 @@ namespace CodeGenerator.Reader
             }
         } 
 
+        public T checkInterfaceOrClass<T> (XmlReader reader) where T : CodeGenerator.Datamodel.UML_Base
+        {
+            //reader.Settings.IgnoreWhitespace = true;
+
+            if (getName(reader).Contains("<<interface>>") || getName(reader).Contains("interface")
+                || getName(reader).StartsWith("I") && getName(reader).Substring(0, 1).ToUpper().Equals(getName(reader)))
+            {
+                UML_Interface interfaceModel = new UML_Interface(getName(reader));
+                return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
+            }
+            else
+            {
+                UML_Class classModel = new UML_Class(getName(reader));
+                return (T)Convert.ChangeType(classModel, typeof(UML_Class));
+            }
+            return null;
+        }
+
         // Method gets the name of the class
-        public static UML_Class AnalyzeNodeLabel(XmlReader reader)
+        public UML_Class AnalyzeNodeLabel(XmlReader reader)
         {
             string className = "";
 
@@ -72,7 +109,7 @@ namespace CodeGenerator.Reader
                 // only need the <y:NodeLabel> Tag InnerText
                 if (reader.Name == "y:NodeLabel" && reader.NodeType == XmlNodeType.Element)
                 {
-                    className = getClassName(reader.ReadSubtree());
+                    className = getName(reader.ReadSubtree());
                     classObject.name = className;
                 }
             }
@@ -82,7 +119,7 @@ namespace CodeGenerator.Reader
         }
 
         // Partial method of AnalyzeNodeLabel
-        public static string getClassName(XmlReader reader)
+        string getName(XmlReader reader)
         {
             string className = "";
             while (reader.Read())
@@ -97,7 +134,7 @@ namespace CodeGenerator.Reader
 
 
         // Method gets the Attributes for each class
-        public static List<UML_Attribute> AnalyzeAttributeLabel (XmlReader reader)
+        public List<UML_Attribute> AnalyzeAttributeLabel (XmlReader reader)
         {
             List<UML_Attribute> classAttributes = new List<UML_Attribute>();
             while (reader.Read())
@@ -114,7 +151,7 @@ namespace CodeGenerator.Reader
             return classAttributes;
         }
 
-        static List<UML_Attribute> getAttribute(string attr)
+        private List<UML_Attribute> getAttribute(string attr)
         {
             // Possible accessmodifiers
             string modifierPublic = "+";
@@ -164,7 +201,7 @@ namespace CodeGenerator.Reader
         }
 
         // Method gets the Methods for each class
-        public static List<UML_Method> AnalyzeMethodLabel (XmlReader reader)
+        public List<UML_Method> AnalyzeMethodLabel (XmlReader reader)
         {
             List<UML_Method> classMethods = new List<UML_Method>();
             while (reader.Read())
@@ -180,7 +217,7 @@ namespace CodeGenerator.Reader
             return classMethods;
         }
 
-        public static List<UML_Method> getMethod(string methods)
+        private List<UML_Method> getMethod(string methods)
         {
             // Possible accessmodifier
             string modifierPublic = "+";
@@ -251,25 +288,12 @@ namespace CodeGenerator.Reader
             return listMethods;
         }
 
-        static List<UML_Parameter> getParameter(string value)
+        private List<UML_Parameter> getParameter(string value)
         {
             List<UML_Parameter> listParamters = new List<UML_Parameter>();
             int firstIndex = value.IndexOf('(');
             int lastIndex = value.IndexOf(')');
 
-            //value.Split(' ')
-            //    .Where(s => string.IsNullOrEmpty(s) == false)
-            //    .ToList()
-            //    .ForEach(i =>
-            //    {
-            //        var sections = value.Substring(firstIndex, lastIndex).Split(':');
-            //        UML_Parameter parameter = new UML_Parameter()
-            //        {
-            //            parameterName = sections[0],
-            //            parameterType = sections[1]
-            //        };
-            //        listParamters.Add(parameter);
-            //    });
             if (lastIndex-firstIndex > 3)
             {
                 foreach (var stringValue in value)
