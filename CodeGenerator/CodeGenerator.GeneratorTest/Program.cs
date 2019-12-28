@@ -6,8 +6,12 @@ using dm = CodeGenerator.Datamodel;
 /* ToDos:
  * Empty collection instead of null in CodeGenerator.Datamodel.Datamodel
  * Class files have no: public / private
- * Indentation missing
+ * File: Structure
+ *      Indentation missing
+ *      Comments for attributes / methods / (constructors)
  * Implemented interfaces, inherited classes syntax
+ * 
+ * Base class for generators
  * 
  * Interfaces test
  * 
