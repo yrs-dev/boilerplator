@@ -24,10 +24,10 @@ namespace CodeGenerator.Datamodel
             this.name = attributeName;
         }
 
-        public UML_Attribute(string type, string accessModifier, string name)
+        public UML_Attribute(string accessModifier, string type, string name)
         {
-            this.type = type;
             this.accessModifier = accessModifier;
+            this.type = type;
             this.name = name;
         }
 
