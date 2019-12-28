@@ -13,6 +13,19 @@ namespace CodeGenerator.Datamodel
 
         public string parameterType;
 
+
+        // Constructors
+        public UML_Parameter()
+        {
+
+        }
+
+        public UML_Parameter(string parameterName, string parameterType)
+        {
+            this.parameterName = parameterName;
+            this.parameterType = parameterType;
+        }
+
         public override bool Equals(object obj)
         {
             return parameterName == ((UML_Parameter)obj)?.parameterName &&

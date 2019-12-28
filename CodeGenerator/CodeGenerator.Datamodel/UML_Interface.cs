@@ -9,7 +9,7 @@ namespace CodeGenerator.Datamodel
     public class UML_Interface : UML_BaseExtension
     {
 
-        // Constructor
+        // Constructors
         public UML_Interface(string interfacename)
         {
 
@@ -19,6 +19,14 @@ namespace CodeGenerator.Datamodel
             // Status print
             Console.WriteLine("Interface object created for: " + interfacename);
 
+        }
+
+        public UML_Interface(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods)
+        {
+            this.accessModifier = accessModifier;
+            this.name = className;
+            this.umlAttributes = umlAttributes;
+            this.umlMethods = umlMethods;
         }
     }
 }

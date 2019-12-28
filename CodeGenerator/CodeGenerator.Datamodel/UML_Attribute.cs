@@ -12,6 +12,7 @@ namespace CodeGenerator.Datamodel
         // "void", "int", etc.
         public string type { get; set; }
 
+        // Constructors
         public UML_Attribute()
         {
 
@@ -23,6 +24,14 @@ namespace CodeGenerator.Datamodel
             this.name = attributeName;
         }
 
+        public UML_Attribute(string type, string accessModifier, string name)
+        {
+            this.type = type;
+            this.accessModifier = accessModifier;
+            this.name = name;
+        }
+
+        // Equals override
         public override bool Equals(object obj)
         {
             return this.accessModifier == ((UML_Attribute)obj).accessModifier && this.name == ((UML_Attribute)obj).name && this.type == ((UML_Attribute)obj).type;

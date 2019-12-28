@@ -14,15 +14,25 @@ namespace CodeGenerator.Datamodel
         public List<UML_Interface> implementedInterfaces { get; set; }
 
 
-        // Constructor
-        public UML_Class(string classname) { 
+        // Constructors
+        public UML_Class(string className) { 
             
             // Assign name
-            this.name = classname;
+            this.name = className;
 
             // Status print
-            Console.WriteLine("Class object created for: " + classname);
+            Console.WriteLine("Class object created for: " + className);
 
+        }
+
+        public UML_Class(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, List<UML_Class> parents, List<UML_Interface> implementedInterfaces)
+        {
+            this.accessModifier = accessModifier;
+            this.name = className;
+            this.umlAttributes = umlAttributes;
+            this.umlMethods = umlMethods;
+            this.parents = parents;
+            this.implementedInterfaces = implementedInterfaces;
         }
 
     }
