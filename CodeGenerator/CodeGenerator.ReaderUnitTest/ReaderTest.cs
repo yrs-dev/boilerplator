@@ -15,26 +15,39 @@ namespace CodeGenerator.ReaderUnitTest
     public class ReaderTest
     {
         [Fact]
-        public void checkInterfaceOrClass()
+        public void checkInterface()
         {
             // Arrange
             string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
-            //Datamodel.Datamodel expectedDatamodel = new Datamodel.Datamodel();
-            UML_Class class1 = new UML_Class("Employee");
-            //expectedDatamodel.umlClasses.Add(class1);
+            UML_Interface expectedInterface = new UML_Interface("<<interface>>\nEmployee");
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            //Datamodel.Datamodel datamodel = new Datamodel.Datamodel();
             Reader.Reader instanceForDatamodel = new Reader.Reader();
 
-            UML_Base baseModel = instanceForDatamodel.checkInterfaceOrClass<UML_Base>(reader);
+            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader);
 
             // Assert
-            Assert.Equal(baseModel, class1);
+            Assert.Equal(baseModel, expectedInterface);
 
         }
 
+        [Fact]
+        public void checkClass()
+        {
+            // Arrange
+            string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
+            UML_Class expectedClass = new UML_Class("Employee");
+
+            // Act
+            XmlReader reader = new XmlTextReader(filepath);
+            Reader.Reader instanceForDatamodel = new Reader.Reader();
+
+            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader);
+
+            // Assert
+            Assert.Equal(baseModel, expectedClass);
+        }
 
         [Fact]
         public void CanGetValueofAnalyzeNodeLabel()
@@ -46,12 +59,11 @@ namespace CodeGenerator.ReaderUnitTest
             UML_Class ClassExpected = new UML_Class(className);
             ClassExpected.name = "Employee";
 
-
             // Act
             XmlReader reader = new XmlTextReader(filepath);
             UML_Class ClassActual = new UML_Class(className);
             Reader.Reader instanceForClass = new CodeGenerator.Reader.Reader();
-            ClassActual = instanceForClass.AnalyzeNodeLabel(reader);
+            ClassActual = instanceForClass.AnalyzeNodeLabel<UML_Class>(reader);
 
             // Assert
             Assert.Equal(ClassExpected.name ,ClassActual.name);
