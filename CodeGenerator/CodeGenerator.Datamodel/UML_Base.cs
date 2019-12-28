@@ -16,5 +16,15 @@ namespace CodeGenerator.Datamodel
         // "variable name" or "method name" or "class name"
         public string name { get; set; }
 
+
+        /*
+        // Constructor
+        public UML_Base(char accessModifier, string name)
+        {
+            this.accessModifier = accessModifier;
+            this.name = name;
+        }
+        */
+
     }
 }

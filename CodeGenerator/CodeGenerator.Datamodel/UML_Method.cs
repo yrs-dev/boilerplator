@@ -6,12 +6,32 @@ using System.Threading.Tasks;
 
 namespace CodeGenerator.Datamodel
 {
-    public class UML_Method : UML_Attribute
+    public class UML_Method : UML_Base
     {
+
+        // "void", "int", etc.
+        public string type { get; set; }
+
         // List to store method parameters, may be empty
         public List<UML_Parameter> parameters { get; set; }
 
+        
+        // Constructors
+        public UML_Method()
+        {
 
+        }
+
+        public UML_Method(string accessModifier, string type, string name, List<UML_Parameter> parameters)
+        {
+            this.accessModifier = accessModifier;
+            this.type = type;
+            this.name = name;
+            this.parameters = parameters;
+        }
+
+
+        // Equals override
         public override bool Equals(object obj)
         {
             return this.accessModifier == ((UML_Method)obj).accessModifier 
@@ -22,6 +42,7 @@ namespace CodeGenerator.Datamodel
                 && parameters.SequenceEqual(((UML_Method)obj).parameters));
         }
 
+        // GetHashCode override
         public override int GetHashCode()
         {
             unchecked
