@@ -12,5 +12,22 @@ namespace CodeGenerator.Datamodel
         public string parameterName;
 
         public string parameterType;
+
+        public override bool Equals(object obj)
+        {
+            return parameterName == ((UML_Parameter)obj)?.parameterName &&
+                   parameterType == ((UML_Parameter)obj)?.parameterType;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = parameterName != null ? parameterName.GetHashCode() : 0;
+                hashCode = (hashCode * 397) ^ (parameterType != null ? parameterType.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
     }
 }
