@@ -196,7 +196,7 @@ namespace CodeGenerator.Reader
             {
                 UML_Method method = new UML_Method();
                 // Separating name and type
-                var tmp = stringValue.Split(':');
+                var tmp = stringValue.Split('(');
 
                 // Provisionally checking accessmodifier
                 if (readerValueList.Any(s => s.StartsWith(modifierPublic)) == true)
@@ -236,12 +236,13 @@ namespace CodeGenerator.Reader
                 else
                 {
                     method.accessModifier = '\0';
-                    method.name = tmp[0].Trim('(',')');
+                    method.name = tmp[0].Trim('(');
                     if (stringValue.Contains(':') == true)
                     {
-                        method.type = tmp[1];
+                        var tmp2 = stringValue.Split(')');
+                        method.type = tmp2[1].Trim(':');
                     }
-                    method.parameters = null;
+                    method.parameters = getParameter(stringValue);
                 }
                
                 listMethods.Add(method);
@@ -269,49 +270,25 @@ namespace CodeGenerator.Reader
             //        };
             //        listParamters.Add(parameter);
             //    });
+            if (lastIndex-firstIndex > 3)
+            {
+                foreach (var stringValue in value)
+                {
+                    var sections = value.Substring(firstIndex, lastIndex).Split(':');
+                    UML_Parameter parameter = new UML_Parameter()
+                    {
+                        parameterName = sections[0].Trim('('),
+                        parameterType = sections[1].Trim(':' , ')')
+                    };
+                    listParamters.Add(parameter);
+                }
+            }
 
-            //if (value.Substring(firstIndex, lastIndex).Length > 3)
-            //{
-            //    foreach (var stringValue in value)
-            //    {
-            //        var sections = value.Substring(firstIndex, lastIndex).Split(':');
-            //        UML_Parameter parameter = new UML_Parameter()
-            //        {
-            //            parameterName = sections[0],
-            //            parameterType = sections[1]
-            //        };
-            //        listParamters.Add(parameter);
-            //    }
-            //}
-            //else
-            //{
-            //    UML_Parameter parameter = new UML_Parameter()
-            //    {
-            //        parameterName = null,
-            //        parameterType = null
-            //    };
-            //    listParamters.Add(parameter);
-            //}
-            //try
-            //{
-            //    foreach (string stringValue in valueList)
-            //    {
-            //        UML_Parameter parameter = new UML_Parameter();
-            //        var param = stringValue.Split(':').ToString();
-            //        var parametername = param.Split(' ');
-            //        int nameIndex = parametername.Length;
-            //        var parametertype = param.Substring(nameIndex, param.First().ToString().Length);
-
-            //        listParamters.Add(parameter);
-            //    }
-            //}
-            //finally 
-            //{
-
-            //}
-
+            else
+            {
+                listParamters = null;
+            }
             return listParamters;
-
         }
 
         public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
