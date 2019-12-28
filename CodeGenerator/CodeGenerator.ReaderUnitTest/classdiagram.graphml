@@ -22,7 +22,7 @@
           <y:UML clipContent="true" constraint="" hasDetailsColor="false" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel xml:space="preserve">+name:string
 +age:int</y:AttributeLabel>
-            <y:MethodLabel xml:space="preserve">getName():String
+            <y:MethodLabel xml:space="preserve">getName(value:string):String
 getTitle():String
 getStaffNo():Number
 getRoom():String

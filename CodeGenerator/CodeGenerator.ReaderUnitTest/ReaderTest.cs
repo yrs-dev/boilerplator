@@ -75,6 +75,7 @@ namespace CodeGenerator.ReaderUnitTest
             {
                 name = "getName",
                 type = "String",
+                parameters = new List<UML_Parameter>() { new UML_Parameter() { parameterName="value", parameterType="string"} }
             };
             UML_Method method2 = new UML_Method()
             {
