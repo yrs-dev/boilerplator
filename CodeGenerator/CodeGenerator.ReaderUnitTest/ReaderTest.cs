@@ -7,12 +7,35 @@ using Xunit;
 using System.IO;
 using System.Xml;
 using CodeGenerator.Datamodel;
+using CodeGenerator.Reader;
 
 namespace CodeGenerator.ReaderUnitTest
 {
     
     public class ReaderTest
     {
+        [Fact]
+        public void checkInterfaceOrClass()
+        {
+            // Arrange
+            string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
+            //Datamodel.Datamodel expectedDatamodel = new Datamodel.Datamodel();
+            UML_Class class1 = new UML_Class("Employee");
+            //expectedDatamodel.umlClasses.Add(class1);
+
+            // Act
+            XmlReader reader = new XmlTextReader(filepath);
+            //Datamodel.Datamodel datamodel = new Datamodel.Datamodel();
+            Reader.Reader instanceForDatamodel = new Reader.Reader();
+
+            UML_Base baseModel = instanceForDatamodel.checkInterfaceOrClass<UML_Base>(reader);
+
+            // Assert
+            Assert.Equal(baseModel, class1);
+
+        }
+
+
         [Fact]
         public void CanGetValueofAnalyzeNodeLabel()
         {
@@ -27,7 +50,8 @@ namespace CodeGenerator.ReaderUnitTest
             // Act
             XmlReader reader = new XmlTextReader(filepath);
             UML_Class ClassActual = new UML_Class(className);
-            ClassActual = CodeGenerator.Reader.Reader.AnalyzeNodeLabel(reader);
+            Reader.Reader instanceForClass = new CodeGenerator.Reader.Reader();
+            ClassActual = instanceForClass.AnalyzeNodeLabel(reader);
 
             // Assert
             Assert.Equal(ClassExpected.name ,ClassActual.name);
@@ -58,7 +82,8 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            classAttributes = CodeGenerator.Reader.Reader.AnalyzeAttributeLabel(reader);
+            Reader.Reader instanceForAttributes = new Reader.Reader();
+            classAttributes = instanceForAttributes.AnalyzeAttributeLabel(reader);
 
             // Assert
             Assert.Equal(expectedAttributes, classAttributes);
@@ -75,7 +100,7 @@ namespace CodeGenerator.ReaderUnitTest
             {
                 name = "getName",
                 type = "String",
-                parameters = new List<UML_Parameter>() { new UML_Parameter() { parameterName="value", parameterType="string"} }
+                parameters = new List<UML_Parameter>() { new UML_Parameter() { parameterName = "value", parameterType = "string" } }
             };
             UML_Method method2 = new UML_Method()
             {
@@ -111,7 +136,8 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            classMethods = CodeGenerator.Reader.Reader.AnalyzeMethodLabel(reader);
+            Reader.Reader instanceForMethods = new Reader.Reader();
+            classMethods = instanceForMethods.AnalyzeMethodLabel(reader);
 
             // Assert
             Assert.Equal(expectedMethods, classMethods);

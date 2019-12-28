@@ -16,5 +16,10 @@ namespace CodeGenerator.Datamodel
         // "variable name" or "method name" or "class name"
         public string name { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(UML_Class);
+        }
+
     }
 }
