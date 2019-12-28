@@ -28,7 +28,7 @@ namespace CodeGenerator.Generator
             foreach (UML_Class umlClass in dml.umlClasses)
             {
                 // Create new file
-                using (StreamWriter classFile = new StreamWriter(filePath + umlClass.name + ".cs"))
+                using (StreamWriter classFile = new StreamWriter(filePath + "\\" + umlClass.name + ".cs"))
                 {
 
                     // Create ClassGenerator object
@@ -44,7 +44,7 @@ namespace CodeGenerator.Generator
             foreach (UML_Interface umlInterface in dml.umlInterfaces)
             {
                 // Create new file
-                using (StreamWriter interfaceFile = new StreamWriter(filePath + umlInterface.name + ".cs"))
+                using (StreamWriter interfaceFile = new StreamWriter(filePath + "\\" + umlInterface.name + ".cs"))
                 {
 
                     // Create InterfaceGenerator object

@@ -2,6 +2,17 @@
 using gen = CodeGenerator.Generator;
 using dm = CodeGenerator.Datamodel;
 
+
+/* ToDos:
+ * Empty collection instead of null in CodeGenerator.Datamodel.Datamodel
+ * Class files have no: public / private
+ * Indentation missing
+ * Implemented interfaces, inherited classes syntax
+ * 
+ * Interfaces test
+ * 
+ */
+
 namespace CodeGenerator.GeneratorTest
 {
     class Program
