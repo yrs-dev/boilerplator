@@ -81,38 +81,56 @@ namespace CodeGenerator.Reader
         {
             while (reader.Read())
             {
-                string name = getName(reader);
+                string interfaceName = getInterfaceName(reader);
+                reader.MoveToContent();
+                bool canReadClass = reader.ReadToDescendant("y:NodeLabel");
 
-                if (name.Contains("&lt;&lt;interface&gt;&gt;") || name.Contains("interface") || name.StartsWith("I") && name.Substring(0, 1).ToUpper().Equals(name))
+                if (interfaceName.Contains("&lt;&lt;interface&gt;&gt;") || interfaceName.Contains("interface") || interfaceName.StartsWith("I") && interfaceName.Substring(0, 1).ToUpper().Equals(interfaceName))
                 {
-                    UML_Interface interfaceModel = new UML_Interface(name);
+                    UML_Interface interfaceModel = new UML_Interface(interfaceName);
                     return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
                 }
-                else
+                if (canReadClass)
                 {
-                    UML_Class classModel = new UML_Class(name);
+                    UML_Class classModel = new UML_Class(getName(reader.ReadSubtree()));
                     return (T)Convert.ChangeType(classModel, typeof(UML_Class));
                 }
             }
-            return null;
+            return (T)Convert.ChangeType(null, typeof(UML_Class));
         }
 
 
         // Partial method of AnalyzeNodeLabel
-        string getName(XmlReader reader)
+        string getInterfaceName(XmlReader reader)
         {
             //var xmlReader = XmlReader.Create(filepath);
-            var className = "";
-            bool canRead = reader.ReadToDescendant("y:NodeLabel");
-            if (canRead)
+            var interfaceName = "";
+            bool canReadInterface = reader.ReadToDescendant("y:NodeLabel");
+            if (canReadInterface)
             {
                 while (reader.Read())
+                {
+                    interfaceName += reader.Value;
+                }
+            }
+            return interfaceName;
+        }
+
+        // Partial method oof AnalyzeNodeLabel
+        string getName(XmlReader reader)
+        {
+            var className = "";
+            while (reader.Read())
+            {
+                if (reader.HasValue)
                 {
                     className += reader.Value;
                 }
             }
+
             return className;
         }
+
 
 
         // Method gets the Attributes for each class
@@ -136,9 +154,9 @@ namespace CodeGenerator.Reader
         private List<UML_Attribute> getAttribute(string attr)
         {
             // Possible accessmodifiers
-            string modifierPublic = "+";
-            string modifierPrivate = "-";
-            string modifierProtected = "#";
+            string modifierPublic = "public";
+            string modifierPrivate = "private";
+            string modifierProtected = "protected";
 
             List<UML_Attribute> listAttributes = new List<UML_Attribute>();
             List<string> readerValueArray = new List<string>();
@@ -156,23 +174,23 @@ namespace CodeGenerator.Reader
                 string current = kvp[1].Trim();
 
                 // Provisionally checking accesmodifier
-                if (readerValueArray.Any(s => s.StartsWith(modifierPublic)) == true)
+                if (readerValueArray.Any(s => s.StartsWith("+")) == true)
                 {
-                    attribute.accessModifier = "+";
+                    attribute.accessModifier = modifierPublic;
                     attribute.name = kvp[0].Trim('+', ' ');
                     attribute.type = current;
                 }
 
-                if (readerValueArray.Any(s => s.StartsWith(modifierPrivate)) == true)
+                if (readerValueArray.Any(s => s.StartsWith("-")) == true)
                 {
-                    attribute.accessModifier = "-";
+                    attribute.accessModifier = modifierPrivate;
                     attribute.name = kvp[0].Trim('-', ' ');
                     attribute.type = current;
                 }
 
-                if (readerValueArray.Any(s => s.StartsWith(modifierProtected)) == true)
+                if (readerValueArray.Any(s => s.StartsWith("#")) == true)
                 {
-                    attribute.accessModifier = "#";
+                    attribute.accessModifier = modifierProtected;
                     attribute.name = kvp[0].Trim('#', ' ');
                     attribute.type = current;
                 }
@@ -218,7 +236,7 @@ namespace CodeGenerator.Reader
                 var tmp = stringValue.Split('(');
 
                 // Provisionally checking accessmodifier
-                if (readerValueList.Any(s => s.StartsWith(modifierPublic)) == true)
+                if (readerValueList.Any(s => s.StartsWith("+")) == true)
                 {
                     method.accessModifier = modifierPublic;
                     method.name = tmp[0].Trim('+');
@@ -229,7 +247,7 @@ namespace CodeGenerator.Reader
                     method.parameters = getParameter(stringValue);
                 }
 
-                if (readerValueList.Any(s => s.StartsWith(modifierPrivate)) == true)
+                if (readerValueList.Any(s => s.StartsWith("-")) == true)
                 {
                     method.accessModifier = modifierPrivate;
                     method.name = tmp[0].Trim('-');
@@ -240,7 +258,7 @@ namespace CodeGenerator.Reader
                     method.parameters = getParameter(stringValue);
                 }
 
-                if (readerValueList.Any(s => s.StartsWith(modifierProtected)) == true)
+                if (readerValueList.Any(s => s.StartsWith("#")) == true)
                 {
                     method.accessModifier = modifierProtected;
                     method.name = tmp[0].Trim('#');

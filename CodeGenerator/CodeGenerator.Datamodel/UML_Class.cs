@@ -35,5 +35,9 @@ namespace CodeGenerator.Datamodel
             this.implementedInterfaces = implementedInterfaces;
         }
 
+        public override bool Equals(object obj)
+        {
+            return this.name == ((UML_Class)obj).name;
+        }
     }
 }

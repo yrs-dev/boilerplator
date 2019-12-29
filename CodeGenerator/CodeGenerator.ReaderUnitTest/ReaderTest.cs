@@ -18,7 +18,7 @@ namespace CodeGenerator.ReaderUnitTest
         public void checkInterface()
         {
             // Arrange
-            string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
+            string filepath = Environment.CurrentDirectory + "/interfacediagram.graphml";
             UML_Interface expectedInterface = new UML_Interface("<<interface>>\nEmployee");
 
             // Act
@@ -61,12 +61,11 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            UML_Class ClassActual = new UML_Class(className);
             Reader.Reader instanceForClass = new CodeGenerator.Reader.Reader();
-            ClassActual = instanceForClass.AnalyzeNodeLabel<UML_Class>(reader);
+            UML_Class ClassActual = instanceForClass.AnalyzeNodeLabel<UML_Class>(reader);
 
             // Assert
-            Assert.Equal(ClassExpected.name ,ClassActual.name);
+            Assert.Equal(ClassExpected ,ClassActual);
         }
 
         [Fact]
@@ -77,13 +76,13 @@ namespace CodeGenerator.ReaderUnitTest
 
             List<UML_Attribute> expectedAttributes = new List<UML_Attribute>();
             UML_Attribute attribute1 = new UML_Attribute() {
-                accessModifier = '+',
+                accessModifier = "public",
                 name = "name",
                 type = "string"
             };
             UML_Attribute attribute2 = new UML_Attribute()
             {
-                accessModifier = '+',
+                accessModifier = "public",
                 name = "age",
                 type = "int"
             };
