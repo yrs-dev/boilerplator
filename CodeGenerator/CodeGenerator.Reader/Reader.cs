@@ -10,23 +10,26 @@ using System.IO;
 using CommonInterfaces;
 
 /* TODO:
- * AnalyzeNodeLabel: Method structure & structure for storing data  [DONE]
- *  --> Add new *Id* property for *UML_Class* objects  [NOT STARTED YET]
+ * 
+ * **AnalyzeNodeLabel** : Method structure & structure for storing data  [DONE ✔]
+ *  --> Interface or Class Detection [DONE ✔]
+ *      --> Unit Test for Interface [WORKING ✔]
+ *      --> Unit Test for Class     [WORKING ✔]
+ *  --> Add new *Id* property for *UML_Class* objects  [NOT STARTED YET ✘]
  *      --> important for checking inheritance !!
  * 
- * AnalyzeAttributeLabel : Method structure & structure for storing data [DONE]
+ * **AnalyzeAttributeLabel** : Method structure & structure for storing data [DONE]
  *  --> new Method for **checkAccesmodifier** [IN PROCESS..]
  * 
- * AnalyzeMethodLabel : Method structure & structure for storing data [IN PROCESS..]
- *  --> fix Problem: method.type => IndexOutOfRangeException [DONE]
- *  --> parameters: **getParameter()** method refactor the logic & structure [IN PROCESS..]
+ * **AnalyzeMethodLabel** : Method structure & structure for storing data [IN PROCESS..]
+ *  --> fix Problem: method.type => IndexOutOfRangeException [DONE ✔]
+ *  --> parameters: **getParameter()** method refactor the logic & structure [DONE ✔]
  *      --> possible Exceptions: IndexOutOfRangeException => **getMethod()** -> *UML_Method* -> *object*.type  [RESEARCHING..]
- *  --> new Method for **checkAcessmodifier**   [NOT STARTED YET]
+ *  --> new Method for **checkAcessmodifier**   [IN PROCESS..]
  * 
- * AnalyzeInheritance : <data id="">  [NOT STARTED YET]
- *  --> Every Class object need id
- *  --> Parents : Class or Interface?
- * 
+ * **AnalyzeInheritance** : <data id="">  [NOT STARTED YET ✘]
+ *  --> Every Class object need id [IN PROCESS..]
+ *  --> Parents : Class or Interface? [DONE ✔]
  * 
  */
 
