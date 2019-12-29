@@ -19,7 +19,7 @@ namespace CodeGenerator.ReaderUnitTest
         {
             // Arrange
             string filepath = Environment.CurrentDirectory + "/interfacediagram.graphml";
-            UML_Interface expectedInterface = new UML_Interface("<<interface>>\nEmployee");
+            UML_Interface expectedInterface = new UML_Interface("<<interface>>\r\n\t\t  Employee");
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);

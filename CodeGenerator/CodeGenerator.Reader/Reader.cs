@@ -81,57 +81,25 @@ namespace CodeGenerator.Reader
         {
             while (reader.Read())
             {
-                string interfaceName = getInterfaceName(reader);
-                reader.MoveToContent();
-                bool canReadClass = reader.ReadToDescendant("y:NodeLabel");
+                bool canRead = reader.Name == "y:NodeLabel" && reader.NodeType == XmlNodeType.Element;
 
-                if (interfaceName.Contains("&lt;&lt;interface&gt;&gt;") || interfaceName.Contains("interface") || interfaceName.StartsWith("I") && interfaceName.Substring(0, 1).ToUpper().Equals(interfaceName))
+                if (canRead)
                 {
-                    UML_Interface interfaceModel = new UML_Interface(interfaceName);
-                    return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
-                }
-                if (canReadClass)
-                {
-                    UML_Class classModel = new UML_Class(getName(reader.ReadSubtree()));
-                    return (T)Convert.ChangeType(classModel, typeof(UML_Class));
-                }
-            }
-            return (T)Convert.ChangeType(null, typeof(UML_Class));
-        }
-
-
-        // Partial method of AnalyzeNodeLabel
-        string getInterfaceName(XmlReader reader)
-        {
-            //var xmlReader = XmlReader.Create(filepath);
-            var interfaceName = "";
-            bool canReadInterface = reader.ReadToDescendant("y:NodeLabel");
-            if (canReadInterface)
-            {
-                while (reader.Read())
-                {
-                    interfaceName += reader.Value;
+                    string name = reader.ReadElementContentAsString();
+                    if (name.Contains("&lt;&lt;interface&gt;&gt;") || name.Contains("interface") || name.StartsWith("I") && name.Substring(0, 1).ToUpper().Equals(name))
+                    {
+                        UML_Interface interfaceModel = new UML_Interface(name);
+                        return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
+                    }
+                    if (!name.Contains("&lt;&lt;interface&gt;&gt;") || !name.Contains("interface") || !name.StartsWith("I") && !name.Substring(0, 1).ToUpper().Equals(name))
+                    {
+                        UML_Class classModel = new UML_Class(name);
+                        return (T)Convert.ChangeType(classModel, typeof(UML_Class));
+                    }
                 }
             }
-            return interfaceName;
+            return null;
         }
-
-        // Partial method oof AnalyzeNodeLabel
-        string getName(XmlReader reader)
-        {
-            var className = "";
-            while (reader.Read())
-            {
-                if (reader.HasValue)
-                {
-                    className += reader.Value;
-                }
-            }
-
-            return className;
-        }
-
-
 
         // Method gets the Attributes for each class
         public List<UML_Attribute> AnalyzeAttributeLabel (XmlReader reader)
@@ -293,19 +261,16 @@ namespace CodeGenerator.Reader
             List<UML_Parameter> listParamters = new List<UML_Parameter>();
             int firstIndex = value.IndexOf('(');
             int lastIndex = value.IndexOf(')');
-
-            if (lastIndex-firstIndex > 3)
+            int sum = firstIndex + lastIndex;
+            if (lastIndex - firstIndex > 3)
             {
-                foreach (var stringValue in value)
+                var sections = value.Substring(firstIndex, lastIndex).Split(':');
+                UML_Parameter parameter = new UML_Parameter()
                 {
-                    var sections = value.Substring(firstIndex, lastIndex).Split(':');
-                    UML_Parameter parameter = new UML_Parameter()
-                    {
-                        parameterName = sections[0].Trim('('),
-                        parameterType = sections[1].Trim(':' , ')')
-                    };
-                    listParamters.Add(parameter);
-                }
+                    parameterName = sections[0].Trim('('),
+                    parameterType = sections[1].Trim(')')
+                };
+                listParamters.Add(parameter);
             }
 
             else
