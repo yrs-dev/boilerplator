@@ -21,6 +21,12 @@ namespace CodeGenerator.Datamodel
 
         }
 
+        public UML_Interface(string interfacename, string id)
+        {
+            this.name = interfacename;
+            this.id = id;
+        }
+
         public UML_Interface(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods)
         {
             this.accessModifier = accessModifier;
