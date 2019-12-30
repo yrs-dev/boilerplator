@@ -16,6 +16,9 @@ namespace CodeGenerator.Datamodel
         // "variable name" or "method name" or "class name"
         public string name { get; set; }
 
+        // .graphml class node notation --> important for Inheritance
+        public string id { get; set; }
+
 
         /*
         // Constructor
