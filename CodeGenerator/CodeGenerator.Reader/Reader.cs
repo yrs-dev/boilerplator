@@ -86,8 +86,14 @@ namespace CodeGenerator.Reader
             string id = null;
             bool canReadNode = reader.Name == "node" && reader.NodeType == XmlNodeType.Element;
 
-            if (canReadNode)
-                id = reader.GetAttribute("id");
+            if (id == null)
+            {
+                while (reader.Read())
+                {
+                    reader.ReadToDescendant("node");
+                    id = reader.GetAttribute("id");
+                }
+            }
 
             return id;
         }
