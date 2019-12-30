@@ -48,6 +48,22 @@ namespace CodeGenerator.ReaderUnitTest
             // Assert
             Assert.Equal(baseModel, expectedClass);
         }
+        [Fact]
+        public void CanGetValueOfAnalyzeNode()
+        {
+            // Arrange
+            string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
+            UML_Class expectedClass = new UML_Class("Employee", "n0");
+
+            // Act
+            XmlReader reader = new XmlTextReader(filepath);
+            Reader.Reader instanceForDatamodel = new Reader.Reader();
+
+            UML_Base baseMoodel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader);
+
+            // Assert
+            Assert.Equal(baseMoodel, expectedClass);
+        }
 
         [Fact]
         public void CanGetValueofAnalyzeNodeLabel()
