@@ -3,19 +3,14 @@ using System.IO;
 using CommonInterfaces;
 using CodeGenerator.Datamodel;
 using dm = CodeGenerator.Datamodel;
-
-/* TODO: 
- * bool error return
- * base class for class-, interfacegenerator
- * test run
- */
+using DMMIException = Exceptions.DatamodelMissingInformationException;
+using DMMCException = Exceptions.DatamodelMissingContentException;
 
 
 namespace CodeGenerator.Generator
 {
     public class Generator : IGenerator
     {
-
         
         /// <summary> Created files go here. </summary>
         public string filePath { get; set; }
@@ -96,10 +91,10 @@ namespace CodeGenerator.Generator
             // Check for empty: Warning event??
 
 
-            // Check top level
+            // Classes: Check top level
             if (dml.umlClasses == null)
             {
-                throw new Exception("Class list is null!");
+                throw new DMMIException("Class list is null!");
             }
             else
             {
@@ -108,15 +103,45 @@ namespace CodeGenerator.Generator
                 
             }
 
-
+            // Interfaces: Check top level
             if(dml.umlInterfaces == null)
             {
-                throw new Exception("Interface list is null!");
+                throw new DMMIException("Interface list is null!");
             }
             else
             {
-
+                // Check interfaces
+                checkInterfaces();
             }
+        }
+
+        private void checkBase(dm.UML_BaseExtension baseExt)
+        {
+
+            // access modifier
+            if (baseExt.accessModifier == "")
+            {
+                throw new DMMCException($"'accessModifier' of class {baseExt} is \"\"");
+            }
+
+            // name
+            if (baseExt.name == "")
+            {
+                throw new DMMCException($"'name' of class {baseExt} is \"\"");
+            }
+
+            // attributes
+            if (baseExt.umlAttributes == null)
+            {
+                throw new DMMIException($"'umlAttributes' of class {baseExt} is null!");
+            }
+
+            // methods
+            if (baseExt.umlMethods == null)
+            {
+                throw new DMMIException($"'umlMethods' of class {baseExt} is null!");
+            }
+
         }
 
         private void checkClasses()
@@ -125,30 +150,34 @@ namespace CodeGenerator.Generator
             foreach (UML_Class someClass in dml.umlClasses)
             {
 
-                // access modifier
-
-
-                // name
-
-
-                // attributes
-
-
-                // methods
-
+                // Check access modifier, name, attributes, methods
+                checkBase(someClass);
 
                 // parents
-                if(someClass.parents == null)
+                if (someClass.parents == null)
                 {
-                    throw new Exception($"'parents' of class {someClass} is null!");
+                    throw new DMMIException($"'parents' of class {someClass} is null!");
                 }
 
                 // implementedInterfaces
                 if(someClass.implementedInterfaces == null)
                 {
-                    throw new Exception($"'implementedInterfaces' of class {someClass} is null!");
+                    throw new DMMIException($"'implementedInterfaces' of class {someClass} is null!");
                 }
             }
+        }
+
+        private void checkInterfaces()
+        {
+            // Iterate over classes
+            foreach (UML_Interface someInterface in dml.umlInterfaces)
+            {
+
+                // Check access modifier, name, attributes, methods
+                checkBase(someInterface);
+
+            }
+
         }
 
 
