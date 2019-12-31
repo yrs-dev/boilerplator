@@ -57,7 +57,7 @@ namespace CodeGenerator.GeneratorTest
             dml_classes.umlClasses = new List<dm.UML_Class>() { class1, class2, class3 };
 
             // Create generator object
-            gen.Generator gen = new gen.Generator();
+            gen.Generator gen = new gen.Generator("C:\\Users\\Yannik\\Desktop\\testFolder", dml_classes);
             gen.generateCode("C:\\Users\\Yannik\\Desktop\\testFolder", dml_classes);
 
         }

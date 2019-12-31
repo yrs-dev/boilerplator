@@ -16,7 +16,7 @@ namespace CodeGenerator.Generator
     public class Generator : IGenerator
     {
 
-        /*
+        
         /// <summary> Created files go here. </summary>
         public string filePath { get; set; }
 
@@ -30,7 +30,7 @@ namespace CodeGenerator.Generator
             this.filePath = filePath;
             this.dml = dml;
         }
-        */
+        
 
         /// <summary>
         /// Writes ".cs" files to the specified file path according to the passed Datamodel.
@@ -85,9 +85,74 @@ namespace CodeGenerator.Generator
         private bool isDataModelComplete()
         {
 
+            // Datamodel level
+            checkDatamodel();
 
-            return false;
+            return true;
         }
+
+        private void checkDatamodel()
+        {
+            // Check for empty: Warning event??
+
+
+            // Check top level
+            if (dml.umlClasses == null)
+            {
+                throw new Exception("Class list is null!");
+            }
+            else
+            {
+                // Check classes
+                checkClasses();
+                
+            }
+
+
+            if(dml.umlInterfaces == null)
+            {
+                throw new Exception("Interface list is null!");
+            }
+            else
+            {
+
+            }
+        }
+
+        private void checkClasses()
+        {
+            // Iterate over classes
+            foreach (UML_Class someClass in dml.umlClasses)
+            {
+
+                // access modifier
+
+
+                // name
+
+
+                // attributes
+
+
+                // methods
+
+
+                // parents
+                if(someClass.parents == null)
+                {
+                    throw new Exception($"'parents' of class {someClass} is null!");
+                }
+
+                // implementedInterfaces
+                if(someClass.implementedInterfaces == null)
+                {
+                    throw new Exception($"'implementedInterfaces' of class {someClass} is null!");
+                }
+            }
+        }
+
+
+
 
     }
 }
