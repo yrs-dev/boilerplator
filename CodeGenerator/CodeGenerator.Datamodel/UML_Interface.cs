@@ -10,6 +10,11 @@ namespace CodeGenerator.Datamodel
     {
 
         // Constructors
+        public UML_Interface()
+        {
+
+        }
+
         public UML_Interface(string interfacename, string id)
         {
             this.name = interfacename;
