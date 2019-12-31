@@ -19,7 +19,8 @@ namespace CodeGenerator.Datamodel
         // Constructors
         public UML_Method()
         {
-
+            // Empty collection
+            this.parameters = new List<UML_Parameter>();
         }
 
         public UML_Method(string accessModifier, string type, string name, List<UML_Parameter> parameters)

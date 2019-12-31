@@ -15,5 +15,11 @@ namespace CodeGenerator.Datamodel
         // List to store attributes specified in the class diagram belonging to one class
         public List<UML_Attribute> umlAttributes { get; set; }
 
+        // Constructor
+        public UML_BaseExtension()
+        {
+            this.umlMethods = new List<UML_Method>();
+            this.umlAttributes = new List<UML_Attribute>();
+        }
     }
 }

@@ -18,7 +18,9 @@ namespace CodeGenerator.Datamodel
         // Constructors
         public Datamodel()
         {
-
+            // Collection is now empty so enumerator can be used
+            umlClasses = new List<UML_Class>();
+            umlInterfaces = new List<UML_Interface>();
         }
 
         public Datamodel(List<UML_Class> umlClasses, List<UML_Interface> umlInterfaces)

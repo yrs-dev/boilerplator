@@ -15,13 +15,21 @@ namespace CodeGenerator.Datamodel
 
 
         // Constructors
+        public UML_Class()
+        {
+            // Empty collections
+            this.parents = new List<UML_Class>();
+            this.implementedInterfaces = new List<UML_Interface>();
+        }
+
         public UML_Class(string className) { 
             
             // Assign name
             this.name = className;
 
-            // Status print
-            Console.WriteLine("Class object created for: " + className);
+            // Empty collections
+            this.parents = new List<UML_Class>();
+            this.implementedInterfaces = new List<UML_Interface>();
 
         }
 
