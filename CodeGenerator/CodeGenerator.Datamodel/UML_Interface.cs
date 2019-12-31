@@ -10,17 +10,6 @@ namespace CodeGenerator.Datamodel
     {
 
         // Constructors
-        public UML_Interface(string interfacename)
-        {
-
-            // Assign name
-            this.name = interfacename;
-
-            // Status print
-            Console.WriteLine("Interface object created for: " + interfacename);
-
-        }
-
         public UML_Interface(string interfacename, string id)
         {
             this.name = interfacename;

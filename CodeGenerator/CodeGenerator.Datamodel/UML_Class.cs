@@ -22,21 +22,15 @@ namespace CodeGenerator.Datamodel
             this.implementedInterfaces = new List<UML_Interface>();
         }
 
-        public UML_Class(string className) { 
-            
-            // Assign name
-            this.name = className;
+        public UML_Class(string name, string id)
+        {
+            this.name = name;
+            this.id = id;
 
             // Empty collections
             this.parents = new List<UML_Class>();
             this.implementedInterfaces = new List<UML_Interface>();
 
-        }
-
-        public UML_Class(string name, string id)
-        {
-            this.name = name;
-            this.id = id;
         }
 
         public UML_Class(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, List<UML_Class> parents, List<UML_Interface> implementedInterfaces)
