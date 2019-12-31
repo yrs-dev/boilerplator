@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.Datamodel", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.ReaderUnitTest", "CodeGenerator.ReaderUnitTest\CodeGenerator.ReaderUnitTest.csproj", "{1F8F563F-5699-4D47-91DF-577C836A6042}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exceptions", "Exceptions\Exceptions.csproj", "{2DFCEC8F-1511-4F82-AF58-100B1CCEE9BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{1F8F563F-5699-4D47-91DF-577C836A6042}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F8F563F-5699-4D47-91DF-577C836A6042}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F8F563F-5699-4D47-91DF-577C836A6042}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DFCEC8F-1511-4F82-AF58-100B1CCEE9BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DFCEC8F-1511-4F82-AF58-100B1CCEE9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DFCEC8F-1511-4F82-AF58-100B1CCEE9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DFCEC8F-1511-4F82-AF58-100B1CCEE9BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{BC5A3F59-E109-4568-BA22-4F6C73415328} = {03CBB55B-C226-417E-8A00-DFDECAB88953}
 		{A21803E5-C8EA-4D00-AE91-FBC99AC4AAC3} = {8BB48865-ABE7-48D6-9706-A579FF268B51}
 		{1F8F563F-5699-4D47-91DF-577C836A6042} = {03CBB55B-C226-417E-8A00-DFDECAB88953}
+		{2DFCEC8F-1511-4F82-AF58-100B1CCEE9BD} = {8BB48865-ABE7-48D6-9706-A579FF268B51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D88A975-FCC7-4A21-AF43-ED4B80A679F7}
