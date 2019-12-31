@@ -53,7 +53,7 @@ namespace CodeGenerator.Generator
                     ClassGenerator cGen = new ClassGenerator(classFile, umlClass);
 
                     // Generate class
-                    cGen.generateClass();
+                    cGen.generateContent();
 
                 }
             }

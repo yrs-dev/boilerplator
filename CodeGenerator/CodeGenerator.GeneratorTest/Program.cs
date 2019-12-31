@@ -4,12 +4,9 @@ using dm = CodeGenerator.Datamodel;
 
 
 /* ToDos:
- * Empty collection instead of null in CodeGenerator.Datamodel.Datamodel
- * Check datamodel for completeness
- * Implemented interfaces, inherited classes syntax
- * 
  * Base class for generators
  * 
+ * Attribute getter setter?
  * Interfaces test
  * 
  */
