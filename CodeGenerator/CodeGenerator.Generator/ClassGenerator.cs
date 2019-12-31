@@ -14,6 +14,9 @@ namespace CodeGenerator.Generator
         /// <summary> Variable which will contain the needed information for the class generator logic. </summary> 
         private UML_Class umlClass;
 
+        /// <summary> Tab needed for indentation purposes.</summary>
+        string structureTab = "\t";
+
 
         /// <summary> Constructor for the class. Takes the current file and the data object as input. </summary> 
         public ClassGenerator(StreamWriter classFile, UML_Class umlClass)
@@ -45,13 +48,13 @@ namespace CodeGenerator.Generator
         void writeClass()
         {
             // Write beginning
-            StringBuilder sb = new StringBuilder($"class {umlClass.name}");
+            StringBuilder sb = new StringBuilder($"{umlClass.accessModifier} class {umlClass.name}");
 
             // Append parents, interfaces
             writeClass_appendElements(sb);
 
             // Last line
-            sb.Append("\n{");
+            sb.Append("\n{\n");
 
             // Write built string
             classFile.WriteLine(sb.ToString());
@@ -68,7 +71,7 @@ namespace CodeGenerator.Generator
             bool aditionalElementsPresent = umlClass.parents.Count > 0 || umlClass.implementedInterfaces.Count > 0;
             if (aditionalElementsPresent)
             {
-                sb.Append(" :");
+                sb.Append(" : ");
             }
 
             // Append parents
@@ -101,6 +104,9 @@ namespace CodeGenerator.Generator
         void writeAttributes()
         {
 
+            // Comment in file
+            classFile.WriteLine($"{structureTab}// Attributes");
+
             // Extract attributes
             List<UML_Attribute> umlAttributes = umlClass.umlAttributes;
 
@@ -109,8 +115,12 @@ namespace CodeGenerator.Generator
             {
                 // Write attribute to file
                 string attributeString = $"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name};";
-                classFile.WriteLine(attributeString);
+                
+                classFile.WriteLine(structureTab + attributeString);
             }
+
+            // Trailing line
+            classFile.WriteLine("");
 
         }
 
@@ -118,6 +128,8 @@ namespace CodeGenerator.Generator
         /// <summary> Writes empty functions into a specified file with the name and parameters matching what is found in the passed list of methods that belong to the current class. </summary>
         void writeMethods()
         {
+            // Comment in file
+            classFile.WriteLine($"{structureTab}// Methods");
 
             // Extract methods
             List<UML_Method> umlMethods = umlClass.umlMethods;
@@ -128,7 +140,7 @@ namespace CodeGenerator.Generator
                 StringBuilder sb = new StringBuilder();
 
                 // First line
-                sb.Append($"{umlMethod.accessModifier} {umlMethod.type} {umlMethod.name}(");
+                sb.Append($"{structureTab}{umlMethod.accessModifier} {umlMethod.type} {umlMethod.name}(");
                 foreach (UML_Parameter umlParameter in umlMethod.parameters)
                 {
                     sb.Append($"{umlParameter.parameterName} {umlParameter.parameterType}, ");
@@ -141,13 +153,14 @@ namespace CodeGenerator.Generator
                 sb.Append(")");
 
                 // Write body
-                sb.Append("\n{\n\tthrow new System.NotImplementedException();\n}");
+                sb.Append($"\n{structureTab}{{");
+                sb.Append($"\n{structureTab}{structureTab}throw new System.NotImplementedException();");
+                sb.Append($"\n{structureTab}}}\n");
 
                 // Write built string
                 classFile.WriteLine(sb.ToString());
 
             }
         }
-
     }
 }

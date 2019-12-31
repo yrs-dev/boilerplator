@@ -2,6 +2,7 @@
 using System.IO;
 using CommonInterfaces;
 using CodeGenerator.Datamodel;
+using System.Linq;
 
 /* TODO: 
  * bool error return
