@@ -141,13 +141,16 @@ namespace CodeGenerator.Generator
 
                 // First line
                 sb.Append($"{structureTab}{umlMethod.accessModifier} {umlMethod.type} {umlMethod.name}(");
-                foreach (UML_Parameter umlParameter in umlMethod.parameters)
-                {
-                    sb.Append($"{umlParameter.parameterName} {umlParameter.parameterType}, ");
-                }
 
-                // Delete trailing ,
-                sb.Length -= 2;
+                // Append parameters
+                if (umlMethod.parameters.Count > 0)
+                {
+                    foreach (UML_Parameter umlParameter in umlMethod.parameters)
+                    {
+                        sb.Append($"{umlParameter.parameterName} {umlParameter.parameterType}, ");
+                    }
+                    sb.Length -= 2;
+                }
 
                 // Close parantheses
                 sb.Append(")");
