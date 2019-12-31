@@ -16,6 +16,9 @@ namespace CodeGenerator.Datamodel
         // "variable name" or "method name" or "class name"
         public string name { get; set; }
 
+        // .graphml class node notation --> important for Inheritance
+        public string id { get; set; }
+
 
         /*
         // Constructor
@@ -28,8 +31,9 @@ namespace CodeGenerator.Datamodel
 
         public override bool Equals(object obj)
         {
-            return obj.GetType() == typeof(UML_Class) || 
-            obj.GetType() == typeof(UML_Interface);
+            //return obj.GetType() == typeof(UML_Class) || 
+            //obj.GetType() == typeof(UML_Interface);
+            return this.id == ((UML_Base)obj).id;
         }
 
     }

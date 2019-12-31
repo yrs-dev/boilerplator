@@ -39,7 +39,7 @@ namespace CodeGenerator.Reader
     {
 
         // Main method
-        public void Read(string filepath)
+        public Datamodel.Datamodel ReadGraphml(string filepath)
         {
             XmlReader reader = null;
 
@@ -47,10 +47,10 @@ namespace CodeGenerator.Reader
             {
                 // Reader Object for read Graphml File
                 reader = new XmlTextReader(filepath);
-
+                Datamodel.Datamodel datamodel = null;
                 while (reader.Read())
                 {
-                    Datamodel.Datamodel datamodel = new Datamodel.Datamodel();
+                    datamodel = new Datamodel.Datamodel();
                     UML_Base baseModel = AnalyzeNodeLabel<UML_Base>(reader);
 
                     if (baseModel.GetType() == typeof(UML_Class) && baseModel != null)
@@ -73,30 +73,58 @@ namespace CodeGenerator.Reader
                         datamodel.umlInterfaces.Add(interfaceModel);
                     }
                 }
+
+                return datamodel;
             }
             finally
             {
-
             }
         } 
+
+        public string AnalyzeNode (XmlReader reader)
+        {
+            string id = null;
+            bool canReadNode = reader.Name == "node" && reader.NodeType == XmlNodeType.Element;
+
+            if (id == null)
+            {
+                while (reader.Read())
+                {
+                    reader.ReadToDescendant("node");
+                    id = reader.GetAttribute("id");
+                }
+            }
+
+            return id;
+        }
+
+        bool checkInheritance(XmlReader reader)
+        {
+            return false;
+        }
+
+        string getInheritance(XmlReader reader, UML_Base model)
+        {
+            return null;
+        }
 
         public T AnalyzeNodeLabel<T> (XmlReader reader) where T : CodeGenerator.Datamodel.UML_Base
         {
             while (reader.Read())
             {
                 bool canRead = reader.Name == "y:NodeLabel" && reader.NodeType == XmlNodeType.Element;
-
+                string id = AnalyzeNode(reader);
                 if (canRead)
                 {
                     string name = reader.ReadElementContentAsString();
                     if (name.Contains("&lt;&lt;interface&gt;&gt;") || name.Contains("interface") || name.StartsWith("I") && name.Substring(0, 1).ToUpper().Equals(name))
                     {
-                        UML_Interface interfaceModel = new UML_Interface(name);
+                        UML_Interface interfaceModel = new UML_Interface(name, id);
                         return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
                     }
                     if (!name.Contains("&lt;&lt;interface&gt;&gt;") || !name.Contains("interface") || !name.StartsWith("I") && !name.Substring(0, 1).ToUpper().Equals(name))
                     {
-                        UML_Class classModel = new UML_Class(name);
+                        UML_Class classModel = new UML_Class(name, id);
                         return (T)Convert.ChangeType(classModel, typeof(UML_Class));
                     }
                 }
