@@ -13,8 +13,7 @@ namespace CodeGenerator.Datamodel
         public string type { get; set; }
 
         // Getter, setter
-        public bool getterSpecified { get; set; }
-        public bool setterSpecified { get; set; }
+        public bool autoGetterSetterSpecified { get; set; }
 
         // Constructors
         public UML_Attribute()
@@ -28,13 +27,12 @@ namespace CodeGenerator.Datamodel
             this.name = attributeName;
         }
 
-        public UML_Attribute(string accessModifier, string type, string name, bool getterSpecified, bool setterSpecified)
+        public UML_Attribute(string accessModifier, string type, string name, bool autoGetterSetter = false)
         {
             this.accessModifier = accessModifier;
             this.type = type;
             this.name = name;
-            this.getterSpecified = getterSpecified;
-            this.setterSpecified = setterSpecified;
+            this.autoGetterSetterSpecified = autoGetterSetter;
         }
 
         // Equals override

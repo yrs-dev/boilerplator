@@ -77,11 +77,25 @@ namespace CodeGenerator.Generator
         /// Fills in the attribute definition.
         /// </summary>
         /// <param name="umlAttribute"> Object containing information about the attribute. </param>
-        /// <returns></returns>
+        /// <returns> Returns the string representing the UML_Attribute object. </returns>
         public override string writeAttribute_Specify(UML_Attribute umlAttribute)
         {
-            string attributeString = $"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name};";
-            return attributeString;
+
+            // Overall attribute structure
+            StringBuilder sb = new StringBuilder($"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name}");
+
+            // Append respective information
+            if (umlAttribute.autoGetterSetterSpecified)
+            {
+                sb.Append(" { get; set; }");
+            }
+            else
+            {
+                sb.Append(";");
+            }
+            
+            // Return built string
+            return sb.ToString();
         }
         
         /// <summary>

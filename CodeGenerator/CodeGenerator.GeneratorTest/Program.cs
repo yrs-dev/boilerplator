@@ -5,7 +5,7 @@ using dm = CodeGenerator.Datamodel;
 
 /* ToDos:
  * Attribute getter setter?
- * 
+ * Discuss moving parameters from method "generateCode" to constructor
  */
 
 namespace CodeGenerator.GeneratorTest
@@ -15,21 +15,19 @@ namespace CodeGenerator.GeneratorTest
         static void Main(string[] args)
         {
 
-            classTest();
-
-            interfaceTest();
+            generatorTest();
 
         }
 
 
-        ////////////////// CLASS TEST
-        public static void classTest()
+        ////////////////// TEST
+        public static void generatorTest()
         {
 
             // 4 attributes
             dm.UML_Attribute att1 = new dm.UML_Attribute("public", "int", "testNumber");
-            dm.UML_Attribute att2 = new dm.UML_Attribute("private", "double", "testDouble");
-            dm.UML_Attribute att3 = new dm.UML_Attribute("private", "string", "rasr33");
+            dm.UML_Attribute att2 = new dm.UML_Attribute("private", "double", "testDouble", true);
+            dm.UML_Attribute att3 = new dm.UML_Attribute("private", "string", "rasr33", true);
             dm.UML_Attribute att4 = new dm.UML_Attribute("public", "char", "rjojo32");
 
             // 4 methods
@@ -43,7 +41,7 @@ namespace CodeGenerator.GeneratorTest
             dm.UML_Method method3 = new dm.UML_Method("public", "void", "testMethod3", new List<dm.UML_Parameter>() { param1, param2, param3, param4 });
 
             // 2 interfaces
-            dm.UML_Interface interface1 = new dm.UML_Interface("interface1", new List<dm.UML_Attribute>() {}, new List<dm.UML_Method>() {});
+            dm.UML_Interface interface1 = new dm.UML_Interface("interface1", new List<dm.UML_Attribute>() {att1, att3 }, new List<dm.UML_Method>() {});
             dm.UML_Interface interface2 = new dm.UML_Interface("interface2", new List<dm.UML_Attribute>() { att2, att4 }, new List<dm.UML_Method>() { method2, method3 });
 
             // 3 classes
@@ -53,12 +51,13 @@ namespace CodeGenerator.GeneratorTest
 
 
             // Bring it all together
-            dm.Datamodel dml_classes = new dm.Datamodel();
-            dml_classes.umlClasses = new List<dm.UML_Class>() { class1, class2, class3 };
+            dm.Datamodel dml = new dm.Datamodel();
+            dml.umlClasses = new List<dm.UML_Class>() { class1, class2, class3 };
+            dml.umlInterfaces = new List<dm.UML_Interface>() { interface1, interface2 };
 
             // Create generator object
-            gen.Generator gen = new gen.Generator("C:\\Users\\Yannik\\Desktop\\testFolder\\classTest", dml_classes);
-            gen.generateCode("C:\\Users\\Yannik\\Desktop\\testFolder\\classTest", dml_classes);
+            gen.Generator gen = new gen.Generator("C:\\Users\\Yannik\\Desktop\\testFolder", dml);
+            gen.generateCode("C:\\Users\\Yannik\\Desktop\\testFolder", dml);
 
         }
 
@@ -86,7 +85,7 @@ namespace CodeGenerator.GeneratorTest
             dm.UML_Method method3 = new dm.UML_Method("public", "void", "testMethod3", new List<dm.UML_Parameter>() { param1, param2, param3, param4 });
 
             // 2 interfaces
-            dm.UML_Interface interface1 = new dm.UML_Interface("interface1", new List<dm.UML_Attribute>() { }, new List<dm.UML_Method>() { });
+            dm.UML_Interface interface1 = new dm.UML_Interface("interface1", new List<dm.UML_Attribute>() { att1, att3 }, new List<dm.UML_Method>() { });
             dm.UML_Interface interface2 = new dm.UML_Interface("interface2", new List<dm.UML_Attribute>() { att2, att4 }, new List<dm.UML_Method>() { method2, method3 });
 
 
