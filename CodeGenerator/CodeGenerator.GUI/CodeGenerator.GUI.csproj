@@ -89,5 +89,11 @@
   <ItemGroup>
     <None Include="Resources\error-image-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{aa99e002-7d47-4dc1-9fab-b856d675bb48}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommonInterfaces
 {
-    interface IController
+    public interface IController
     {
         bool StartProcess(string filePath_Model, string filePath_Output);
     }

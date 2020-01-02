@@ -1,6 +1,6 @@
-﻿namespace CodeGen
+﻿namespace CodeGenerator.GUI
 {
-    partial class GUI
+    partial class Form1
     {
         /// <summary>
         /// Erforderliche Designervariable.

@@ -11,9 +11,9 @@ using CommonInterfaces;
 
 namespace CodeGenerator.GUI
 {
-    public partial class GUI : Form, CommonInterfaces.IController
+    public partial class Form1 : Form, CommonInterfaces.IController
     {
-        public GUI()
+        public Form1()
         {
             InitializeComponent();
         }

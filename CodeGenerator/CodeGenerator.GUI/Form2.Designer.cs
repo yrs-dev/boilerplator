@@ -1,4 +1,4 @@
-﻿namespace CodeGen
+﻿namespace CodeGenerator.GUI
 {
     partial class Form2
     {
