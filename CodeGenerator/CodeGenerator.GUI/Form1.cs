@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommonInterfaces;
 
-namespace CodeGen
+namespace CodeGenerator.GUI
 {
-    public partial class GUI : Form, IController
+    public partial class GUI : Form, CommonInterfaces.IController
     {
         public GUI()
         {
