@@ -83,6 +83,7 @@ namespace CodeGenerator.Generator
                 string attributeString = writeAttribute_Specify(umlAttribute);
 
                 outputFile.WriteLine(structureTab + attributeString);
+
             }
 
             // Trailing line

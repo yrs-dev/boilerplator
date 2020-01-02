@@ -48,7 +48,7 @@ namespace CodeGenerator.Generator
         /// <param name="sb"> Current StringBuilder being used. </param>
         public override void writeMethod_Specify(StringBuilder sb)
         {
-
+            sb.Append(";\n");
         }
 
     }

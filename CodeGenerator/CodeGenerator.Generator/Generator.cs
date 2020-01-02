@@ -120,7 +120,7 @@ namespace CodeGenerator.Generator
         {
 
             // access modifier
-            if (baseExt.accessModifier == "")
+            if (baseExt.GetType() == typeof(UML_Class) && baseExt.accessModifier == "")
             {
                 throw new DMMCException($"'accessModifier' of class {baseExt} is \"\"");
             }
