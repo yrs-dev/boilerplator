@@ -10,26 +10,34 @@ namespace CodeGenerator.Generator
     {
 
         // Constructor
-        public ClassGenerator(StreamWriter outputFile, UML_BaseExtension classOrInterface) : base(outputFile, classOrInterface)
+        public ClassGenerator(StreamWriter outputFile, UML_BaseExtension umlClass) : base(outputFile, umlClass)
         {
 
         }
 
-        public override StringBuilder writeBeginning_FirstLine(UML_BaseExtension classOrInterface)
+
+        /// <summary>
+        /// Writes introductory line to the class file.
+        /// </summary>
+        /// <param name="umlClass"> Object containing information about the class. </param>
+        /// <returns></returns>
+        public override StringBuilder writeBeginning_Specify(UML_BaseExtension umlClass)
         {
             // Write beginning
-            StringBuilder sb = new StringBuilder($"{classOrInterface.accessModifier} class {classOrInterface.name}");
+            StringBuilder sb = new StringBuilder($"{umlClass.accessModifier} class {umlClass.name}");
 
             // Append parents, interfaces
-            writeBeginning_appendElements(sb, (UML_Class)classOrInterface);
+            writeBeginning_appendElements(sb, (UML_Class)umlClass);
 
             // Return StringBuilder
             return sb;
 
         }
         
-        /// <summary> Writes elements belonging to the class declaration that may or may not be neccessary (e.g. parent classes or interfaces). </summary>
-        /// <param name="sb">Currently used StringBuilder.</param>
+        /// <summary> 
+        /// Writes elements belonging to the class declaration that may or may not be neccessary (e.g. parent classes or interfaces). 
+        /// </summary>
+        /// <param name="sb"> Currently used StringBuilder. </param>
         private void writeBeginning_appendElements(StringBuilder sb, UML_Class umlClass)
         {
 
@@ -65,13 +73,22 @@ namespace CodeGenerator.Generator
             }
         }
 
-        public override string writeAttribute(UML_Attribute umlAttribute)
+        /// <summary>
+        /// Fills in the attribute definition.
+        /// </summary>
+        /// <param name="umlAttribute"> Object containing information about the attribute. </param>
+        /// <returns></returns>
+        public override string writeAttribute_Specify(UML_Attribute umlAttribute)
         {
             string attributeString = $"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name};";
             return attributeString;
         }
-
-        public override void writeMethod_Body(StringBuilder sb)
+        
+        /// <summary>
+        /// Fills in method body.
+        /// </summary>
+        /// <param name="sb"> Current StringBuilder being used. </param>
+        public override void writeMethod_Specify(StringBuilder sb)
         {
             sb.Append($"\n{structureTab}{{");
             sb.Append($"\n{structureTab}{structureTab}throw new System.NotImplementedException();");

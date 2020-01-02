@@ -14,23 +14,39 @@ namespace CodeGenerator.Generator
 
         }
 
-        // Inherited methods
-        public override StringBuilder writeBeginning_FirstLine(UML_BaseExtension classOrInterface)
+
+        /// <summary>
+        /// Writes introductory line to the interface file.
+        /// </summary>
+        /// <param name="umlInterface"> Object containing information about the interface. </param>
+        /// <returns></returns>
+        public override StringBuilder writeBeginning_Specify(UML_BaseExtension umlInterface)
         {
             // Write beginning
-            StringBuilder sb = new StringBuilder($"interface {classOrInterface.name}");
+            StringBuilder sb = new StringBuilder($"interface {umlInterface.name}");
 
             // Return StringBuilder
             return sb;
         }
 
-        public override string writeAttribute(UML_Attribute umlAttribute)
+
+        /// <summary>
+        /// Fills in the attribute definition.
+        /// </summary>
+        /// <param name="umlAttribute"> Object containing information about the attribute. </param>
+        /// <returns></returns>
+        public override string writeAttribute_Specify(UML_Attribute umlAttribute)
         {
             string attributeString = $"{umlAttribute.type} {umlAttribute.name};";
             return attributeString;
         }
 
-        public override void writeMethod_Body(StringBuilder sb)
+
+        /// <summary>
+        /// Fills in method body (or not).
+        /// </summary>
+        /// <param name="sb"> Current StringBuilder being used. </param>
+        public override void writeMethod_Specify(StringBuilder sb)
         {
 
         }

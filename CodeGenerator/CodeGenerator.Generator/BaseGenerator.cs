@@ -32,6 +32,11 @@ namespace CodeGenerator.Generator
             this.isClass = classOrInterface.GetType() == typeof(UML_Class) ? true : false;
         }
 
+
+
+        /// <summary>
+        /// Lays out the basic procedure when generating code.
+        /// </summary>
         public void generateContent()
         {
             // Write beginning
@@ -47,11 +52,11 @@ namespace CodeGenerator.Generator
             outputFile.WriteLine("}");
         }
 
-        /// <summary> Writes the introductory class line with the name matching what is found in the UML_Class object. </summary>
+        /// <summary> Writes the introductory line with the name matching what is found in the UML_Class / UML_Interface object. </summary>
         void writeBeginning()
         {
             // First line
-            StringBuilder sb = writeBeginning_FirstLine(classOrInterface);
+            StringBuilder sb = writeBeginning_Specify(classOrInterface);
 
             // Last line
             sb.Append("\n{\n");
@@ -75,7 +80,7 @@ namespace CodeGenerator.Generator
             foreach (UML_Attribute umlAttribute in umlAttributes)
             {
                 // Write attribute to file
-                string attributeString = writeAttribute(umlAttribute);
+                string attributeString = writeAttribute_Specify(umlAttribute);
 
                 outputFile.WriteLine(structureTab + attributeString);
             }
@@ -118,7 +123,7 @@ namespace CodeGenerator.Generator
                 sb.Append(")");
 
                 // Write body
-                writeMethod_Body(sb);
+                writeMethod_Specify(sb);
 
                 // Write built string
                 outputFile.WriteLine(sb.ToString());
@@ -129,17 +134,17 @@ namespace CodeGenerator.Generator
 
 
         // To be overwritten in inheriting classes
-        public virtual StringBuilder writeBeginning_FirstLine(UML_BaseExtension classOrInterface)
+        public virtual StringBuilder writeBeginning_Specify(UML_BaseExtension classOrInterface)
         {
             return new StringBuilder();
         }
 
-        public virtual string writeAttribute(UML_Attribute umlAttribute)
+        public virtual string writeAttribute_Specify(UML_Attribute umlAttribute)
         {
             return "";
         }
 
-        public virtual void writeMethod_Body(StringBuilder sb)
+        public virtual void writeMethod_Specify(StringBuilder sb)
         {
 
         }

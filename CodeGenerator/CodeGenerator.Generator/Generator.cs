@@ -37,44 +37,45 @@ namespace CodeGenerator.Generator
         {
 
             // Check datamodel
-            if (!isDataModelComplete())
+            if (isDataModelComplete())
             {
-                return false;
-            }
 
-            // Iterate over classes
-            foreach (UML_Class umlClass in dml.umlClasses)
-            {
-                // Create new file
-                using (StreamWriter classFile = new StreamWriter(filePath + "\\" + umlClass.name + ".cs"))
+                // Iterate over classes
+                foreach (UML_Class umlClass in dml.umlClasses)
                 {
+                    // Create new file
+                    using (StreamWriter classFile = new StreamWriter(filePath + "\\" + umlClass.name + ".cs"))
+                    {
 
-                    // Create ClassGenerator object
-                    ClassGenerator cGen = new ClassGenerator(classFile, umlClass);
+                        // Create ClassGenerator object
+                        ClassGenerator cGen = new ClassGenerator(classFile, umlClass);
 
-                    // Generate class
-                    cGen.generateContent();
+                        // Generate class
+                        cGen.generateContent();
 
+                    }
                 }
-            }
 
-            // Iterate over interfaces
-            foreach (UML_Interface umlInterface in dml.umlInterfaces)
-            {
-                // Create new file
-                using (StreamWriter interfaceFile = new StreamWriter(filePath + "\\" + umlInterface.name + ".cs"))
+                // Iterate over interfaces
+                foreach (UML_Interface umlInterface in dml.umlInterfaces)
                 {
+                    // Create new file
+                    using (StreamWriter interfaceFile = new StreamWriter(filePath + "\\" + umlInterface.name + ".cs"))
+                    {
 
-                    // Create InterfaceGenerator object
-                    InterfaceGenerator iGen = new InterfaceGenerator(interfaceFile, umlInterface);
+                        // Create InterfaceGenerator object
+                        InterfaceGenerator iGen = new InterfaceGenerator(interfaceFile, umlInterface);
 
-                    // Generate class
-                    iGen.generateInterface();
+                        // Generate class
+                        iGen.generateContent();
 
+                    }
                 }
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         private bool isDataModelComplete()
