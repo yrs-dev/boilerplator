@@ -59,9 +59,10 @@ namespace CodeGenerator.GUI
             string filePath_Model = Path_Model.Text;
             string filePate_Output = Path_Output.Text;
 
-            if (StartProcess(filePath_Model, filePate_Output) == false)
+            // Wenn StartProcess false liefert, wird Form2 mit der FileNotFoundException geöffnet
+            if (!StartProcess(filePath_Model, filePate_Output))
             {
-                new Form2().ShowDialog();
+                new Form2(new ArgumentNullException()).ShowDialog();
                 this.Show();
             }
                 
@@ -76,10 +77,8 @@ namespace CodeGenerator.GUI
         /// <returns>true, wenn beides ausgewählt wurde. false, wenn nicht.</returns>
         public bool StartProcess(string filePath_Model, string filePath_Output)
         {
-            if (filePath_Model == "Keine Datei ausgewählt." || filePath_Output == "Keinen Ausgabeort ausgewählt.")
-                return false;
-            else
-                return true;
+            return filePath_Model != "Keine Datei ausgewählt." 
+                && filePath_Output != "Keinen Ausgabeort ausgewählt.";
         }
     }
 }
