@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommonInterfaces;
+using Exceptions;
 
 namespace CodeGenerator.GUI
 {
@@ -62,7 +63,7 @@ namespace CodeGenerator.GUI
             // Wenn StartProcess false liefert, wird Form2 mit der FileNotFoundException geöffnet
             if (!StartProcess(filePath_Model, filePate_Output))
             {
-                new Form2(new ArgumentNullException()).ShowDialog();
+                new Form2(new FileIsNotChoosenException()).ShowDialog();
                 this.Show();
             }
                 
