@@ -19,13 +19,14 @@ namespace CodeGenerator.ReaderUnitTest
         {
             // Arrange
             string filepath = Environment.CurrentDirectory + "/interfacediagram.graphml";
-            UML_Interface expectedInterface = new UML_Interface("<<interface>>\r\n\t\t  Employee");
+            string id = "n0";
+            UML_Interface expectedInterface = new UML_Interface("<<interface>>\r\n\t\t  Employee",id);
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
             Reader.Reader instanceForDatamodel = new Reader.Reader();
 
-            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader);
+            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader,filepath);
 
             // Assert
             Assert.Equal(baseModel, expectedInterface);
@@ -37,32 +38,56 @@ namespace CodeGenerator.ReaderUnitTest
         {
             // Arrange
             string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
-            UML_Class expectedClass = new UML_Class("Employee");
-
-            // Act
-            XmlReader reader = new XmlTextReader(filepath);
-            Reader.Reader instanceForDatamodel = new Reader.Reader();
-
-            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader);
-
-            // Assert
-            Assert.Equal(baseModel, expectedClass);
-        }
-        [Fact]
-        public void CanGetValueOfAnalyzeNode()
-        {
-            // Arrange
-            string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
             UML_Class expectedClass = new UML_Class("Employee", "n0");
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
             Reader.Reader instanceForDatamodel = new Reader.Reader();
 
-            UML_Base baseMoodel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader);
+            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader,filepath);
 
             // Assert
-            Assert.Equal(baseMoodel, expectedClass);
+            Assert.Equal(baseModel, expectedClass);
+        }
+
+        [Fact]
+        public void CanGetValueOfAnalyzeNode()
+        {
+            // Arrange
+            string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
+            List<UML_Class> expectedClassList = new List<UML_Class>(); 
+            UML_Class expectedClass = new UML_Class("Employee", "n0");
+            expectedClassList.Add(expectedClass);
+
+
+            // Act
+            XmlReader reader = new XmlTextReader(filepath);
+            Reader.Reader instanceForDatamodel = new Reader.Reader();
+            List<UML_Base> baseModelList = instanceForDatamodel.AnalyzeNode(reader, filepath);
+
+
+            // Assert
+            Assert.Equal(expectedClassList, baseModelList);
+        }
+
+        [Fact]
+        public void CanGetMultipleValueOfAnalyzeNode()
+        {
+            // Arrange
+            string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
+            List<UML_Base> classes = new List<UML_Base>();
+            UML_Class expectedClass = new UML_Class("Employee", "n0");
+            UML_Class expectedClass2 = new UML_Class("User", "n1");
+            classes.Add(expectedClass);
+            classes.Add(expectedClass2);
+
+            // Act
+            XmlReader reader = new XmlTextReader(filepath);
+            Reader.Reader instanceForDatamodel = new Reader.Reader();
+            List<UML_Base> listOfClasses = instanceForDatamodel.AnalyzeNode(reader, filepath);
+
+            // Assert
+            Assert.Equal(classes, listOfClasses);
         }
 
         [Fact]
@@ -70,15 +95,16 @@ namespace CodeGenerator.ReaderUnitTest
         {
             // Arange
             string className = "";
+            string id = "n0";
             string filepath = Environment.CurrentDirectory + "/classdiagram.graphml";
 
-            UML_Class ClassExpected = new UML_Class(className);
+            UML_Class ClassExpected = new UML_Class(className, id);
             ClassExpected.name = "Employee";
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
             Reader.Reader instanceForClass = new CodeGenerator.Reader.Reader();
-            UML_Class ClassActual = instanceForClass.AnalyzeNodeLabel<UML_Class>(reader);
+            UML_Class ClassActual = instanceForClass.AnalyzeNodeLabel<UML_Class>(reader,filepath);
 
             // Assert
             Assert.Equal(ClassExpected ,ClassActual);
@@ -131,26 +157,26 @@ namespace CodeGenerator.ReaderUnitTest
             };
             UML_Method method2 = new UML_Method()
             {
-
                 name = "getTitle",
-                type = "String"
+                type = "String",
+                parameters = null
             };
             UML_Method method3 = new UML_Method()
             {
-
                 name = "getStaffNo",
-                type = "Number"
+                type = "Number",
+                parameters = null
             };
             UML_Method method4 = new UML_Method()
             {
-
                 name = "getRoom",
-                type = "String"
+                type = "String",
+                parameters = null
             };
             UML_Method method5 = new UML_Method()
             {
-
-                name = "getPhone"
+                name = "getPhone",
+                parameters = null
             };
 
             expectedMethods.Add(method1);
