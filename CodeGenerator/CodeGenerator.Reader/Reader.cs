@@ -93,11 +93,10 @@ namespace CodeGenerator.Reader
             string filepath2 = @"<key for='port' id='d0' yfiles.type='portgraphics'/><key for='port' id='d1' yfiles.type='portgeometry'/><key for='port' id='d2' yfiles.type='portuserdata'/><node id='n0'><UML class=''></UML></node><node id='n1'></node><node id='n2'>klsjfglkjds</node>";
             XmlParserContext context;
             context = new XmlParserContext(null, null, "node", XmlSpace.None);
-            xmlReader = new XmlTextReader(filepath2, XmlNodeType.Element, context);
+            xmlReader = new XmlTextReader(filepath, XmlNodeType.Element, context);
 
             while (xmlReader.Read())
             {
-                xmlReader.MoveToContent();
                 xmlReader.MoveToAttribute("id");
                 while (xmlReader.ReadAttributeValue())
                 {

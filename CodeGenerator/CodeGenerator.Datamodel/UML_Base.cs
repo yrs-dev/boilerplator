@@ -34,10 +34,7 @@ namespace CodeGenerator.Datamodel
             //return obj.GetType() == typeof(UML_Class) || 
             //obj.GetType() == typeof(UML_Interface);
             return
-                this.id == ((UML_Base)obj).id
-               && (id == null && ((UML_Base)obj)?.id == null
-                || id != null && ((UML_Base)obj)?.id != null
-                && id.SequenceEqual(((UML_Base)obj).id));
+                this.id == ((UML_Base)obj).id && this.name == ((UML_Base)obj).name;
         }
 
     }
