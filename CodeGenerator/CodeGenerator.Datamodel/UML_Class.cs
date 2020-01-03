@@ -45,7 +45,8 @@ namespace CodeGenerator.Datamodel
 
         public override bool Equals(object obj)
         {
-            return this.name == ((UML_Class)obj).name;
+            return this.name == ((UML_Class)obj).name &&  
+                id.SequenceEqual(((UML_Class)obj).id);
         }
     }
 }

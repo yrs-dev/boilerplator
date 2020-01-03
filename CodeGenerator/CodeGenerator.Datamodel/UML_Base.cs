@@ -31,9 +31,10 @@ namespace CodeGenerator.Datamodel
 
         public override bool Equals(object obj)
         {
-            return obj.GetType() == typeof(UML_Class) || 
-            obj.GetType() == typeof(UML_Interface);
-            //return this.id == ((UML_Base)obj).id;
+            //return obj.GetType() == typeof(UML_Class) || 
+            //obj.GetType() == typeof(UML_Interface);
+            return
+                this.id == ((UML_Base)obj).id && this.name == ((UML_Base)obj).name;
         }
 
     }
