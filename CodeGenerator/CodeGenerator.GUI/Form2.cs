@@ -12,17 +12,21 @@ namespace CodeGenerator.GUI
 {
     public partial class Form2 : Form
     {
-        public Form2()
+        public Form2(Exception ex)
         {
             InitializeComponent();
-            string ErrorName = "ArgumentNullException";
-            string ErrorDescribtion = "Du hast nicht beide Pfade ausgewählt!";
-            string ErrorRestification = "Bitte wähle eine .graphml-Datei und einen Ausgabeort.";
-            ErrorNameLabel.Text = ErrorName;
-            ErrorDescribtionLabel.Text = ErrorDescribtion;
-            ErrorRestificationLabel.Text = ErrorRestification;
+
+            // Nachdem das Form erstellt wird, werden die Labels mit Name und Message
+            // der im Konstruktor angegebenen Exceptionklasse überschrieben.
+            ErrorDescribtionLabel.Text = ex.Message;
+            ErrorNameLabel.Text = ex.ToString();
         }
 
+        /// <summary>
+        /// Wenn Der Ok-Button geklickt wird, wird das Form geschlossen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OkErrorButton_Click(object sender, EventArgs e)
         {
             this.Close();
