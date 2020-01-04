@@ -44,5 +44,17 @@
     <Compile Include="Controller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{aa99e002-7d47-4dc1-9fab-b856d675bb48}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator.GUI\CodeGenerator.GUI.csproj">
+      <Project>{826e1ded-938b-4ee1-8b37-cf082c5482bd}</Project>
+      <Name>CodeGenerator.Datamodel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
