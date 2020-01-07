@@ -10,13 +10,14 @@ namespace CodeGenerator.Controller
 {
     public class Controller : IController
     {
-        public bool IController.StartProcess(string filePath_Model, string filePath_Output)
+        public bool StartProcess(string filePath_Model, string filePath_Output)
         {
+            return true;
             
         }
 
-        public bool checkPermission(string filePath){}
+        public bool checkPermission(string filePath){ return false; }
 
-        public bool exchangeData(){}
+        public bool exchangeData(){ return true; }
     }
 }
