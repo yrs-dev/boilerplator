@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommonInterfaces;
 using Exceptions;
+using CodeGenerator.Controller;
 
 namespace CodeGenerator.GUI
 {
@@ -51,35 +52,41 @@ namespace CodeGenerator.GUI
 
         /// <summary>
         /// Wenn der GenerateButton geklickt wird, werden die beiden ausgewählten Pfade in
-        /// string Variablen gespeichert und mit der Methode startProcess() aufgerufen.
+        /// string Variablen gespeichert, geprüft ob diese ausgewählt wurden und StartProcess() aufgerufen.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void GenerateButton_Click(object sender, EventArgs e)
         {
             string filePath_Model = Path_Model.Text;
-            string filePate_Output = Path_Output.Text;
+            string filePath_Output = Path_Output.Text;
 
-            // Wenn StartProcess false liefert, wird Form2 mit der FileNotFoundException geöffnet
-            if (!StartProcess(filePath_Model, filePate_Output))
+            // Wenn  der Text auf den filePath-Labels sich nicht geändert hat, 
+            // wird Form2 mit der FileNotChoosenException aufgerufen.
+            if (filePath_Model == "Keine Datei ausgewählt."
+                || filePath_Output == "Keinen Ausgabeort ausgewählt.")
             {
                 new Form2(new FileIsNotChoosenException()).ShowDialog();
                 this.Show();
+            }
+            else
+            {
+                StartProcess(filePath_Model, filePath_Output);
             }
                 
         }
 
         /// <summary>
         /// Interface Methode von IController. Startet den Prozess, 
-        /// indem sie dem Controller ein true oder false zurückgibt.
+        /// indem sie die StartProcess()-Methode vom Controller aufruft.
         /// </summary>
         /// <param name="filePath_Model">Dateipfad im Typ string</param>
         /// <param name="filePath_Output">Ausgabepfad im Typ string</param>
-        /// <returns>true, wenn beides ausgewählt wurde. false, wenn nicht.</returns>
+        /// <returns> Rückgabe von controller.Startprocess() </returns>
         public bool StartProcess(string filePath_Model, string filePath_Output)
         {
-            return filePath_Model != "Keine Datei ausgewählt." 
-                && filePath_Output != "Keinen Ausgabeort ausgewählt.";
+            Controller.Controller controller = new Controller.Controller();
+            return controller.StartProcess(filePath_Model, filePath_Output);
         }
     }
 }

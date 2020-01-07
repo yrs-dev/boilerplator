@@ -90,6 +90,10 @@
     <None Include="Resources\error-image-icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator.Controller\CodeGenerator.Controller.csproj">
+      <Project>{aef7b1d1-7d72-4f8a-abc6-9031dd2569c3}</Project>
+      <Name>CodeGenerator.Controller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
       <Project>{aa99e002-7d47-4dc1-9fab-b856d675bb48}</Project>
       <Name>CommonInterfaces</Name>

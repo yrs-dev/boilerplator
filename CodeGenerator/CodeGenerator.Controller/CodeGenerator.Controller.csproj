@@ -45,15 +45,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator.Datamodel\CodeGenerator.Datamodel.csproj">
+      <Project>{a21803e5-c8ea-4d00-ae91-fbc99ac4aac3}</Project>
+      <Name>CodeGenerator.Datamodel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeGenerator.Generator\CodeGenerator.Generator.csproj">
+      <Project>{2a742da7-542e-4ae8-b278-078d2cf61894}</Project>
+      <Name>CodeGenerator.Generator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeGenerator.ReaderUnitTest\CodeGenerator.ReaderUnitTest.csproj">
+      <Project>{1f8f563f-5699-4d47-91df-577c836a6042}</Project>
+      <Name>CodeGenerator.ReaderUnitTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeGenerator.Reader\CodeGenerator.Reader.csproj">
+      <Project>{e3c67eb2-6aa8-44dc-949d-a44a11a84c46}</Project>
+      <Name>CodeGenerator.Reader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
       <Project>{aa99e002-7d47-4dc1-9fab-b856d675bb48}</Project>
       <Name>CommonInterfaces</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CodeGenerator.GUI\CodeGenerator.GUI.csproj">
-      <Project>{826e1ded-938b-4ee1-8b37-cf082c5482bd}</Project>
-      <Name>CodeGenerator.Datamodel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
