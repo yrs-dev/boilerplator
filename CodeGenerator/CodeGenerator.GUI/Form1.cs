@@ -66,8 +66,7 @@ namespace CodeGenerator.GUI
             if (filePath_Model == "Keine Datei ausgewählt."
                 || filePath_Output == "Keinen Ausgabeort ausgewählt.")
             {
-                new Form2(new FileIsNotChoosenException()).ShowDialog();
-                this.Show();
+                CreateNewErrorForm(new FileIsNotChoosenException());
             }
             else
             {
@@ -85,8 +84,31 @@ namespace CodeGenerator.GUI
         /// <returns> Rückgabe von controller.Startprocess() </returns>
         public bool StartProcess(string filePath_Model, string filePath_Output)
         {
-            Controller.Controller controller = new Controller.Controller();
-            return controller.StartProcess(filePath_Model, filePath_Output);
+            try
+            {
+                Controller.Controller controller = new Controller.Controller();
+                controller.StartProcess(filePath_Model, filePath_Output);
+            }
+            catch(Exceptions.DatamodelMissingContentException)
+            {
+                CreateNewErrorForm(new DatamodelMissingContentException("Text"));
+            }
+            catch(Exceptions.DatamodelMissingInformationException)
+            {
+                CreateNewErrorForm(new DatamodelMissingInformationException("Text"));
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Erstellt und Öffnet Neues Error-Fenster, um den Nutzer einen Fehler anzuzeigen.
+        /// </summary>
+        /// <param name="ex">Die Exception die Ausgelöst wurde, um dazugehörigen Namen und Message anzuzeigen</param>
+        public void CreateNewErrorForm(Exception ex)
+        {
+            new Form2(ex).ShowDialog();
+            this.Show();
         }
     }
 }

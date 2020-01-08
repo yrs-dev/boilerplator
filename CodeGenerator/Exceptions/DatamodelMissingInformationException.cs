@@ -4,10 +4,14 @@ namespace Exceptions
 {
     public class DatamodelMissingInformationException : Exception
     {
-        public DatamodelMissingInformationException(string message) : base(message)
-        {
+        public string Text { get; set; }
 
+        public DatamodelMissingInformationException(string message)
+        {
+            Text = message;
         }
 
+        public override string Message => Text;
     }
+
 }
