@@ -33,7 +33,7 @@ namespace CodeGenerator.Generator
         /// <param name="filePath">Created files go here. </param>
         /// <param name="dml">Datamodel object containing information about everything found in the class diagram. </param>
         /// <returns>Nothing.</returns>
-        public bool generateCode(string filePath, dm.Datamodel dml)
+        public bool generateCode()
         {
 
             // Check datamodel
