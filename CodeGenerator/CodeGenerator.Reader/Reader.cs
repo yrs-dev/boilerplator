@@ -37,6 +37,16 @@ namespace CodeGenerator.Reader
 {
     public class Reader : CommonInterfaces.IReader
     {
+        #region Members
+        public string filepath { get; set; }
+        #endregion
+
+        #region Constructor
+        public Reader(string filepath)
+        {
+            this.filepath = filepath;
+        }
+        #endregion
 
         //Main method
         public Datamodel.Datamodel ReadGraphml(string filepath)
@@ -85,14 +95,19 @@ namespace CodeGenerator.Reader
 
         public List<UML_Base> AnalyzeNode (XmlReader reader, string filepath)
         {
-            string id = "";
-            List<UML_Base>baseModelList = new List<UML_Base>();
+        
+            List<string> id = getNodeAttributeValue(filepath);
+            List<UML_Base> baseModelList = getModel(reader,id);
 
+            return baseModelList;
+        }
+
+        List<string> getNodeAttributeValue(string file)
+        {
+            List<string> id = null;
             XmlTextReader xmlReader = null;
 
-            string filepath2 = @"<key for='port' id='d0' yfiles.type='portgraphics'/><key for='port' id='d1' yfiles.type='portgeometry'/><key for='port' id='d2' yfiles.type='portuserdata'/><node id='n0'><UML class=''></UML></node><node id='n1'></node><node id='n2'>klsjfglkjds</node>";
-            XmlParserContext context;
-            context = new XmlParserContext(null, null, "node", XmlSpace.None);
+            XmlParserContext context = new XmlParserContext(null, null, "node", XmlSpace.None);
             xmlReader = new XmlTextReader(filepath, XmlNodeType.Element, context);
 
             while (xmlReader.Read())
@@ -102,37 +117,31 @@ namespace CodeGenerator.Reader
                 {
                     if (xmlReader.Value.Contains('n'))
                     {
-                        id = xmlReader.Value;
-                        UML_Base baseModel = AnalyzeNodeLabel<UML_Base>(reader, id);
-                        baseModelList.Add(baseModel);
+                        id.Add(xmlReader.Value);
                     }
                 }
-                //reader.ReadToDescendant("node");
-                //id = reader.GetAttribute("id");
-                //if (id != null)
-                //{
-                //    UML_Base baseModel = AnalyzeNodeLabel<UML_Base>(reader, id);
-                //    id = null;
-                //    baseModelList.Add(baseModel);
-                //}
             }
-
-            return baseModelList;
+            return id;
         }
 
-        int CountNode(XmlReader reader)
+        List<UML_Base> getModel(XmlReader reader, List<string> id)
         {
-            int nodes = 0;
+            List<UML_Base> baseModels = new List<UML_Base>();
             while (reader.Read())
             {
-                while (reader.MoveToAttribute("node"))
+                if (id != null)
                 {
-                    nodes++;
-                    reader.MoveToNextAttribute();
+                    foreach (var item in id)
+                    {
+                        UML_Base baseModel = AnalyzeNodeLabel<UML_Base>(reader, item);
+                        baseModels.Add(baseModel);
+                    }
                 }
             }
-            return nodes;
+            return baseModels;
         }
+
+   
 
         //public UML_Class AnalyzeNodeForClass (string className)
         //{
@@ -188,6 +197,7 @@ namespace CodeGenerator.Reader
                 string name = null;
                 if (canRead)
                 {
+                    reader.MoveToContent();
                     name = reader.ReadElementContentAsString();
                     if (name.Contains("&lt;&lt;interface&gt;&gt;") || name.Contains("interface") || name.StartsWith("I") && name.Substring(0, 1).ToUpper().Equals(name))
                     {
@@ -385,7 +395,8 @@ namespace CodeGenerator.Reader
 
         public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
          {
-             throw new NotImplementedException();
+            Datamodel.Datamodel datamodel = ReadGraphml(filePath);
+            return datamodel;
          }
 
 

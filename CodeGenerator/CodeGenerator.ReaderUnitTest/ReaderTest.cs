@@ -24,9 +24,9 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            Reader.Reader instanceForDatamodel = new Reader.Reader();
+            Reader.Reader instanceForDatamodel = new Reader.Reader(filepath);
 
-            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader,filepath);
+            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader,"n0");
 
             // Assert
             Assert.Equal(baseModel, expectedInterface);
@@ -42,9 +42,9 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            Reader.Reader instanceForDatamodel = new Reader.Reader();
+            Reader.Reader instanceForDatamodel = new Reader.Reader(filepath);
 
-            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader,filepath);
+            UML_Base baseModel = instanceForDatamodel.AnalyzeNodeLabel<UML_Base>(reader,"n0");
 
             // Assert
             Assert.Equal(baseModel, expectedClass);
@@ -62,7 +62,7 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            Reader.Reader instanceForDatamodel = new Reader.Reader();
+            Reader.Reader instanceForDatamodel = new Reader.Reader(filepath);
             List<UML_Base> baseModelList = instanceForDatamodel.AnalyzeNode(reader, filepath);
 
 
@@ -83,7 +83,7 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            Reader.Reader instanceForDatamodel = new Reader.Reader();
+            Reader.Reader instanceForDatamodel = new Reader.Reader(filepath);
             List<UML_Base> listOfClasses = instanceForDatamodel.AnalyzeNode(reader, filepath);
 
             // Assert
@@ -103,7 +103,7 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            Reader.Reader instanceForClass = new CodeGenerator.Reader.Reader();
+            Reader.Reader instanceForClass = new CodeGenerator.Reader.Reader(filepath);
             UML_Class ClassActual = instanceForClass.AnalyzeNodeLabel<UML_Class>(reader,filepath);
 
             // Assert
@@ -135,7 +135,7 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            Reader.Reader instanceForAttributes = new Reader.Reader();
+            Reader.Reader instanceForAttributes = new Reader.Reader(filepath);
             classAttributes = instanceForAttributes.AnalyzeAttributeLabel(reader);
 
             // Assert
@@ -189,7 +189,7 @@ namespace CodeGenerator.ReaderUnitTest
 
             // Act
             XmlReader reader = new XmlTextReader(filepath);
-            Reader.Reader instanceForMethods = new Reader.Reader();
+            Reader.Reader instanceForMethods = new Reader.Reader(filepath);
             classMethods = instanceForMethods.AnalyzeMethodLabel(reader);
 
             // Assert
