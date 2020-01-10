@@ -57,7 +57,7 @@ namespace CodeGenerator.GeneratorTest
 
             // Create generator object
             gen.Generator gen = new gen.Generator("C:\\Users\\Yannik\\Desktop\\testFolder", dml);
-            gen.generateCode("C:\\Users\\Yannik\\Desktop\\testFolder", dml);
+            gen.generateCode();
 
         }
 
