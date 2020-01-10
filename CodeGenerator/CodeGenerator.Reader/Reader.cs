@@ -393,9 +393,9 @@ namespace CodeGenerator.Reader
             return listParamters;
         }
 
-        public CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath)
+        public CodeGenerator.Datamodel.Datamodel getDatamodel()
          {
-            Datamodel.Datamodel datamodel = ReadGraphml(filePath);
+            Datamodel.Datamodel datamodel = ReadGraphml(this.filepath);
             return datamodel;
          }
 

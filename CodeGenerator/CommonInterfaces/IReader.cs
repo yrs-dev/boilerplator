@@ -9,6 +9,6 @@ namespace CommonInterfaces
 {
     public interface IReader
     {
-        CodeGenerator.Datamodel.Datamodel getDatamodel(string filePath);
+        CodeGenerator.Datamodel.Datamodel getDatamodel();
     }
 }
