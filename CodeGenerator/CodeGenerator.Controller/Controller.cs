@@ -26,10 +26,10 @@ namespace CodeGenerator.Controller
         {
             if (checkPermission(filePath_Model))
             {
-                Reader.Reader reader = new Reader.Reader();
-                Datamodel.Datamodel datamodel = reader.ReadGraphml(filePath_Model);
+                Reader.Reader reader = new Reader.Reader(filePath_Model);
+                Datamodel.Datamodel datamodel = reader.getDatamodel();
                 Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
-                generator.generateCode(filePath_Output, datamodel);
+                generator.generateCode();
                 return true;
             }
             else

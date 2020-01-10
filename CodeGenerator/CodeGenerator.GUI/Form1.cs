@@ -89,13 +89,13 @@ namespace CodeGenerator.GUI
                 Controller.Controller controller = new Controller.Controller();
                 controller.StartProcess(filePath_Model, filePath_Output);
             }
-            catch(Exceptions.DatamodelMissingContentException)
+            catch(Exceptions.DatamodelMissingContentException e)
             {
-                CreateNewErrorForm(new DatamodelMissingContentException("Text"));
+                CreateNewErrorForm(new DatamodelMissingContentException(e.Message));
             }
-            catch(Exceptions.DatamodelMissingInformationException)
+            catch(Exceptions.DatamodelMissingInformationException e)
             {
-                CreateNewErrorForm(new DatamodelMissingInformationException("Text"));
+                CreateNewErrorForm(new DatamodelMissingInformationException(e.Message));
             }
 
             return true;

@@ -35,6 +35,8 @@
             this.GenerateButton = new System.Windows.Forms.Button();
             this.openFileDialogFile = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialogOutput = new System.Windows.Forms.FolderBrowserDialog();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.SuspendLayout();
             // 
             // SelectFileButton
@@ -100,17 +102,35 @@
             // 
             // openFileDialogFile
             // 
-            this.openFileDialogFile.FileName = "openFileDialogDatei";
             this.openFileDialogFile.Filter = "GRAPHML FILES (*.graphml)|*.graphml";
             this.openFileDialogFile.Title = "Select a \".graphml\" file";
             // 
-            // GUI
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(145, 249);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox1.Size = new System.Drawing.Size(144, 22);
+            this.textBox1.TabIndex = 5;
+            this.textBox1.Text = "dfkajklsadvhgaszdjsalnhsfzdzsjdk";
+            // 
+            // hScrollBar1
+            // 
+            this.hScrollBar1.Location = new System.Drawing.Point(416, 290);
+            this.hScrollBar1.Name = "hScrollBar1";
+            this.hScrollBar1.Size = new System.Drawing.Size(0, 0);
+            this.hScrollBar1.TabIndex = 6;
+            // 
+            // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(576, 434);
+            this.Controls.Add(this.hScrollBar1);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.GenerateButton);
             this.Controls.Add(this.Path_Output);
             this.Controls.Add(this.SelectOutputButton);
@@ -120,10 +140,11 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximumSize = new System.Drawing.Size(594, 481);
             this.MinimumSize = new System.Drawing.Size(594, 481);
-            this.Name = "GUI";
+            this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "CodeGenerator";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -136,6 +157,8 @@
         private System.Windows.Forms.Button GenerateButton;
         private System.Windows.Forms.OpenFileDialog openFileDialogFile;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogOutput;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.HScrollBar hScrollBar1;
     }
 }
 
