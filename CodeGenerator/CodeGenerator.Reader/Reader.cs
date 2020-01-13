@@ -61,8 +61,8 @@ namespace CodeGenerator.Reader
                 while (reader.Read())
                 {
                     datamodel = new Datamodel.Datamodel();
-                    List<UML_Base> baseModel = AnalyzeNode(reader, filepath);
-                    foreach (UML_Base item in baseModel)
+                    List<UML_Base> baseModel = AnalyzeNode(reader);
+                    foreach (var item in baseModel)
                     {
                         if (baseModel.GetType() == typeof(UML_Class) && baseModel != null)
                         {
@@ -93,22 +93,39 @@ namespace CodeGenerator.Reader
             }
         }
 
-        public List<UML_Base> AnalyzeNode (XmlReader reader, string filepath)
+        public List<UML_Base> AnalyzeNode(XmlReader reader)
         {
-        
-            List<string> id = getNodeAttributeValue(filepath);
-            List<UML_Base> baseModelList = getModel(reader,id);
+            //List<string> id = getNodeAttributeValue(this.filepath);
+
+            XDocument doc = XDocument.Load(this.filepath);
+            XNamespace ns = doc.Root.GetDefaultNamespace();
+            XNamespace yns = "http://www.yworks.com/xml/graphml";
+
+            List<Key> idList = doc.Descendants(ns + "node").Select(x => new Key()
+            {
+                id = (string)x.Attribute("id"),
+            }).ToList();
+
+            List<string> id = doc.Descendants(ns + "node").Select(x => x.Value
+            ).ToList();
+
+            List<Key> nameList = doc.Descendants(yns + "NodeLabel").Select(x => new Key()
+            {
+                name = (string)x.Value,
+            }).ToList();
+
+            Dictionary<string, Key> dict = idList.GroupBy(x => x.id, y => y)
+                .ToDictionary(x => x.Key, y => y.FirstOrDefault());
+
+            List<UML_Base> baseModelList = getModel(reader, dict.Select(p => p.Value.id));
 
             return baseModelList;
         }
 
-        List<string> getNodeAttributeValue(string file)
+        public List<string> getNodeAttributeValue(string filepath)
         {
-            List<string> id = null;
-            XmlTextReader xmlReader = null;
-
-            XmlParserContext context = new XmlParserContext(null, null, "node", XmlSpace.None);
-            xmlReader = new XmlTextReader(filepath, XmlNodeType.Element, context);
+            List<string> id = new List<string>();
+            XmlReader xmlReader = XmlReader.Create(filepath);
 
             while (xmlReader.Read())
             {
@@ -124,60 +141,28 @@ namespace CodeGenerator.Reader
             return id;
         }
 
-        List<UML_Base> getModel(XmlReader reader, List<string> id)
+        List<UML_Base> getModel(XmlReader reader, IEnumerable<string> id)//where T : UML_Base
         {
             List<UML_Base> baseModels = new List<UML_Base>();
             while (reader.Read())
             {
-                if (id != null)
+                foreach(var item in id)
                 {
-                    foreach (var item in id)
+                    var baseModel = AnalyzeNodeLabel<UML_Base>(reader, item);
+                    if (baseModel.GetType() == typeof(UML_Class))
                     {
-                        UML_Base baseModel = AnalyzeNodeLabel<UML_Base>(reader, item);
+                        //baseModels.Add((T)Convert.ChangeType(baseModel, typeof(UML_Class)));
+                        baseModels.Add(baseModel);
+                    }
+                    if (baseModel.GetType() == typeof(UML_Interface))
+                    {
+                        //baseModels.Add((T)Convert.ChangeType(baseModel, typeof(UML_Interface)));
                         baseModels.Add(baseModel);
                     }
                 }
             }
             return baseModels;
         }
-
-   
-
-        //public UML_Class AnalyzeNodeForClass (string className)
-        //{
-        //    XmlReader xmlReader = new XmlTextReader(filepath);
-        //    UML_Class classModel = new UML_Class();
-        //    classModel.name = className;
-
-        //    bool canReadNode = xmlReader.Name == "node\"" && xmlReader.NodeType == XmlNodeType.Element;
-
-        //    while (xmlReader.Read())
-        //    {
-        //        if (canReadNode)
-        //        {
-        //            classModel.id = xmlReader.GetAttribute("id");
-        //        }
-        //    }
-
-        //    return classModel;
-        //}
-        //UML_Interface AnalyzeNodeForInterface(string interfaceName, string filepath)
-        //{
-        //    UML_Interface interfaceModel = new UML_Interface();
-        //    XmlReader xmlReader = new XmlTextReader(filepath);
-        //    interfaceModel.name = interfaceName;
-
-        //    bool canReadNode = xmlReader.Name.Contains("node") && xmlReader.NodeType == XmlNodeType.Element;
-            
-        //    while (xmlReader.Read())
-        //    {
-        //        if (canReadNode)
-        //        {
-        //            interfaceModel.id = xmlReader.GetAttribute("id");
-        //        }
-        //    }
-        //    return interfaceModel;
-        //}
 
         bool checkInheritance(XmlReader reader)
         {
@@ -186,6 +171,14 @@ namespace CodeGenerator.Reader
 
         string getInheritance(XmlReader reader, UML_Base model)
         {
+            XDocument doc = XDocument.Load(this.filepath);
+            XNamespace ns = doc.Root.GetDefaultNamespace();
+            List<Key> inheritance = doc.Descendants(ns + "edge").Select(x => new Key()
+            {
+                source = (string)x.Attribute("source"),
+                target = (string)x.Attribute("target")
+            }).ToList();
+
             return null;
         }
 
@@ -198,7 +191,7 @@ namespace CodeGenerator.Reader
                 if (canRead)
                 {
                     reader.MoveToContent();
-                    name = reader.ReadElementContentAsString();
+                    name = reader.Value;
                     if (name.Contains("&lt;&lt;interface&gt;&gt;") || name.Contains("interface") || name.StartsWith("I") && name.Substring(0, 1).ToUpper().Equals(name))
                     {
                         UML_Interface interfaceModel = new UML_Interface(name, nodeId);
@@ -255,21 +248,21 @@ namespace CodeGenerator.Reader
                 string current = kvp[1].Trim();
 
                 // Provisionally checking accesmodifier
-                if (readerValueArray.Any(s => s.StartsWith("+")) == true)
+                if (readerValueArray.Any(s => s.StartsWith("+")) == true && kvp[1] != null)
                 {
                     attribute.accessModifier = modifierPublic;
                     attribute.name = kvp[0].Trim('+', ' ');
                     attribute.type = current;
                 }
 
-                if (readerValueArray.Any(s => s.StartsWith("-")) == true)
+                if (readerValueArray.Any(s => s.StartsWith("-")) == true && kvp[1] != null)
                 {
                     attribute.accessModifier = modifierPrivate;
                     attribute.name = kvp[0].Trim('-', ' ');
                     attribute.type = current;
                 }
 
-                if (readerValueArray.Any(s => s.StartsWith("#")) == true)
+                if (readerValueArray.Any(s => s.StartsWith("#")) == true && kvp[1] != null)
                 {
                     attribute.accessModifier = modifierProtected;
                     attribute.name = kvp[0].Trim('#', ' ');
