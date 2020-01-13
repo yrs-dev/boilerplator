@@ -61,7 +61,7 @@
             this.Path_Model.Name = "Path_Model";
             this.Path_Model.Size = new System.Drawing.Size(300, 20);
             this.Path_Model.TabIndex = 1;
-            this.Path_Model.Text = "Keine Datei ausgewählt.";
+            this.Path_Model.Text = "Keine Datei ausgewählt!";
             // 
             // SelectOutputButton
             // 
@@ -85,7 +85,7 @@
             this.Path_Output.Name = "Path_Output";
             this.Path_Output.Size = new System.Drawing.Size(300, 20);
             this.Path_Output.TabIndex = 3;
-            this.Path_Output.Text = "Keinen Ausgabeort ausgewählt.";
+            this.Path_Output.Text = "Keinen Ausgabeort ausgewählt!";
             // 
             // GenerateButton
             // 
@@ -107,6 +107,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.Location = new System.Drawing.Point(145, 249);
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;

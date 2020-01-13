@@ -7,13 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CommonInterfaces;
 using Exceptions;
 using CodeGenerator.Controller;
 
 namespace CodeGenerator.GUI
 {
-    public partial class Form1 : Form, CommonInterfaces.IController
+    public partial class Form1 : Form
     {
         public Form1()
         {
@@ -52,7 +51,7 @@ namespace CodeGenerator.GUI
 
         /// <summary>
         /// Wenn der GenerateButton geklickt wird, werden die beiden ausgewählten Pfade in
-        /// string Variablen gespeichert, geprüft ob diese ausgewählt wurden und StartProcess() aufgerufen.
+        /// string Variablen gespeichert, geprüft ob diese ausgewählt wurden und CreateController() aufgerufen.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -60,45 +59,49 @@ namespace CodeGenerator.GUI
         {
             string filePath_Model = Path_Model.Text;
             string filePath_Output = Path_Output.Text;
-
-            // Wenn  der Text auf den filePath-Labels sich nicht geändert hat, 
-            // wird Form2 mit der FileNotChoosenException aufgerufen.
-            if (filePath_Model == "Keine Datei ausgewählt."
-                || filePath_Output == "Keinen Ausgabeort ausgewählt.")
+            string noModel = "Keine Datei ausgewählt!";
+            string noOutput = "Keinen Ausgabeort ausgewählt!";
+            
+            // Wenn Datei nicht ausgewählt und Ausgabeort ausgewählt wurde, wird Dateilabel rot und Ausgabeortlabel schwarz.
+            if (filePath_Model == noModel && filePath_Output != noOutput)
             {
-                CreateNewErrorForm(new FileIsNotChoosenException());
+                Path_Model.ForeColor = Color.Red;
+                Path_Output.ForeColor = DefaultForeColor;
             }
+
+            // Wenn Datei ausgewählt und Ausgabeort nicht ausgewählt wurde, wird Dateilabel schwarz und Ausgabeortlabel rot.
+            else if (filePath_Output == noOutput && filePath_Model != noModel)
+            {
+                Path_Output.ForeColor = Color.Red;
+                Path_Model.ForeColor = DefaultForeColor;
+            }
+
+            // Wenn beide nicht ausgewählt wurden, werden beide Labels rot.
+            else if (filePath_Output == noOutput && filePath_Model == noModel)
+            {
+                Path_Model.ForeColor = Color.Red;
+                Path_Output.ForeColor = Color.Red;
+            }
+
+            // Letzte Möglichkeit: Beide ausgewählt. Beide werden schwarz und CreateController wird ausgeführt
             else
             {
-                StartProcess(filePath_Model, filePath_Output);
+                Path_Model.ForeColor = DefaultForeColor;
+                Path_Output.ForeColor = DefaultForeColor;
+                CreateController(filePath_Model, filePath_Output);
             }
                 
         }
 
         /// <summary>
-        /// Interface Methode von IController. Startet den Prozess, 
-        /// indem sie die StartProcess()-Methode vom Controller aufruft.
+        /// Erstellt neues Controller-Objekt und ruft dessen StartProcess-Methode auf.
         /// </summary>
         /// <param name="filePath_Model">Dateipfad im Typ string</param>
         /// <param name="filePath_Output">Ausgabepfad im Typ string</param>
-        /// <returns> Rückgabe von controller.Startprocess() </returns>
-        public bool StartProcess(string filePath_Model, string filePath_Output)
+        public void CreateController(string filePath_Model, string filePath_Output)
         {
-            try
-            {
-                Controller.Controller controller = new Controller.Controller();
-                controller.StartProcess(filePath_Model, filePath_Output);
-            }
-            catch(Exceptions.DatamodelMissingContentException e)
-            {
-                CreateNewErrorForm(new DatamodelMissingContentException(e.Message));
-            }
-            catch(Exceptions.DatamodelMissingInformationException e)
-            {
-                CreateNewErrorForm(new DatamodelMissingInformationException(e.Message));
-            }
-
-            return true;
+            Controller.Controller controller = new Controller.Controller();
+            controller.StartProcess(filePath_Model, filePath_Output);
         }
 
         /// <summary>
