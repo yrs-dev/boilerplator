@@ -61,31 +61,40 @@ namespace CodeGenerator.GUI
             string filePath_Output = Path_Output.Text;
             string noModel = "Keine Datei ausgewählt!";
             string noOutput = "Keinen Ausgabeort ausgewählt!";
-            
-            // Wenn Datei nicht ausgewählt und Ausgabeort ausgewählt wurde, wird Dateilabel rot und Ausgabeortlabel schwarz.
+
+            // Wenn Datei nicht ausgewählt und Ausgabeort ausgewählt wurde, wird Dateilabel rot,
+            // Ausgabeortlabel schwarz und bei Path_Model-Label ErrorProvider ausgelöst.
             if (filePath_Model == noModel && filePath_Output != noOutput)
             {
+                errorProvider1.SetError(Path_Model,"Bitte wählen Sie eine \".graphml\"- Datei aus!");
                 Path_Model.ForeColor = Color.Red;
                 Path_Output.ForeColor = DefaultForeColor;
             }
 
-            // Wenn Datei ausgewählt und Ausgabeort nicht ausgewählt wurde, wird Dateilabel schwarz und Ausgabeortlabel rot.
+            // Wenn Datei ausgewählt und Ausgabeort nicht ausgewählt wurde, wird Dateilabel schwarz,
+            // Ausgabeortlabel rot und bei Path_Output-Label ErrorProvider ausgelöst.
             else if (filePath_Output == noOutput && filePath_Model != noModel)
             {
+                errorProvider1.SetError(Path_Output, "Bitte wählen Sie einen Ausgabeort!");
                 Path_Output.ForeColor = Color.Red;
                 Path_Model.ForeColor = DefaultForeColor;
             }
 
-            // Wenn beide nicht ausgewählt wurden, werden beide Labels rot.
+            // Wenn beide nicht ausgewählt wurden, werden beide Labels rot und ErrorProvider ausgelöst.
             else if (filePath_Output == noOutput && filePath_Model == noModel)
             {
+                errorProvider1.SetError(Path_Model, "Bitte wählen Sie eine \".graphml\"- Datei aus!");
+                errorProvider1.SetError(Path_Output, "Bitte wählen Sie einen Ausgabeort!");
                 Path_Model.ForeColor = Color.Red;
                 Path_Output.ForeColor = Color.Red;
             }
 
-            // Letzte Möglichkeit: Beide ausgewählt. Beide werden schwarz und CreateController wird ausgeführt
+            // Letzte Möglichkeit: Beide ausgewählt. Beide werden schwarz, ErrorProvider null gesetzt.
+            // und CreateController wird ausgeführt
             else
             {
+                errorProvider1.SetError(Path_Model, null);
+                errorProvider1.SetError(Path_Output, null);
                 Path_Model.ForeColor = DefaultForeColor;
                 Path_Output.ForeColor = DefaultForeColor;
                 CreateController(filePath_Model, filePath_Output);
@@ -104,17 +113,10 @@ namespace CodeGenerator.GUI
             Controller.Controller controller = new Controller.Controller();
             Exception ex = controller.StartProcess(filePath_Model, filePath_Output);
             if (ex != null)
-                CreateNewErrorForm(ex);
-        }
-
-        /// <summary>
-        /// Erstellt und Öffnet Neues Error-Fenster, um den Nutzer einen Fehler anzuzeigen.
-        /// </summary>
-        /// <param name="ex">Die Exception die Ausgelöst wurde, um dazugehörigen Namen und Message anzuzeigen</param>
-        public void CreateNewErrorForm(Exception ex)
-        {
-            new Form2(ex).ShowDialog();
-            this.Show();
+            {
+                new Form2(ex).ShowDialog();
+                this.Show();
+            }
         }
     }
 }
