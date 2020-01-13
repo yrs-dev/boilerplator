@@ -95,13 +95,16 @@ namespace CodeGenerator.GUI
 
         /// <summary>
         /// Erstellt neues Controller-Objekt und ruft dessen StartProcess-Methode auf.
+        /// Wenn die Methode eine Exception zurückgibt, wird CreateNewErrorForm() aufgerufen.
         /// </summary>
         /// <param name="filePath_Model">Dateipfad im Typ string</param>
         /// <param name="filePath_Output">Ausgabepfad im Typ string</param>
         public void CreateController(string filePath_Model, string filePath_Output)
         {
             Controller.Controller controller = new Controller.Controller();
-            controller.StartProcess(filePath_Model, filePath_Output);
+            Exception ex = controller.StartProcess(filePath_Model, filePath_Output);
+            if (ex != null)
+                CreateNewErrorForm(ex);
         }
 
         /// <summary>
