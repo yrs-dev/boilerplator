@@ -10,6 +10,7 @@ using CodeGenerator.Generator;
 using System.IO;
 using System.Security.Principal;
 using System.Security.AccessControl;
+using Exceptions;
 
 namespace CodeGenerator.Controller
 {
@@ -22,19 +23,30 @@ namespace CodeGenerator.Controller
         /// <param name="filePath_Model">Graphml-Dateipfad als string vom GUI</param>
         /// <param name="filePath_Output">Ausgabepfad als string vom GUI</param>
         /// <returns>true, wenn Berechtigung erlaubt ist</returns>
-        public bool StartProcess(string filePath_Model, string filePath_Output)
+        public Exception StartProcess(string filePath_Model, string filePath_Output)
         {
-            if (checkPermission(filePath_Model))
+            if (checkPermission(filePath_Output))
             {
-                Reader.Reader reader = new Reader.Reader(filePath_Model);
-                Datamodel.Datamodel datamodel = reader.getDatamodel();
-                Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
-                generator.generateCode();
-                return true;
+                try
+                {
+                    Reader.Reader reader = new Reader.Reader(filePath_Model);
+                    Datamodel.Datamodel datamodel = reader.getDatamodel();
+                    Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
+                    generator.generateCode();
+                    return null;
+                }
+                catch (Exceptions.DatamodelMissingContentException e)
+                {
+                    return e;
+                }
+                catch (Exceptions.DatamodelMissingInformationException e)
+                {
+                    return e;
+                }
             }
             else
             {
-                return false;
+                return new AccessDeniedException("No Permission to Create Files in the choosen Folder. Please check the Property Settings!");
             }
         }
 
