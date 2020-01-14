@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Exceptions;
 using CodeGenerator.Controller;
+using System.IO;
 
 namespace CodeGenerator.GUI
 {
@@ -121,6 +122,14 @@ namespace CodeGenerator.GUI
                 new Form2(ex).ShowDialog();
                 this.Show();
             }
+        }
+
+        private void HilfeAnzeigenLassenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string currentDir = Environment.CurrentDirectory;
+            int index = currentDir.IndexOf(@"\CodeGenerator");
+            string FilePath = currentDir.Substring(0, index) + @"\README.md";
+            System.IO.File.OpenRead(FilePath);
         }
     }
 }

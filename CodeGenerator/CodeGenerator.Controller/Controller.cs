@@ -17,8 +17,8 @@ namespace CodeGenerator.Controller
     public class Controller : IController
     {
         /// <summary>
-        /// Interface-Methode StartProcess(). Wenn Berechtigung auf Graphml-Datei erlaubt ist, erstellt Sie Reader
-        /// und Generator, ruft deren Interface-Methoden auf und gibt Pfade und Datamodell weiter.
+        /// Interface-Methode StartProcess(). Wenn Berechtigung auf Graphml-Datei erlaubt ist, 
+        /// ruft sie ExchangeData() auf. Fängt Exceptions auf und gibt sie der GUI zurück.
         /// </summary>
         /// <param name="filePath_Model">Graphml-Dateipfad als string vom GUI</param>
         /// <param name="filePath_Output">Ausgabepfad als string vom GUI</param>
@@ -48,6 +48,11 @@ namespace CodeGenerator.Controller
             }
         }
 
+        /// <summary>
+        /// Erstellt Reader und Generator und führt deren Interface-Methoden aus.
+        /// </summary>
+        /// <param name="filePath_Model">Gibt dem Reader den Dateipfad mit.</param>
+        /// <param name="filePath_Output">Gibt dem Generator den Ausgabepfad mit.</param>
         public void ExchangeData(string filePath_Model, string filePath_Output)
         {
             Reader.Reader reader = new Reader.Reader(filePath_Model);
