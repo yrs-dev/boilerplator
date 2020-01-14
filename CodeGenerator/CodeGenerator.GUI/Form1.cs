@@ -7,13 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CommonInterfaces;
 using Exceptions;
 using CodeGenerator.Controller;
 
 namespace CodeGenerator.GUI
 {
-    public partial class Form1 : Form, CommonInterfaces.IController
+    public partial class Form1 : Form
     {
         public Form1()
         {
@@ -31,7 +30,7 @@ namespace CodeGenerator.GUI
         {
             if(openFileDialogFile.ShowDialog()==DialogResult.OK)
             {
-                Path_Model.Text = openFileDialogFile.FileName;
+                PathModelLabel.Text = openFileDialogFile.FileName;
             }
         }
 
@@ -46,69 +45,82 @@ namespace CodeGenerator.GUI
         {
             if(folderBrowserDialogOutput.ShowDialog() == DialogResult.OK)
             {
-                Path_Output.Text = folderBrowserDialogOutput.SelectedPath;
+                PathOutputLabel.Text = folderBrowserDialogOutput.SelectedPath;
             }
         }
 
         /// <summary>
         /// Wenn der GenerateButton geklickt wird, werden die beiden ausgewählten Pfade in
-        /// string Variablen gespeichert, geprüft ob diese ausgewählt wurden und StartProcess() aufgerufen.
+        /// string Variablen gespeichert, geprüft ob diese ausgewählt wurden und CreateController() aufgerufen.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void GenerateButton_Click(object sender, EventArgs e)
         {
-            string filePath_Model = Path_Model.Text;
-            string filePath_Output = Path_Output.Text;
+            string filePath_Model = PathModelLabel.Text;
+            string filePath_Output = PathOutputLabel.Text;
+            string noModel = "Keine Datei ausgewählt!";
+            string noOutput = "Keinen Ausgabeort ausgewählt!";
 
-            // Wenn  der Text auf den filePath-Labels sich nicht geändert hat, 
-            // wird Form2 mit der FileNotChoosenException aufgerufen.
-            if (filePath_Model == "Keine Datei ausgewählt."
-                || filePath_Output == "Keinen Ausgabeort ausgewählt.")
+            // Wenn Datei nicht ausgewählt und Ausgabeort ausgewählt wurde, wird FilePictureBox rot und
+            // OutputPictureBox default. Bei FilePictureBox wird ErrorProvider ausgelöst und 
+            // bei OutputPictureBox null gesetzt.
+            if (filePath_Model == noModel && filePath_Output != noOutput)
             {
-                CreateNewErrorForm(new FileIsNotChoosenException());
+                errorProvider1.SetError(FilePictureBox,"Bitte wählen Sie eine \".graphml\"- Datei!");
+                errorProvider1.SetError(OutputPictureBox, null);
+                FilePictureBox.BackColor = Color.Red;
+                OutputPictureBox.BackColor = DefaultBackColor;
             }
+
+            // Wenn Datei ausgewählt und Ausgabeort nicht ausgewählt wurde, wird FilePictureBox default und
+            // OutputPictureBox rot. Bei OutputPictureBox wird ErrorProvider ausgelöst
+            // und bei FilePictureBox null gesetzt.
+            else if (filePath_Output == noOutput && filePath_Model != noModel)
+            {
+                errorProvider1.SetError(OutputPictureBox, "Bitte wählen Sie einen Ausgabeort!");
+                errorProvider1.SetError(FilePictureBox, null);
+                OutputPictureBox.BackColor = Color.Red;
+                FilePictureBox.BackColor = DefaultBackColor;
+            }
+
+            // Wenn beide nicht ausgewählt wurden, werden bei beiden PictureBoxes rot und ErrorProvider ausgelöst.
+            else if (filePath_Output == noOutput && filePath_Model == noModel)
+            {
+                errorProvider1.SetError(FilePictureBox, "Bitte wählen Sie eine \".graphml\"- Datei!");
+                errorProvider1.SetError(OutputPictureBox, "Bitte wählen Sie einen Ausgabeort!");
+                OutputPictureBox.BackColor = Color.Red;
+                FilePictureBox.BackColor = Color.Red;
+            }
+
+            // Letzte Möglichkeit: Beide ausgewählt. Beide werden default, ErrorProvider werden null gesetzt
+            // und CreateController wird ausgeführt.
             else
             {
-                StartProcess(filePath_Model, filePath_Output);
+                errorProvider1.SetError(FilePictureBox, null);
+                errorProvider1.SetError(OutputPictureBox, null);
+                FilePictureBox.BackColor = DefaultBackColor;
+                OutputPictureBox.BackColor = DefaultBackColor;
+                CreateController(filePath_Model, filePath_Output);
             }
                 
         }
 
         /// <summary>
-        /// Interface Methode von IController. Startet den Prozess, 
-        /// indem sie die StartProcess()-Methode vom Controller aufruft.
+        /// Erstellt neues Controller-Objekt und ruft dessen StartProcess-Methode auf.
+        /// Wenn die Methode eine Exception zurückgibt, wird CreateNewErrorForm() aufgerufen.
         /// </summary>
         /// <param name="filePath_Model">Dateipfad im Typ string</param>
         /// <param name="filePath_Output">Ausgabepfad im Typ string</param>
-        /// <returns> Rückgabe von controller.Startprocess() </returns>
-        public bool StartProcess(string filePath_Model, string filePath_Output)
+        public void CreateController(string filePath_Model, string filePath_Output)
         {
-            try
+            Controller.Controller controller = new Controller.Controller();
+            Exception ex = controller.StartProcess(filePath_Model, filePath_Output);
+            if (ex != null)
             {
-                Controller.Controller controller = new Controller.Controller();
-                controller.StartProcess(filePath_Model, filePath_Output);
+                new Form2(ex).ShowDialog();
+                this.Show();
             }
-            catch(Exceptions.DatamodelMissingContentException e)
-            {
-                CreateNewErrorForm(new DatamodelMissingContentException(e.Message));
-            }
-            catch(Exceptions.DatamodelMissingInformationException e)
-            {
-                CreateNewErrorForm(new DatamodelMissingInformationException(e.Message));
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Erstellt und Öffnet Neues Error-Fenster, um den Nutzer einen Fehler anzuzeigen.
-        /// </summary>
-        /// <param name="ex">Die Exception die Ausgelöst wurde, um dazugehörigen Namen und Message anzuzeigen</param>
-        public void CreateNewErrorForm(Exception ex)
-        {
-            new Form2(ex).ShowDialog();
-            this.Show();
         }
     }
 }

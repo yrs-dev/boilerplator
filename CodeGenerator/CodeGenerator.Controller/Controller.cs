@@ -18,11 +18,11 @@ namespace CodeGenerator.Controller
     {
         /// <summary>
         /// Interface-Methode StartProcess(). Wenn Berechtigung auf Graphml-Datei erlaubt ist, erstellt Sie Reader
-        /// und Generator, ruft deren Main-Methoden auf und gibt Pfade und Datamodell weiter.
+        /// und Generator, ruft deren Interface-Methoden auf und gibt Pfade und Datamodell weiter.
         /// </summary>
         /// <param name="filePath_Model">Graphml-Dateipfad als string vom GUI</param>
         /// <param name="filePath_Output">Ausgabepfad als string vom GUI</param>
-        /// <returns>true, wenn Berechtigung erlaubt ist</returns>
+        /// <returns>Exception, die abgefangen wird oder bei keiner angegebenen Exception, null</returns>
         public Exception StartProcess(string filePath_Model, string filePath_Output)
         {
             if (checkPermission(filePath_Output))

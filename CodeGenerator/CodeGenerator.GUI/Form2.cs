@@ -16,10 +16,9 @@ namespace CodeGenerator.GUI
         {
             InitializeComponent();
 
-            // Nachdem das Form erstellt wird, werden die Labels mit Name und Message
+            // Nachdem das Form erstellt wird, wird das Label mit Name und Message
             // der im Konstruktor angegebenen Exceptionklasse überschrieben.
-            ErrorDescribtionLabel.Text = ex.Message;
-            ErrorNameLabel.Text = ex.ToString();
+            ErrorDescribtionLabel.Text = ex.ToString();
         }
 
         /// <summary>
