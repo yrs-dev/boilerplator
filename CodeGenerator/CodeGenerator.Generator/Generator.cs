@@ -154,12 +154,6 @@ namespace CodeGenerator.Generator
                 // Check access modifier, name, attributes, methods
                 checkBase(someClass);
 
-                // parents
-                if (someClass.parents == null)
-                {
-                    throw new DMMIException($"'parents' of class {someClass} is null!");
-                }
-
                 // implementedInterfaces
                 if(someClass.implementedInterfaces == null)
                 {
