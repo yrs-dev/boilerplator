@@ -30,7 +30,7 @@ namespace CodeGenerator.GUI
         {
             if(openFileDialogFile.ShowDialog()==DialogResult.OK)
             {
-                Path_Model.Text = openFileDialogFile.FileName;
+                PathModelLabel.Text = openFileDialogFile.FileName;
             }
         }
 
@@ -45,7 +45,7 @@ namespace CodeGenerator.GUI
         {
             if(folderBrowserDialogOutput.ShowDialog() == DialogResult.OK)
             {
-                Path_Output.Text = folderBrowserDialogOutput.SelectedPath;
+                PathOutputLabel.Text = folderBrowserDialogOutput.SelectedPath;
             }
         }
 
@@ -57,46 +57,50 @@ namespace CodeGenerator.GUI
         /// <param name="e"></param>
         private void GenerateButton_Click(object sender, EventArgs e)
         {
-            string filePath_Model = Path_Model.Text;
-            string filePath_Output = Path_Output.Text;
+            string filePath_Model = PathModelLabel.Text;
+            string filePath_Output = PathOutputLabel.Text;
             string noModel = "Keine Datei ausgewählt!";
             string noOutput = "Keinen Ausgabeort ausgewählt!";
 
-            // Wenn Datei nicht ausgewählt und Ausgabeort ausgewählt wurde, wird Dateilabel rot,
-            // Ausgabeortlabel schwarz und bei Path_Model-Label ErrorProvider ausgelöst.
+            // Wenn Datei nicht ausgewählt und Ausgabeort ausgewählt wurde, wird FilePictureBox rot und
+            // OutputPictureBox default. Bei FilePictureBox wird ErrorProvider ausgelöst und 
+            // bei OutputPictureBox null gesetzt.
             if (filePath_Model == noModel && filePath_Output != noOutput)
             {
-                errorProvider1.SetError(Path_Model,"Bitte wählen Sie eine \".graphml\"- Datei aus!");
-                Path_Model.ForeColor = Color.Red;
-                Path_Output.ForeColor = DefaultForeColor;
+                errorProvider1.SetError(FilePictureBox,"Bitte wählen Sie eine \".graphml\"- Datei!");
+                errorProvider1.SetError(OutputPictureBox, null);
+                FilePictureBox.BackColor = Color.Red;
+                OutputPictureBox.BackColor = DefaultBackColor;
             }
 
-            // Wenn Datei ausgewählt und Ausgabeort nicht ausgewählt wurde, wird Dateilabel schwarz,
-            // Ausgabeortlabel rot und bei Path_Output-Label ErrorProvider ausgelöst.
+            // Wenn Datei ausgewählt und Ausgabeort nicht ausgewählt wurde, wird FilePictureBox default und
+            // OutputPictureBox rot. Bei OutputPictureBox wird ErrorProvider ausgelöst
+            // und bei FilePictureBox null gesetzt.
             else if (filePath_Output == noOutput && filePath_Model != noModel)
             {
-                errorProvider1.SetError(Path_Output, "Bitte wählen Sie einen Ausgabeort!");
-                Path_Output.ForeColor = Color.Red;
-                Path_Model.ForeColor = DefaultForeColor;
+                errorProvider1.SetError(OutputPictureBox, "Bitte wählen Sie einen Ausgabeort!");
+                errorProvider1.SetError(FilePictureBox, null);
+                OutputPictureBox.BackColor = Color.Red;
+                FilePictureBox.BackColor = DefaultBackColor;
             }
 
-            // Wenn beide nicht ausgewählt wurden, werden beide Labels rot und ErrorProvider ausgelöst.
+            // Wenn beide nicht ausgewählt wurden, werden bei beiden PictureBoxes rot und ErrorProvider ausgelöst.
             else if (filePath_Output == noOutput && filePath_Model == noModel)
             {
-                errorProvider1.SetError(Path_Model, "Bitte wählen Sie eine \".graphml\"- Datei aus!");
-                errorProvider1.SetError(Path_Output, "Bitte wählen Sie einen Ausgabeort!");
-                Path_Model.ForeColor = Color.Red;
-                Path_Output.ForeColor = Color.Red;
+                errorProvider1.SetError(FilePictureBox, "Bitte wählen Sie eine \".graphml\"- Datei!");
+                errorProvider1.SetError(OutputPictureBox, "Bitte wählen Sie einen Ausgabeort!");
+                OutputPictureBox.BackColor = Color.Red;
+                FilePictureBox.BackColor = Color.Red;
             }
 
-            // Letzte Möglichkeit: Beide ausgewählt. Beide werden schwarz, ErrorProvider null gesetzt.
-            // und CreateController wird ausgeführt
+            // Letzte Möglichkeit: Beide ausgewählt. Beide werden default, ErrorProvider werden null gesetzt
+            // und CreateController wird ausgeführt.
             else
             {
-                errorProvider1.SetError(Path_Model, null);
-                errorProvider1.SetError(Path_Output, null);
-                Path_Model.ForeColor = DefaultForeColor;
-                Path_Output.ForeColor = DefaultForeColor;
+                errorProvider1.SetError(FilePictureBox, null);
+                errorProvider1.SetError(OutputPictureBox, null);
+                FilePictureBox.BackColor = DefaultBackColor;
+                OutputPictureBox.BackColor = DefaultBackColor;
                 CreateController(filePath_Model, filePath_Output);
             }
                 

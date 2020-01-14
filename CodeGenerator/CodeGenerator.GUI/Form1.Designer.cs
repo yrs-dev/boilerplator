@@ -30,14 +30,18 @@
         {
             this.components = new System.ComponentModel.Container();
             this.SelectFileButton = new System.Windows.Forms.Button();
-            this.Path_Model = new System.Windows.Forms.Label();
+            this.PathModelLabel = new System.Windows.Forms.Label();
             this.SelectOutputButton = new System.Windows.Forms.Button();
-            this.Path_Output = new System.Windows.Forms.Label();
+            this.PathOutputLabel = new System.Windows.Forms.Label();
             this.GenerateButton = new System.Windows.Forms.Button();
             this.openFileDialogFile = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialogOutput = new System.Windows.Forms.FolderBrowserDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.FilePictureBox = new System.Windows.Forms.PictureBox();
+            this.OutputPictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FilePictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // SelectFileButton
@@ -56,15 +60,15 @@
             this.SelectFileButton.UseVisualStyleBackColor = false;
             this.SelectFileButton.Click += new System.EventHandler(this.SelectFileButton_Click);
             // 
-            // Path_Model
+            // PathModelLabel
             // 
-            this.Path_Model.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.Path_Model.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Path_Model.Location = new System.Drawing.Point(231, 55);
-            this.Path_Model.Name = "Path_Model";
-            this.Path_Model.Size = new System.Drawing.Size(301, 20);
-            this.Path_Model.TabIndex = 1;
-            this.Path_Model.Text = "Keine Datei ausgewählt!";
+            this.PathModelLabel.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.PathModelLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.PathModelLabel.Location = new System.Drawing.Point(233, 54);
+            this.PathModelLabel.Name = "PathModelLabel";
+            this.PathModelLabel.Size = new System.Drawing.Size(300, 20);
+            this.PathModelLabel.TabIndex = 1;
+            this.PathModelLabel.Text = "Keine Datei ausgewählt!";
             // 
             // SelectOutputButton
             // 
@@ -82,14 +86,14 @@
             this.SelectOutputButton.UseVisualStyleBackColor = false;
             this.SelectOutputButton.Click += new System.EventHandler(this.SelectOutputButton_Click);
             // 
-            // Path_Output
+            // PathOutputLabel
             // 
-            this.Path_Output.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.Path_Output.Location = new System.Drawing.Point(231, 95);
-            this.Path_Output.Name = "Path_Output";
-            this.Path_Output.Size = new System.Drawing.Size(301, 20);
-            this.Path_Output.TabIndex = 3;
-            this.Path_Output.Text = "Keinen Ausgabeort ausgewählt!";
+            this.PathOutputLabel.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.PathOutputLabel.Location = new System.Drawing.Point(233, 96);
+            this.PathOutputLabel.Name = "PathOutputLabel";
+            this.PathOutputLabel.Size = new System.Drawing.Size(300, 20);
+            this.PathOutputLabel.TabIndex = 3;
+            this.PathOutputLabel.Text = "Keinen Ausgabeort ausgewählt!";
             // 
             // GenerateButton
             // 
@@ -114,19 +118,41 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // FilePictureBox
+            // 
+            this.FilePictureBox.BackColor = System.Drawing.SystemColors.Control;
+            this.FilePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FilePictureBox.Location = new System.Drawing.Point(231, 52);
+            this.FilePictureBox.Name = "FilePictureBox";
+            this.FilePictureBox.Size = new System.Drawing.Size(305, 24);
+            this.FilePictureBox.TabIndex = 5;
+            this.FilePictureBox.TabStop = false;
+            // 
+            // OutputPictureBox
+            // 
+            this.OutputPictureBox.BackColor = System.Drawing.SystemColors.Control;
+            this.OutputPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.OutputPictureBox.Location = new System.Drawing.Point(231, 93);
+            this.OutputPictureBox.Name = "OutputPictureBox";
+            this.OutputPictureBox.Size = new System.Drawing.Size(305, 24);
+            this.OutputPictureBox.TabIndex = 6;
+            this.OutputPictureBox.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(576, 434);
             this.Controls.Add(this.GenerateButton);
-            this.Controls.Add(this.Path_Output);
+            this.Controls.Add(this.PathOutputLabel);
             this.Controls.Add(this.SelectOutputButton);
-            this.Controls.Add(this.Path_Model);
+            this.Controls.Add(this.PathModelLabel);
             this.Controls.Add(this.SelectFileButton);
+            this.Controls.Add(this.FilePictureBox);
+            this.Controls.Add(this.OutputPictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximumSize = new System.Drawing.Size(594, 481);
@@ -135,6 +161,8 @@
             this.ShowIcon = false;
             this.Text = "CodeGenerator";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FilePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -142,13 +170,15 @@
         #endregion
 
         private System.Windows.Forms.Button SelectFileButton;
-        private System.Windows.Forms.Label Path_Model;
+        private System.Windows.Forms.Label PathModelLabel;
         private System.Windows.Forms.Button SelectOutputButton;
-        private System.Windows.Forms.Label Path_Output;
+        private System.Windows.Forms.Label PathOutputLabel;
         private System.Windows.Forms.Button GenerateButton;
         private System.Windows.Forms.OpenFileDialog openFileDialogFile;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogOutput;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.PictureBox FilePictureBox;
+        private System.Windows.Forms.PictureBox OutputPictureBox;
     }
 }
 
