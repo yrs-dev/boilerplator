@@ -25,14 +25,12 @@ namespace CodeGenerator.Controller
         /// <returns>Exception, die abgefangen wird oder bei keiner angegebenen Exception, null</returns>
         public Exception StartProcess(string filePath_Model, string filePath_Output)
         {
-            if (checkPermission(filePath_Output))
+            if (CheckPermission(filePath_Output))
             {
                 try
                 {
-                    Reader.Reader reader = new Reader.Reader(filePath_Model);
-                    Datamodel.Datamodel datamodel = reader.getDatamodel();
-                    Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
-                    generator.generateCode();
+                    ExchangeData(filePath_Model, filePath_Output);
+                    
                     return null;
                 }
                 catch (Exceptions.DatamodelMissingContentException e)
@@ -50,7 +48,15 @@ namespace CodeGenerator.Controller
             }
         }
 
-        public bool checkPermission(string filePath)
+        public void ExchangeData(string filePath_Model, string filePath_Output)
+        {
+            Reader.Reader reader = new Reader.Reader(filePath_Model);
+            Datamodel.Datamodel datamodel = reader.getDatamodel();
+            Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
+            generator.generateCode();
+        }
+
+        public bool CheckPermission(string filePath)
         {
             //WindowsIdentity principal = WindowsIdentity.GetCurrent();
             //if (File.Exists(filePath))
