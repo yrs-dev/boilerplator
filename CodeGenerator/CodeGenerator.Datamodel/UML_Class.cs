@@ -10,7 +10,7 @@ namespace CodeGenerator.Datamodel
     {
 
         // Relations
-        public List<UML_Class> parents { get; set; }
+        public UML_Class parent { get; set; }
         public List<UML_Interface> implementedInterfaces { get; set; }
 
 
@@ -18,7 +18,7 @@ namespace CodeGenerator.Datamodel
         public UML_Class()
         {
             // Empty collections
-            this.parents = new List<UML_Class>();
+            this.parent = new UML_Class();
             this.implementedInterfaces = new List<UML_Interface>();
         }
 
@@ -28,18 +28,18 @@ namespace CodeGenerator.Datamodel
             this.id = id;
 
             // Empty collections
-            this.parents = new List<UML_Class>();
+            this.parent = new UML_Class();
             this.implementedInterfaces = new List<UML_Interface>();
 
         }
 
-        public UML_Class(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, List<UML_Class> parents, List<UML_Interface> implementedInterfaces)
+        public UML_Class(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, UML_Class parent, List<UML_Interface> implementedInterfaces)
         {
             this.accessModifier = accessModifier;
             this.name = className;
             this.umlAttributes = umlAttributes;
             this.umlMethods = umlMethods;
-            this.parents = parents;
+            this.parent = parent;
             this.implementedInterfaces = implementedInterfaces;
         }
 
