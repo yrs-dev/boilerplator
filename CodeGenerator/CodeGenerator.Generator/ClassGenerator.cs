@@ -42,19 +42,16 @@ namespace CodeGenerator.Generator
         {
 
             // Append colon
-            bool aditionalElementsPresent = umlClass.parents.Count > 0 || umlClass.implementedInterfaces.Count > 0;
+            bool aditionalElementsPresent = umlClass != null || umlClass.implementedInterfaces.Count > 0;
             if (aditionalElementsPresent)
             {
                 sb.Append(" : ");
             }
 
             // Append parents
-            if (umlClass.parents.Count > 0)
+            if (umlClass != null)
             {
-                foreach (UML_Class parentClass in umlClass.parents)
-                {
-                    sb.Append($"{parentClass.name}, ");
-                }
+                sb.Append(umlClass.name);
             }
 
             // Append interfaces

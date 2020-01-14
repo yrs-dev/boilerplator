@@ -17,8 +17,7 @@ namespace CodeGenerator.Datamodel
         // Constructors
         public UML_Class()
         {
-            // Empty collections
-            this.parent = new UML_Class();
+            // Empty collection
             this.implementedInterfaces = new List<UML_Interface>();
         }
 
@@ -27,13 +26,12 @@ namespace CodeGenerator.Datamodel
             this.name = name;
             this.id = id;
 
-            // Empty collections
-            this.parent = new UML_Class();
+            // Empty collection
             this.implementedInterfaces = new List<UML_Interface>();
 
         }
 
-        public UML_Class(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, UML_Class parent, List<UML_Interface> implementedInterfaces)
+        public UML_Class(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, List<UML_Interface> implementedInterfaces, UML_Class parent = null)
         {
             this.accessModifier = accessModifier;
             this.name = className;
