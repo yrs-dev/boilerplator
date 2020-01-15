@@ -83,6 +83,7 @@
             this.PathModelLabel.Size = new System.Drawing.Size(350, 20);
             this.PathModelLabel.TabIndex = 1;
             this.PathModelLabel.Text = "Keine Datei ausgewählt!";
+            this.PathModelLabel.TextChanged += new System.EventHandler(this.PathModelLabel_TextChanged);
             this.PathModelLabel.MouseLeave += new System.EventHandler(this.PathModelLabel_MouseLeave);
             this.PathModelLabel.MouseHover += new System.EventHandler(this.PathModelLabel_MouseHover);
             // 
@@ -112,6 +113,7 @@
             this.PathOutputLabel.Size = new System.Drawing.Size(350, 20);
             this.PathOutputLabel.TabIndex = 3;
             this.PathOutputLabel.Text = "Keinen Ausgabeort ausgewählt!";
+            this.PathOutputLabel.TextChanged += new System.EventHandler(this.PathOutputLabel_TextChanged);
             this.PathOutputLabel.MouseLeave += new System.EventHandler(this.PathOutputLabel_MouseLeave);
             this.PathOutputLabel.MouseHover += new System.EventHandler(this.PathOutputLabel_MouseHover);
             // 

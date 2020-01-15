@@ -8,7 +8,6 @@ using CodeGenerator.Reader;
 using CodeGenerator.Datamodel;
 using CodeGenerator.Generator;
 using System.IO;
-using System.Security.Principal;
 using System.Security.AccessControl;
 using Exceptions;
 
@@ -54,7 +53,7 @@ namespace CodeGenerator.Controller
             Reader.Reader reader = new Reader.Reader(filePath_Model);
             Datamodel.Datamodel datamodel = reader.getDatamodel();
             Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
-            generator.generateCode();
+            bool finish = generator.generateCode();
         }
 
         /// <summary>

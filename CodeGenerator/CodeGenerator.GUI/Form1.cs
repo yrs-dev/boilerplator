@@ -20,6 +20,7 @@ namespace CodeGenerator.GUI
             InitializeComponent();
         }
 
+        #region Clicks
         /// <summary>
         /// Wenn der SelectFileButton geklickt wird, wird die openFileDialog-Komponente aufgerufen, 
         /// um die Modellierdatei auszuwählen. Wenn ein Dateipfad ausgewählt wurde, wird 
@@ -63,26 +64,20 @@ namespace CodeGenerator.GUI
             string noModel = "Keine Datei ausgewählt!";
             string noOutput = "Keinen Ausgabeort ausgewählt!";
 
-            // Wenn Datei nicht ausgewählt und Ausgabeort ausgewählt wurde, wird FilePictureBox rot und
-            // OutputPictureBox default. Bei FilePictureBox wird ErrorProvider ausgelöst und 
-            // bei OutputPictureBox null gesetzt.
+            // Wenn Datei nicht ausgewählt und Ausgabeort ausgewählt wurde, wird 
+            // FilePictureBox rot und der ErrorProvider ausgelöst.
             if (filePath_Model == noModel && filePath_Output != noOutput)
             {
                 errorProvider1.SetError(FilePictureBox,"Bitte wählen Sie eine \".graphml\"- Datei!");
-                errorProvider1.SetError(OutputPictureBox, null);
                 FilePictureBox.BackColor = Color.Red;
-                OutputPictureBox.BackColor = DefaultBackColor;
             }
 
-            // Wenn Datei ausgewählt und Ausgabeort nicht ausgewählt wurde, wird FilePictureBox default und
-            // OutputPictureBox rot. Bei OutputPictureBox wird ErrorProvider ausgelöst
-            // und bei FilePictureBox null gesetzt.
+            // Wenn Datei ausgewählt und Ausgabeort nicht ausgewählt wurde, wird
+            // OutputPictureBox rot und der ErrorProvider ausgelöst
             else if (filePath_Output == noOutput && filePath_Model != noModel)
             {
                 errorProvider1.SetError(OutputPictureBox, "Bitte wählen Sie einen Ausgabeort!");
-                errorProvider1.SetError(FilePictureBox, null);
                 OutputPictureBox.BackColor = Color.Red;
-                FilePictureBox.BackColor = DefaultBackColor;
             }
 
             // Wenn beide nicht ausgewählt wurden, werden bei beiden PictureBoxes rot und ErrorProvider ausgelöst.
@@ -94,19 +89,29 @@ namespace CodeGenerator.GUI
                 FilePictureBox.BackColor = Color.Red;
             }
 
-            // Letzte Möglichkeit: Beide ausgewählt. Beide werden default, ErrorProvider werden null gesetzt,
-            // StatusLabel überschrieben und CreateController wird ausgeführt.
+            // Letzte Möglichkeit: Beide ausgewählt. Im Status Label wird der Text ersetzt und
+            // CreateController wird ausgeführt.
             else
             {
-                errorProvider1.SetError(FilePictureBox, null);
-                errorProvider1.SetError(OutputPictureBox, null);
-                FilePictureBox.BackColor = DefaultBackColor;
-                OutputPictureBox.BackColor = DefaultBackColor;
                 toolStripStatusLabel1.Text = "Dateien werden erstellt...";
                 CreateController(filePath_Model, filePath_Output);
             }
                 
         }
+
+        /// <summary>
+        /// Wenn der Hilfe Anzeigen Button im Menu-Strip angeklickt wird, wird automatisch die Readme-Datei geöffnet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HilfeAnzeigenLassenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string currentDir = Environment.CurrentDirectory;
+            int index = currentDir.IndexOf(@"\CodeGenerator");
+            string FilePath = currentDir.Substring(0, index) + @"\README.md";
+            System.IO.File.OpenRead(FilePath);
+        }
+        #endregion
 
         /// <summary>
         /// Erstellt neues Controller-Objekt und ruft dessen StartProcess-Methode auf.
@@ -124,21 +129,8 @@ namespace CodeGenerator.GUI
                 this.Show();
             }
         }
-
-
-        /// <summary>
-        /// Wenn der Hilfe Anzeigen Button im Menu-Strip angeklickt wird, wird automatisch die Readme-Datei geöffnet.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HilfeAnzeigenLassenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string currentDir = Environment.CurrentDirectory;
-            int index = currentDir.IndexOf(@"\CodeGenerator");
-            string FilePath = currentDir.Substring(0, index) + @"\README.md";
-            System.IO.File.OpenRead(FilePath);
-        }
-
+        
+        #region MouseHover
         /// <summary>
         /// Wenn die Maus über den SelectFileButton geht, wird im StatusLabel der Text angezeigt.
         /// </summary>
@@ -203,6 +195,9 @@ namespace CodeGenerator.GUI
             toolStripStatusLabel1.Text = "Sie benötigen Hilfe? Wir helfen gern!";
         }
 
+        #endregion
+
+        #region MouseLeave
         /// <summary>
         /// Wenn die Maus den SelectFileButton verlässt, wird der Text im StatusLabel gelöscht.
         /// </summary>
@@ -262,5 +257,31 @@ namespace CodeGenerator.GUI
         {
             toolStripStatusLabel1.Text = "";
         }
+        #endregion
+
+        #region TextChanged
+        /// <summary>
+        /// Wenn sich der Text im PathModelLabel ändert wird der ErrorProvider und die PictureBox zurückgesetzt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PathModelLabel_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider1.SetError(FilePictureBox, null);
+            FilePictureBox.BackColor = DefaultBackColor;
+
+        }
+
+        /// <summary>
+        /// /// Wenn sich der Text im PathOutputLabel ändert wird der ErrorProvider und die PictureBox zurückgesetzt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PathOutputLabel_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider1.SetError(OutputPictureBox, null);
+            OutputPictureBox.BackColor = DefaultBackColor;
+        }
+        #endregion
     }
 }
