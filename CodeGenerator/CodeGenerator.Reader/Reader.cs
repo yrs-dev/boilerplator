@@ -203,8 +203,8 @@ namespace CodeGenerator.Reader
                 var sourceId = inheritance.Attribute("source").Value;
                 var targetId = inheritance.Attribute("target").Value;
 
-                UML_Class classParent = (UML_Class)baseModelList.Find(x => x.id == targetId);
-                classParent.parent = (UML_Class)baseModelList.Find(x => x.id == sourceId);
+                UML_Class classParent = (UML_Class)baseModelList.Find(x => x.id == sourceId);
+                classParent.parent = (UML_Class)baseModelList.Find(x => x.id == targetId);
             }
         }
 
@@ -317,7 +317,7 @@ namespace CodeGenerator.Reader
             List<UML_Attribute> listAttributes = new List<UML_Attribute>();
             List<string> readerValueArray = new List<string>();
             // Splitting the string input at whitespaces
-            readerValueArray = System.Text.RegularExpressions.Regex.Split(attr, @"\s{2,}").ToList<string>();
+            readerValueArray = System.Text.RegularExpressions.Regex.Split(attr, "\\n").ToList<string>();
 
             // Looping through all splitted string-elements
             foreach (string stringValue in readerValueArray)
@@ -330,32 +330,27 @@ namespace CodeGenerator.Reader
                 string current = kvp[1].Trim();
 
                 // Provisionally checking accesmodifier
-                if (readerValueArray.Any(s => s.StartsWith("+")) == true && kvp[1] != null)
+                if (stringValue.StartsWith("+") == true && kvp[1] != null)
                 {
                     attribute.accessModifier = modifierPublic;
                     attribute.name = kvp[0].Trim('+', ' ');
                     attribute.type = current;
                 }
 
-                if (readerValueArray.Any(s => s.StartsWith("-")) == true && kvp[1] != null)
+                if (stringValue.StartsWith("-") == true && kvp[1] != null)
                 {
                     attribute.accessModifier = modifierPrivate;
                     attribute.name = kvp[0].Trim('-', ' ');
                     attribute.type = current;
                 }
 
-                if (readerValueArray.Any(s => s.StartsWith("#")) == true && kvp[1] != null)
+                if (stringValue.StartsWith("#") == true && kvp[1] != null)
                 {
                     attribute.accessModifier = modifierProtected;
                     attribute.name = kvp[0].Trim('#', ' ');
                     attribute.type = current;
                 }
-                else
-                {
-                    attribute.accessModifier = null;
-                    attribute.name = kvp[0];
-                    attribute.type = kvp[1];
-                }
+              
                 listAttributes.Add(attribute);
             }
 
@@ -381,7 +376,7 @@ namespace CodeGenerator.Reader
 
             List<UML_Method> listMethods = new List<UML_Method>();
             // Splitting the string input at whitespaces
-            List<string> readerValueList = System.Text.RegularExpressions.Regex.Split(methods, @"\s{2,}").ToList<string>();
+            List<string> readerValueList = System.Text.RegularExpressions.Regex.Split(methods, "\\n").ToList<string>();
 
             // Looping through all splitted string-elements
             foreach (string stringValue in readerValueList)
@@ -391,7 +386,7 @@ namespace CodeGenerator.Reader
                 var tmp = stringValue.Split('(');
 
                 // Provisionally checking accessmodifier
-                if (readerValueList.Any(s => s.StartsWith("+")) == true)
+                if (stringValue.StartsWith("+") == true)
                 {
                     method.accessModifier = modifierPublic;
                     method.name = tmp[0].Trim('+');
@@ -402,7 +397,7 @@ namespace CodeGenerator.Reader
                     method.parameters = getParameter(stringValue);
                 }
 
-                if (readerValueList.Any(s => s.StartsWith("-")) == true)
+                if (stringValue.StartsWith("-") == true)
                 {
                     method.accessModifier = modifierPrivate;
                     method.name = tmp[0].Trim('-');
@@ -413,7 +408,7 @@ namespace CodeGenerator.Reader
                     method.parameters = getParameter(stringValue);
                 }
 
-                if (readerValueList.Any(s => s.StartsWith("#")) == true)
+                if (stringValue.StartsWith("#") == true)
                 {
                     method.accessModifier = modifierProtected;
                     method.name = tmp[0].Trim('#');
@@ -461,10 +456,6 @@ namespace CodeGenerator.Reader
                 listParamters.Add(parameter);
             }
 
-            else
-            {
-                listParamters = null;
-            }
             return listParamters;
         }
 
