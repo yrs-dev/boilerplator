@@ -48,10 +48,12 @@
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeAnzeigenLassenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // SelectFileButton
@@ -69,6 +71,8 @@
             this.SelectFileButton.Text = "Datei auswählen...";
             this.SelectFileButton.UseVisualStyleBackColor = false;
             this.SelectFileButton.Click += new System.EventHandler(this.SelectFileButton_Click);
+            this.SelectFileButton.MouseLeave += new System.EventHandler(this.SelectFileButton_MouseLeave);
+            this.SelectFileButton.MouseHover += new System.EventHandler(this.SelectFileButton_MouseHover);
             // 
             // PathModelLabel
             // 
@@ -79,6 +83,8 @@
             this.PathModelLabel.Size = new System.Drawing.Size(350, 20);
             this.PathModelLabel.TabIndex = 1;
             this.PathModelLabel.Text = "Keine Datei ausgewählt!";
+            this.PathModelLabel.MouseLeave += new System.EventHandler(this.PathModelLabel_MouseLeave);
+            this.PathModelLabel.MouseHover += new System.EventHandler(this.PathModelLabel_MouseHover);
             // 
             // SelectOutputButton
             // 
@@ -95,6 +101,8 @@
             this.SelectOutputButton.Text = "Ausgabeort auswählen...";
             this.SelectOutputButton.UseVisualStyleBackColor = false;
             this.SelectOutputButton.Click += new System.EventHandler(this.SelectOutputButton_Click);
+            this.SelectOutputButton.MouseLeave += new System.EventHandler(this.SelectOutputButton_MouseLeave);
+            this.SelectOutputButton.MouseHover += new System.EventHandler(this.SelectOutputButton_MouseHover);
             // 
             // PathOutputLabel
             // 
@@ -104,6 +112,8 @@
             this.PathOutputLabel.Size = new System.Drawing.Size(350, 20);
             this.PathOutputLabel.TabIndex = 3;
             this.PathOutputLabel.Text = "Keinen Ausgabeort ausgewählt!";
+            this.PathOutputLabel.MouseLeave += new System.EventHandler(this.PathOutputLabel_MouseLeave);
+            this.PathOutputLabel.MouseHover += new System.EventHandler(this.PathOutputLabel_MouseHover);
             // 
             // GenerateButton
             // 
@@ -118,6 +128,8 @@
             this.GenerateButton.Text = "Generieren";
             this.GenerateButton.UseVisualStyleBackColor = false;
             this.GenerateButton.Click += new System.EventHandler(this.GenerateButton_Click);
+            this.GenerateButton.MouseLeave += new System.EventHandler(this.GenerateButton_MouseLeave);
+            this.GenerateButton.MouseHover += new System.EventHandler(this.GenerateButton_MouseHover);
             // 
             // openFileDialogFile
             // 
@@ -159,7 +171,7 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.LightBlue;
+            this.panel2.BackColor = System.Drawing.Color.Turquoise;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Location = new System.Drawing.Point(215, 51);
             this.panel2.Name = "panel2";
@@ -168,7 +180,7 @@
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.DarkTurquoise;
+            this.panel3.BackColor = System.Drawing.Color.LightBlue;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Location = new System.Drawing.Point(21, 88);
             this.panel3.Name = "panel3";
@@ -209,6 +221,8 @@
             this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
             this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.hilfeToolStripMenuItem.Text = "Hilfe";
+            this.hilfeToolStripMenuItem.MouseLeave += new System.EventHandler(this.HilfeToolStripMenuItem_MouseLeave);
+            this.hilfeToolStripMenuItem.MouseHover += new System.EventHandler(this.HilfeToolStripMenuItem_MouseHover);
             // 
             // hilfeAnzeigenLassenToolStripMenuItem
             // 
@@ -221,12 +235,20 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.AutoSize = false;
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 431);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(602, 22);
             this.statusStrip1.TabIndex = 11;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 16);
             // 
             // Form1
             // 
@@ -262,6 +284,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -288,6 +312,7 @@
         private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hilfeAnzeigenLassenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

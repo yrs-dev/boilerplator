@@ -94,14 +94,15 @@ namespace CodeGenerator.GUI
                 FilePictureBox.BackColor = Color.Red;
             }
 
-            // Letzte Möglichkeit: Beide ausgewählt. Beide werden default, ErrorProvider werden null gesetzt
-            // und CreateController wird ausgeführt.
+            // Letzte Möglichkeit: Beide ausgewählt. Beide werden default, ErrorProvider werden null gesetzt,
+            // StatusLabel überschrieben und CreateController wird ausgeführt.
             else
             {
                 errorProvider1.SetError(FilePictureBox, null);
                 errorProvider1.SetError(OutputPictureBox, null);
                 FilePictureBox.BackColor = DefaultBackColor;
                 OutputPictureBox.BackColor = DefaultBackColor;
+                toolStripStatusLabel1.Text = "Dateien werden erstellt...";
                 CreateController(filePath_Model, filePath_Output);
             }
                 
@@ -124,12 +125,142 @@ namespace CodeGenerator.GUI
             }
         }
 
+
+        /// <summary>
+        /// Wenn der Hilfe Anzeigen Button im Menu-Strip angeklickt wird, wird automatisch die Readme-Datei geöffnet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HilfeAnzeigenLassenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string currentDir = Environment.CurrentDirectory;
             int index = currentDir.IndexOf(@"\CodeGenerator");
             string FilePath = currentDir.Substring(0, index) + @"\README.md";
             System.IO.File.OpenRead(FilePath);
+        }
+
+        /// <summary>
+        /// Wenn die Maus über den SelectFileButton geht, wird im StatusLabel der Text angezeigt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectFileButton_MouseHover(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Klicken Sie hier, um ein Diagramm, aus ihrem lokalen Speicher hochzuladen.";
+        }
+
+        /// <summary>
+        /// Wenn die Maus über den SelectOutputButton geht, wird im StatusLabel der Text angezeigt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectOutputButton_MouseHover(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Klicken Sie hier, um einen Speicherort, der zu generierenden Dateien auszuwählen.";
+        }
+
+        /// <summary>
+        /// Wenn die Maus über das PathModelLabel geht und eine Datei ausgewählt wurde, 
+        /// wird im StatusLabel der Text angezeigt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PathModelLabel_MouseHover(object sender, EventArgs e)
+        {
+            if (PathModelLabel.Text != "Keine Datei ausgewählt!")
+                toolStripStatusLabel1.Text = "Hier steht der Pfad der Datei, welche Sie hochgeladen haben.";
+        }
+
+        /// <summary>
+        /// Wenn die Maus über das PathOutputLabel geht und ein Ausgabeort ausgewählt wurde, 
+        /// wird im StatusLabel der Text angezeigt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PathOutputLabel_MouseHover(object sender, EventArgs e)
+        {
+            if (PathOutputLabel.Text != "Keinen Ausgabeort ausgewählt!")
+                toolStripStatusLabel1.Text = "Hier steht der Pfad des Speicherortes, welchen Sie ausgewählt haben.";
+        }
+
+        /// <summary>
+        /// Wenn die Maus über den GenerateButton geht, wird im StatusLabel der Text angezeigt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GenerateButton_MouseHover(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Klicken Sie hier, um aus dem Diagramm den Code generieren zu lassen.";
+        }
+
+        /// <summary>
+        /// Wenn die Maus über das HilfeStripMenu geht, wird im StatusLabel der Text angezeigt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HilfeToolStripMenuItem_MouseHover(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Sie benötigen Hilfe? Wir helfen gern!";
+        }
+
+        /// <summary>
+        /// Wenn die Maus den SelectFileButton verlässt, wird der Text im StatusLabel gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectFileButton_MouseLeave(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "";
+        }
+
+        /// <summary>
+        /// Wenn die Maus den SelectOutputButton verlässt, wird der Text im StatusLabel gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectOutputButton_MouseLeave(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "";
+        }
+
+        /// <summary>
+        /// Wenn die Maus das PathModelLabel verlässt, wird der Text im StatusLabel gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PathModelLabel_MouseLeave(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "";
+        }
+
+        /// <summary>
+        /// Wenn die Maus das PathOutputLabel verlässt, wird der Text im StatusLabel gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PathOutputLabel_MouseLeave(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "";
+        }
+
+        /// <summary>
+        /// Wenn die Maus den GeneratButton verlässt, wird der Text im StatusLabel gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GenerateButton_MouseLeave(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "";
+        }
+
+        /// <summary>
+        /// Wenn die Maus das HilfeStripMenu verlässt, wird der Text im StatusLabel gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HilfeToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "";
         }
     }
 }
