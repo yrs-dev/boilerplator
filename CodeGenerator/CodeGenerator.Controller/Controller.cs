@@ -32,9 +32,18 @@ namespace CodeGenerator.Controller
 
                     return null;
                 }
-                catch (Exception e)
+                catch(DatamodelMissingContentException e)
                 {
                     return e;
+                }
+                catch(DatamodelMissingInformationException e)
+                {
+                    return e;
+                }
+                // Wenn eine andere Exception ausgelöst wird, wird eine neue GeneralException zurückgegeben.
+                catch (Exception)
+                {
+                    return new GeneralException();
                 }
             }
             else

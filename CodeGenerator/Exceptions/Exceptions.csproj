@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DatamodelMissingContentException.cs" />
     <Compile Include="DatamodelMissingInformationException.cs" />
+    <Compile Include="GeneralException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
