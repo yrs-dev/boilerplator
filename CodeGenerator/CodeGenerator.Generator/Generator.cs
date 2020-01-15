@@ -30,8 +30,6 @@ namespace CodeGenerator.Generator
         /// <summary>
         /// Writes ".cs" files to the specified file path according to the passed Datamodel.
         /// </summary>
-        /// <param name="filePath">Created files go here. </param>
-        /// <param name="dml">Datamodel object containing information about everything found in the class diagram. </param>
         /// <returns>Nothing.</returns>
         public bool generateCode()
         {
