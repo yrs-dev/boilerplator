@@ -161,26 +161,26 @@ namespace CodeGenerator.GUI
 
         /// <summary>
         /// Wenn die Maus über das PathModelLabel geht und eine Datei ausgewählt wurde, 
-        /// wird im StatusLabel der Text angezeigt.
+        /// wird im StatusLabel der Pafad angezeigt.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void PathModelLabel_MouseHover(object sender, EventArgs e)
         {
             if (PathModelLabel.Text != "Keine Datei ausgewählt!")
-                toolStripStatusLabel1.Text = "Hier steht der Pfad der Datei, welche Sie hochgeladen haben.";
+                toolStripStatusLabel1.Text = PathModelLabel.Text;
         }
 
         /// <summary>
         /// Wenn die Maus über das PathOutputLabel geht und ein Ausgabeort ausgewählt wurde, 
-        /// wird im StatusLabel der Text angezeigt.
+        /// wird im StatusLabel der Pfad angezeigt.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void PathOutputLabel_MouseHover(object sender, EventArgs e)
         {
             if (PathOutputLabel.Text != "Keinen Ausgabeort ausgewählt!")
-                toolStripStatusLabel1.Text = "Hier steht der Pfad des Speicherortes, welchen Sie ausgewählt haben.";
+                toolStripStatusLabel1.Text = PathOutputLabel.Text;
         }
 
         /// <summary>
