@@ -41,31 +41,33 @@ namespace CodeGenerator.Generator
         private void writeBeginning_appendElements(StringBuilder sb, UML_Class umlClass)
         {
 
+            // Determine presence of parent / implemented interfaces
+            bool parentPresent = umlClass.parent != null;
+            bool implementedInterfacesPresent = umlClass.implementedInterfaces.Count > 0;
+            bool aditionalElementsPresent = parentPresent || implementedInterfacesPresent;
+
             // Append colon
-            bool aditionalElementsPresent = umlClass != null || umlClass.implementedInterfaces.Count > 0;
             if (aditionalElementsPresent)
             {
                 sb.Append(" : ");
             }
 
             // Append parents
-            if (umlClass != null)
+            if (parentPresent)
             {
-                sb.Append(umlClass.name);
+                sb.Append(umlClass.parent.name);
+                if (implementedInterfacesPresent) sb.Append(", ");
             }
 
             // Append interfaces
-            if (umlClass.implementedInterfaces.Count > 0)
+            if (implementedInterfacesPresent)
             {
                 foreach (UML_Interface implementedInterface in umlClass.implementedInterfaces)
                 {
                     sb.Append($"{implementedInterface.name}, ");
                 }
-            }
 
-            // Delete last comma
-            if (aditionalElementsPresent)
-            {
+                // Delete last comma
                 sb.Length -= 2;
             }
         }
