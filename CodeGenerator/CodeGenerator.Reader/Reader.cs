@@ -61,27 +61,30 @@ namespace CodeGenerator.Reader
                 while (reader.Read())
                 {
                     datamodel = new Datamodel.Datamodel();
-                    List<UML_Base> baseModel = AnalyzeNode(reader);
+                    List<UML_Base> baseModel = AnalyzeNode();
                     foreach (var item in baseModel)
                     {
-                        if (baseModel.GetType() == typeof(UML_Class) && baseModel != null)
+                        if (item.GetType() == typeof(UML_Class) && baseModel != null)
                         {
-                            UML_Class classModel = new UML_Class(item.name, item.id)
-                            {
-                                umlAttributes = AnalyzeAttributeLabel(reader),
-                                umlMethods = AnalyzeMethodLabel(reader)
-                            };
-                            datamodel.umlClasses.Add(classModel);
+                            //UML_Class classModel = new UML_Class(item.name, item.id)
+                            //{
+                            //    umlAttributes = AnalyzeAttributeLabel(reader),
+                            //    umlMethods = AnalyzeMethodLabel(reader)
+                            //};
+                            UML_Class classObj = (UML_Class)item;
+                            datamodel.umlClasses.Add((UML_Class)item);
+                            //datamodel.umlClasses.Add(classModel);
                         }
 
                         if (baseModel.GetType() == typeof(UML_Interface) && baseModel != null)
                         {
-                            UML_Interface interfaceModel = new UML_Interface(item.name, item.id)
-                            {
-                                umlAttributes = AnalyzeAttributeLabel(reader),
-                                umlMethods = AnalyzeMethodLabel(reader)
-                            };
-                            datamodel.umlInterfaces.Add(interfaceModel);
+                            //UML_Interface interfaceModel = new UML_Interface(item.name, item.id)
+                            //{
+                            //    umlAttributes = AnalyzeAttributeLabel(reader),
+                            //    umlMethods = AnalyzeMethodLabel(reader)
+                            //};
+                            //datamodel.umlInterfaces.Add(interfaceModel);
+                            datamodel.umlInterfaces.Add((UML_Interface)item);
                         }
                     }
                 }
@@ -93,31 +96,43 @@ namespace CodeGenerator.Reader
             }
         }
 
-        public List<UML_Base> AnalyzeNode(XmlReader reader)
+        public List<UML_Base> AnalyzeNode()
         {
-            //List<string> id = getNodeAttributeValue(this.filepath);
 
             XDocument doc = XDocument.Load(this.filepath);
             XNamespace ns = doc.Root.GetDefaultNamespace();
             XNamespace yns = "http://www.yworks.com/xml/graphml";
 
-            List<Key> idList = doc.Descendants(ns + "node").Select(x => new Key()
+            Dictionary<string, List<string>> keys = new Dictionary<string, List<string>>();
+            foreach (var node in doc.Descendants(ns + "node"))
             {
-                id = (string)x.Attribute("id"),
-            }).ToList();
-
-            List<string> id = doc.Descendants(ns + "node").Select(x => x.Value
-            ).ToList();
-
-            List<Key> nameList = doc.Descendants(yns + "NodeLabel").Select(x => new Key()
+                keys[node.Attribute("id").Value] = new List<string>();
+                foreach (var nodelabel in node.Descendants(yns + "NodeLabel"))
+                {
+                    keys[node.Attribute("id").Value].Add(nodelabel.Value);
+                    foreach (var attributeLabel in node.Descendants(yns + "AttributeLabel"))
+                    {
+                        keys[node.Attribute("id").Value].Add(attributeLabel.Value);
+                    }
+                    foreach (var methodLabel in node.Descendants(yns + "MethodLabel"))
+                    {
+                        keys[node.Attribute("id").Value].Add(methodLabel.Value);
+                    }
+                }
+            }
+            Dictionary<string, List<string>> inheritance = new Dictionary<string, List<string>>();
+            foreach (var source in doc.Descendants(ns + "edge"))
             {
-                name = (string)x.Value,
-            }).ToList();
+                inheritance[source.Attribute("source").Value] = new List<string>();
+                inheritance[source.Attribute("target").Value] = new List<string>();
+                foreach (var whiteDelta in doc.Descendants(yns + "Arrows"))
+                {
+                    inheritance[source.Attribute("target").Value].Add(whiteDelta.Attribute("target").Value);
+                }
+            }
 
-            Dictionary<string, Key> dict = idList.GroupBy(x => x.id, y => y)
-                .ToDictionary(x => x.Key, y => y.FirstOrDefault());
-
-            List<UML_Base> baseModelList = getModel(reader, dict.Select(p => p.Value.id));
+            List<UML_Base> baseModelList = getModel(keys);
+            checkInheritance(baseModelList, inheritance,doc);
 
             return baseModelList;
         }
@@ -141,14 +156,14 @@ namespace CodeGenerator.Reader
             return id;
         }
 
-        List<UML_Base> getModel(XmlReader reader, IEnumerable<string> id)//where T : UML_Base
+        List<UML_Base> getModel(Dictionary<string,List<string>> dict)//where T : UML_Base
         {
             List<UML_Base> baseModels = new List<UML_Base>();
-            while (reader.Read())
+            foreach (var entry in dict)
             {
-                foreach(var item in id)
-                {
-                    var baseModel = AnalyzeNodeLabel<UML_Base>(reader, item);
+                //foreach (var basemodel in entry.Value)
+                //{
+                    var baseModel = AnalyzeNodeLabel<UML_Base>(entry.Key, entry.Value[0], entry.Value[1], entry.Value[2]);
                     if (baseModel.GetType() == typeof(UML_Class))
                     {
                         //baseModels.Add((T)Convert.ChangeType(baseModel, typeof(UML_Class)));
@@ -159,68 +174,135 @@ namespace CodeGenerator.Reader
                         //baseModels.Add((T)Convert.ChangeType(baseModel, typeof(UML_Interface)));
                         baseModels.Add(baseModel);
                     }
-                }
+                //}
             }
             return baseModels;
         }
 
-        bool checkInheritance(XmlReader reader)
+        bool checkInheritance(List<UML_Base> baseList, Dictionary<string, List<string>> inheritanceDict, XDocument doc)
         {
-            return false;
-        }
-
-        string getInheritance(XmlReader reader, UML_Base model)
-        {
-            XDocument doc = XDocument.Load(this.filepath);
-            XNamespace ns = doc.Root.GetDefaultNamespace();
-            List<Key> inheritance = doc.Descendants(ns + "edge").Select(x => new Key()
+            bool inheritanceChecker = false;
+            foreach (var item in inheritanceDict)
             {
-                source = (string)x.Attribute("source"),
-                target = (string)x.Attribute("target")
-            }).ToList();
-
-            return null;
-        }
-
-        public T AnalyzeNodeLabel<T> (XmlReader reader, string nodeId) where T : CodeGenerator.Datamodel.UML_Base
-        {
-            while (reader.Read())
-            {
-                bool canRead = reader.Name == "y:NodeLabel" && reader.NodeType == XmlNodeType.Element;
-                string name = null;
-                if (canRead)
+                foreach (var check in item.Value)
                 {
-                    reader.MoveToContent();
-                    name = reader.Value;
-                    if (name.Contains("&lt;&lt;interface&gt;&gt;") || name.Contains("interface") || name.StartsWith("I") && name.Substring(0, 1).ToUpper().Equals(name))
+                    if (check == "white_delta")
                     {
-                        UML_Interface interfaceModel = new UML_Interface(name, nodeId);
-                        return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
+                        inheritanceChecker = true;
+                        getInheritance(baseList,inheritanceDict,doc);
                     }
-                    if (name != null && !name.Contains("&lt;&lt;interface&gt;&gt;") || !name.Contains("interface") || !name.StartsWith("I") && !name.Substring(0, 1).ToUpper().Equals(name))
-                    {
-                        UML_Class classModel = new UML_Class(name, nodeId);
-                        return (T)Convert.ChangeType(classModel, typeof(UML_Class));
-                    }
+                }
+            }
+            return inheritanceChecker;
+        }
+
+        void getInheritance(List<UML_Base> baseModelList, Dictionary<string,List<string>> inheritanceDict, XDocument doc)
+        {
+            foreach (var inheritance in doc.Descendants(doc.Root.GetDefaultNamespace() + "edge"))
+            {
+                var sourceId = inheritance.Attribute("source").Value;
+                var targetId = inheritance.Attribute("target").Value;
+
+                UML_Class classParent = (UML_Class)baseModelList.Find(x => x.id == targetId);
+                classParent.parent = (UML_Class)baseModelList.Find(x => x.id == sourceId);
+            }
+        }
+
+        public T AnalyzeNodeLabel<T> (string nodeId, string name, string attributes, string methods) where T : CodeGenerator.Datamodel.UML_Base
+        {
+            string modifierPublic = "public";
+            string modifierPrivate = "private";
+            string modifierProtected = "protected";
+
+            if (name.Contains("&lt;&lt;interface&gt;&gt;") || name.Contains("interface") || name.StartsWith("I") && name.Substring(0, 1).ToUpper().Equals(name))
+            {
+                if (name.StartsWith("+"))
+                {
+                    UML_Interface interfaceModel = new UML_Interface(name, nodeId);
+                    interfaceModel.accessModifier = modifierPublic;
+                    interfaceModel.umlAttributes = AnalyzeAttributeLabel(attributes);
+                    return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
+                }
+                if (name.StartsWith("-"))
+                {
+                    UML_Interface interfaceModel = new UML_Interface(name, nodeId);
+                    interfaceModel.accessModifier = modifierPrivate;
+                    interfaceModel.umlAttributes = AnalyzeAttributeLabel(attributes);
+                    return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
+                }
+                if (name.StartsWith("#"))
+                {
+                    UML_Interface interfaceModel = new UML_Interface(name, nodeId);
+                    interfaceModel.accessModifier = modifierProtected;
+                    interfaceModel.umlAttributes = AnalyzeAttributeLabel(attributes);
+                    return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
+                }
+                else
+                {
+                    UML_Interface interfaceModel = new UML_Interface(name, nodeId);
+                    interfaceModel.umlAttributes = AnalyzeAttributeLabel(attributes);
+                    interfaceModel.umlMethods = AnalyzeMethodLabel(methods);
+                    return (T)Convert.ChangeType(interfaceModel, typeof(UML_Interface));
+                }
+            }
+            if (name != null && !name.Contains("&lt;&lt;interface&gt;&gt;") || !name.Contains("interface") || !name.StartsWith("I") && !name.Substring(0, 1).ToUpper().Equals(name))
+            {
+                if (name.StartsWith("+"))
+                {
+                    UML_Class classModel = new UML_Class(name, nodeId);
+                    classModel.accessModifier = modifierPublic;
+                    classModel.umlAttributes = AnalyzeAttributeLabel(attributes);
+                    return (T)Convert.ChangeType(classModel, typeof(UML_Class));
+                }
+                if (name.StartsWith("-"))
+                {
+                    UML_Class classModel = new UML_Class(name, nodeId);
+                    classModel.accessModifier = modifierPrivate;
+                    classModel.umlAttributes = AnalyzeAttributeLabel(attributes);
+                    return (T)Convert.ChangeType(classModel, typeof(UML_Class));
+                }
+                if (name.StartsWith("#"))
+                {
+                    UML_Class classModel = new UML_Class(name, nodeId);
+                    classModel.accessModifier = modifierProtected;
+                    classModel.umlAttributes = AnalyzeAttributeLabel(attributes);
+                    return (T)Convert.ChangeType(classModel, typeof(UML_Class));
+                }
+                else
+                {
+                    UML_Class classModel = new UML_Class(name, nodeId);
+                    classModel.umlAttributes = AnalyzeAttributeLabel(attributes);
+                    classModel.umlMethods = AnalyzeMethodLabel(methods);
+                    return (T)Convert.ChangeType(classModel, typeof(UML_Class));
                 }
             }
             return null;
         }
 
         // Method gets the Attributes for each class
-        public List<UML_Attribute> AnalyzeAttributeLabel (XmlReader reader)
+        public List<UML_Attribute> AnalyzeAttributeLabel (string attr)
         {
             List<UML_Attribute> classAttributes = new List<UML_Attribute>();
-            while (reader.Read())
-            {
-                if (reader.Name == "y:AttributeLabel" && reader.NodeType == XmlNodeType.Element)
-                {
-                    // Storing text of the <y:AttributeLabel>
-                    string readerValue = reader.ReadInnerXml();
-                    // Method for parsing the attributes
-                    classAttributes = getAttribute(readerValue);
-                }
-            }
+            //while (reader.Read())
+            //{
+            //    if (reader.Name == "y:AttributeLabel" && reader.NodeType == XmlNodeType.Element)
+            //    {
+            //        // Storing text of the <y:AttributeLabel>
+            //        string readerValue = reader.ReadInnerXml();
+            //        // Method for parsing the attributes
+            //        classAttributes = getAttribute(readerValue);
+            //    }
+            //}
+            XDocument doc = XDocument.Load(this.filepath);
+            XNamespace yns = "http://www.yworks.com/xml/graphml";
+            Dictionary<string, List<string>> attributes = new Dictionary<string, List<string>>();
+            //foreach (var node in doc.Descendants(yns + "AttributeLabel"))
+            //{
+            //    attributes[node.Value] = new List<string>();
+            //    var classAttribute = node.Value;
+            //    classAttributes = getAttribute(node.Value);
+            //}
+            classAttributes = getAttribute(attr);
 
             return classAttributes;
         }
@@ -268,6 +350,12 @@ namespace CodeGenerator.Reader
                     attribute.name = kvp[0].Trim('#', ' ');
                     attribute.type = current;
                 }
+                else
+                {
+                    attribute.accessModifier = null;
+                    attribute.name = kvp[0];
+                    attribute.type = kvp[1];
+                }
                 listAttributes.Add(attribute);
             }
 
@@ -275,19 +363,12 @@ namespace CodeGenerator.Reader
         }
 
         // Method gets the Methods for each class
-        public List<UML_Method> AnalyzeMethodLabel (XmlReader reader)
+        public List<UML_Method> AnalyzeMethodLabel (string methods)
         {
             List<UML_Method> classMethods = new List<UML_Method>();
-            while (reader.Read())
-            {
-                if (reader.Name == "y:MethodLabel" && reader.NodeType == XmlNodeType.Element)
-                {
-                    // Storing text of the <y:MethodLabel>
-                    string readerValue = reader.ReadInnerXml();
-                    // Method for parsing the methods
-                    classMethods = getMethod(readerValue);
-                }
-            }
+            // Storing text of the <y:MethodLabel>
+            // Method for parsing the methods
+            classMethods = getMethod(methods);
             return classMethods;
         }
 
@@ -367,14 +448,15 @@ namespace CodeGenerator.Reader
             List<UML_Parameter> listParamters = new List<UML_Parameter>();
             int firstIndex = value.IndexOf('(');
             int lastIndex = value.IndexOf(')');
-            int sum = firstIndex + lastIndex;
+            int sum = lastIndex - firstIndex;
             if (lastIndex - firstIndex > 3)
             {
-                var sections = value.Substring(firstIndex, lastIndex).Split(':');
+                var sections = value.Substring(firstIndex, sum);
+                var section = sections.Split(':');
                 UML_Parameter parameter = new UML_Parameter()
                 {
-                    parameterName = sections[0].Trim('('),
-                    parameterType = sections[1].Trim(')')
+                    parameterName = section[0].Trim('('),
+                    parameterType = section[1].Trim(')') 
                 };
                 listParamters.Add(parameter);
             }

@@ -12,6 +12,9 @@ namespace CodeGenerator.ReaderTest
 {
     class Program
     {
-        
+        static void Main (string[] args)
+        {
+
+        }
     }
 }
