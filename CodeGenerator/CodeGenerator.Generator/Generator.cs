@@ -30,8 +30,6 @@ namespace CodeGenerator.Generator
         /// <summary>
         /// Writes ".cs" files to the specified file path according to the passed Datamodel.
         /// </summary>
-        /// <param name="filePath">Created files go here. </param>
-        /// <param name="dml">Datamodel object containing information about everything found in the class diagram. </param>
         /// <returns>Nothing.</returns>
         public bool generateCode()
         {
@@ -78,19 +76,12 @@ namespace CodeGenerator.Generator
             return false;
         }
 
+        /// <summary>
+        /// Validates the datamodels' completeness.
+        /// </summary>
+        /// <returns></returns>
         private bool isDataModelComplete()
         {
-
-            // Datamodel level
-            checkDatamodel();
-
-            return true;
-        }
-
-        private void checkDatamodel()
-        {
-            // Check for empty: Warning event??
-
 
             // Classes: Check top level
             if (dml.umlClasses == null)
@@ -101,7 +92,6 @@ namespace CodeGenerator.Generator
             {
                 // Check classes
                 checkClasses();
-                
             }
 
             // Interfaces: Check top level
@@ -114,8 +104,16 @@ namespace CodeGenerator.Generator
                 // Check interfaces
                 checkInterfaces();
             }
+
+
+            // If we made is this far
+            return true;
         }
 
+        /// <summary>
+        /// Checks object for existence of basic information.
+        /// </summary>
+        /// <param name="baseExt"> UML_Class or UML_Interface object. </param>
         private void checkBase(dm.UML_BaseExtension baseExt)
         {
 
@@ -145,6 +143,9 @@ namespace CodeGenerator.Generator
 
         }
 
+        /// <summary>
+        /// Checks UML_Class object for class-specific information.
+        /// </summary>
         private void checkClasses()
         {
             // Iterate over classes
@@ -162,6 +163,10 @@ namespace CodeGenerator.Generator
             }
         }
 
+
+        /// <summary>
+        /// Checks UML_Interface object for class-specific information.
+        /// </summary>
         private void checkInterfaces()
         {
             // Iterate over classes
@@ -175,8 +180,7 @@ namespace CodeGenerator.Generator
 
         }
 
-
-
+        
 
     }
 }
