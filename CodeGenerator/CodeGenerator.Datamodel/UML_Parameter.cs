@@ -20,7 +20,7 @@ namespace CodeGenerator.Datamodel
 
         }
 
-        public UML_Parameter(string parameterName, string parameterType)
+        public UML_Parameter(string parameterType, string parameterName)
         {
             this.parameterName = parameterName;
             this.parameterType = parameterType;
