@@ -116,7 +116,7 @@ namespace CodeGenerator.Generator
                 {
                     foreach (UML_Parameter umlParameter in umlMethod.parameters)
                     {
-                        sb.Append($"{umlParameter.parameterName} {umlParameter.parameterType}, ");
+                        sb.Append($"{umlParameter.parameterType} {umlParameter.parameterName}, ");
                     }
                     sb.Length -= 2;
                 }
