@@ -37,7 +37,7 @@
             // OkErrorButton
             // 
             this.OkErrorButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OkErrorButton.Location = new System.Drawing.Point(145, 169);
+            this.OkErrorButton.Location = new System.Drawing.Point(155, 190);
             this.OkErrorButton.Name = "OkErrorButton";
             this.OkErrorButton.Size = new System.Drawing.Size(108, 34);
             this.OkErrorButton.TabIndex = 1;
@@ -48,7 +48,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::CodeGenerator.GUI.Properties.Resources.error_image_icon;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 40);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 39);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(111, 109);
             this.pictureBox1.TabIndex = 5;
@@ -56,9 +56,9 @@
             // 
             // ErrorDescribtionLabel
             // 
-            this.ErrorDescribtionLabel.Location = new System.Drawing.Point(129, 40);
+            this.ErrorDescribtionLabel.Location = new System.Drawing.Point(129, 39);
             this.ErrorDescribtionLabel.Name = "ErrorDescribtionLabel";
-            this.ErrorDescribtionLabel.Size = new System.Drawing.Size(302, 109);
+            this.ErrorDescribtionLabel.Size = new System.Drawing.Size(302, 135);
             this.ErrorDescribtionLabel.TabIndex = 2;
             this.ErrorDescribtionLabel.Text = "Beschreibung des Fehlers.";
             // 
