@@ -30,21 +30,17 @@ namespace CodeGenerator.Controller
                 try
                 {
                     ExchangeData(filePath_Model, filePath_Output);
-                    
+
                     return null;
                 }
-                catch (Exceptions.DatamodelMissingContentException e)
-                {
-                    return e;
-                }
-                catch (Exceptions.DatamodelMissingInformationException e)
+                catch (Exception e)
                 {
                     return e;
                 }
             }
             else
             {
-                return new AccessDeniedException("No Permission to Create Files in the choosen Folder. Please check the Property Settings!");
+                return new UnauthorizedAccessException("Dateien konnten im ausgewählten Verzeichnis nicht erstellt werden. Schreibberechtigung verweigert! Bitte überprüfen Sie die Eigenschaften des Verzeichnisses oder ändern Sie den Ausgabeort!");
             }
         }
 
@@ -61,44 +57,24 @@ namespace CodeGenerator.Controller
             generator.generateCode();
         }
 
+        /// <summary>
+        /// GetAcessControl() versucht eine Liste von Berechtigungen vom Ausgabeort abzurufen.
+        /// Eine UnauthorizedAccessException wird abgefangen, wenn der Ausgabeort ReadOnly ist 
+        /// oder keine Zugriffsberechtigungen vorliegen.
+        /// </summary>
+        /// <param name="filePath">der Ausgabeort</param>
+        /// <returns>true, wenn Berechtigung vorliegt. false, wenn nicht</returns>
         public bool CheckPermission(string filePath)
         {
-            //WindowsIdentity principal = WindowsIdentity.GetCurrent();
-            //if (File.Exists(filePath))
-            //{
-            //    FileInfo fi = new FileInfo(filePath);
-            //    if (fi.IsReadOnly)
-            //        return false;
-
-            //    AuthorizationRuleCollection acl = fi.GetAccessControl().GetAccessRules(true, true, typeof(SecurityIdentifier));
-            //    for (int i = 0; i < acl.Count; i++)
-            //    {
-            //        System.Security.AccessControl.FileSystemAccessRule rule = (System.Security.AccessControl.FileSystemAccessRule) acl;
-            //        if (principal.User.Equals(rule.IdentityReference))
-            //        {
-            //            if (System.Security.AccessControl.AccessControlType.Deny.Equals
-            //            (rule.AccessControlType))
-            //            {
-            //                if ((((int)FileSystemRights.Write) & (int)rule.FileSystemRights) == (int)(FileSystemRights.Write))
-            //                    return false;
-            //            }
-            //            else if (System.Security.AccessControl.AccessControlType.Allow.Equals
-            //            (rule.AccessControlType))
-            //            {
-            //                if ((((int)FileSystemRights.Write) & (int)rule.FileSystemRights) == (int)(FileSystemRights.Write))
-            //                    return true;
-            //            }
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            //return false;
-
-            return true;
+            try
+            {
+                DirectorySecurity ds = Directory.GetAccessControl(filePath);
+                return true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
         }
     }
 }
