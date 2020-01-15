@@ -45,8 +45,8 @@ namespace CodeGenerator.GeneratorTest
             dm.UML_Interface interface2 = new dm.UML_Interface("interface2", new List<dm.UML_Attribute>() { att2, att4 }, new List<dm.UML_Method>() { method2, method3 });
 
             // 3 classes
-            dm.UML_Class class1 = new dm.UML_Class("public", "class1", new List<dm.UML_Attribute>() { att1 }, new List<dm.UML_Method>() { method1 }, new List<dm.UML_Interface>());
-            dm.UML_Class class2 = new dm.UML_Class("private", "class2", new List<dm.UML_Attribute>() { att1, att2, att3, att4 }, new List<dm.UML_Method>() { method1, method2, method3 }, new List<dm.UML_Interface>());
+            dm.UML_Class class1 = new dm.UML_Class("public", "class1", new List<dm.UML_Attribute>() { att1 }, new List<dm.UML_Method>() { method1 }, new List<dm.UML_Interface>() { interface1 });
+            dm.UML_Class class2 = new dm.UML_Class("private", "class2", new List<dm.UML_Attribute>() { att1, att2, att3, att4 }, new List<dm.UML_Method>() { }, new List<dm.UML_Interface>(), class1);
             dm.UML_Class class3 = new dm.UML_Class("public", "class3", new List<dm.UML_Attribute>() { att1, att2, att3, att4 }, new List<dm.UML_Method>() { method1, method2, method3 }, new List<dm.UML_Interface>() { interface1, interface2 }, class1);
 
 

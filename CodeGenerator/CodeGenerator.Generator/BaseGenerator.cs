@@ -70,11 +70,11 @@ namespace CodeGenerator.Generator
         void writeAttributes()
         {
 
-            // Comment in file
-            outputFile.WriteLine($"{structureTab}// Attributes");
-
             // Extract attributes
             List<UML_Attribute> umlAttributes = classOrInterface.umlAttributes;
+
+            // Comment in file
+            if(umlAttributes.Count > 0) outputFile.WriteLine($"{structureTab}// Attributes");
 
             // Iterate over attribute list
             foreach (UML_Attribute umlAttribute in umlAttributes)
@@ -96,11 +96,12 @@ namespace CodeGenerator.Generator
         /// <summary> Writes empty functions into a specified file with the name and parameters matching what is found in the passed list of methods that belong to the current class. </summary>
         void writeMethods()
         {
-            // Comment in file
-            outputFile.WriteLine($"{structureTab}// Methods");
 
             // Extract methods
             List<UML_Method> umlMethods = classOrInterface.umlMethods;
+
+            // Comment in file
+            if(umlMethods.Count > 0) outputFile.WriteLine($"{structureTab}// Methods");
 
             // Iterate over method list
             foreach (UML_Method umlMethod in umlMethods)
