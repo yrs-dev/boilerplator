@@ -22,32 +22,36 @@ namespace CodeGenerator.Controller
         /// <param name="filePath_Model">Graphml-Dateipfad als string vom GUI</param>
         /// <param name="filePath_Output">Ausgabepfad als string vom GUI</param>
         /// <returns>Exception, die abgefangen wird oder bei keiner angegebenen Exception, null</returns>
-        public Exception StartProcess(string filePath_Model, string filePath_Output)
+        public Exception StartProcess(string filePath_Model, string filePath_Output, out bool finish)
         {
             if (CheckPermission(filePath_Output))
             {
                 try
                 {
-                    ExchangeData(filePath_Model, filePath_Output);
+                    finish = ExchangeData(filePath_Model, filePath_Output);
 
                     return null;
                 }
                 catch(DatamodelMissingContentException e)
                 {
+                    finish = false;
                     return e;
                 }
                 catch(DatamodelMissingInformationException e)
                 {
+                    finish = false;
                     return e;
                 }
                 // Wenn eine andere Exception ausgelöst wird, wird eine neue GeneralException zurückgegeben.
                 catch (Exception)
                 {
+                    finish = false;
                     return new GeneralException();
                 }
             }
             else
             {
+                finish = false;
                 return new UnauthorizedAccessException("Dateien konnten im ausgewählten Verzeichnis nicht erstellt werden. Schreibberechtigung verweigert! Bitte überprüfen Sie die Eigenschaften des Verzeichnisses oder ändern Sie den Ausgabeort!");
             }
         }
@@ -57,12 +61,13 @@ namespace CodeGenerator.Controller
         /// </summary>
         /// <param name="filePath_Model">Gibt dem Reader den Dateipfad mit.</param>
         /// <param name="filePath_Output">Gibt dem Generator den Ausgabepfad mit.</param>
-        public void ExchangeData(string filePath_Model, string filePath_Output)
+        public bool ExchangeData(string filePath_Model, string filePath_Output)
         {
             Reader.Reader reader = new Reader.Reader(filePath_Model);
             Datamodel.Datamodel datamodel = reader.getDatamodel();
             Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
             bool finish = generator.generateCode();
+            return finish;
         }
 
         /// <summary>

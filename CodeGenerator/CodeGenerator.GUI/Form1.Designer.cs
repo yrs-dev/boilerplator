@@ -49,11 +49,17 @@
             this.hilfeAnzeigenLassenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.PreviewLabel = new System.Windows.Forms.Label();
+            this.PreviewFensterLabel = new System.Windows.Forms.Label();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.panel5 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // SelectFileButton
@@ -77,6 +83,7 @@
             // PathModelLabel
             // 
             this.PathModelLabel.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.PathModelLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PathModelLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.PathModelLabel.Location = new System.Drawing.Point(231, 53);
             this.PathModelLabel.Name = "PathModelLabel";
@@ -108,6 +115,7 @@
             // PathOutputLabel
             // 
             this.PathOutputLabel.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.PathOutputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PathOutputLabel.Location = new System.Drawing.Point(231, 96);
             this.PathOutputLabel.Name = "PathOutputLabel";
             this.PathOutputLabel.Size = new System.Drawing.Size(350, 20);
@@ -206,7 +214,7 @@
             this.hilfeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(602, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(834, 28);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -241,9 +249,9 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 431);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 474);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(602, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(834, 22);
             this.statusStrip1.TabIndex = 11;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -252,6 +260,55 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 16);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.PreviewLabel, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(21, 218);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(813, 256);
+            this.tableLayoutPanel1.TabIndex = 12;
+            // 
+            // PreviewLabel
+            // 
+            this.PreviewLabel.AutoSize = true;
+            this.PreviewLabel.BackColor = System.Drawing.SystemColors.InfoText;
+            this.PreviewLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PreviewLabel.ForeColor = System.Drawing.Color.White;
+            this.PreviewLabel.Location = new System.Drawing.Point(3, 0);
+            this.PreviewLabel.Name = "PreviewLabel";
+            this.PreviewLabel.Size = new System.Drawing.Size(807, 256);
+            this.PreviewLabel.TabIndex = 0;
+            this.PreviewLabel.Text = "Hier steht nachher der erstellte Code.";
+            // 
+            // PreviewFensterLabel
+            // 
+            this.PreviewFensterLabel.AutoSize = true;
+            this.PreviewFensterLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PreviewFensterLabel.Location = new System.Drawing.Point(27, 188);
+            this.PreviewFensterLabel.Name = "PreviewFensterLabel";
+            this.PreviewFensterLabel.Size = new System.Drawing.Size(154, 25);
+            this.PreviewFensterLabel.TabIndex = 13;
+            this.PreviewFensterLabel.Text = "Preview-Fenster";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.MediumPurple;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Location = new System.Drawing.Point(21, 187);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(10, 28);
+            this.panel5.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -259,7 +316,10 @@
             this.AutoScroll = true;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(602, 453);
+            this.ClientSize = new System.Drawing.Size(854, 467);
+            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.PreviewFensterLabel);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
@@ -273,11 +333,9 @@
             this.Controls.Add(this.FilePictureBox);
             this.Controls.Add(this.OutputPictureBox);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MaximumSize = new System.Drawing.Size(620, 500);
-            this.MinimumSize = new System.Drawing.Size(620, 500);
+            this.MinimumSize = new System.Drawing.Size(355, 150);
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "CodeGenerator";
@@ -288,6 +346,8 @@
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -315,6 +375,11 @@
         private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hilfeAnzeigenLassenToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label PreviewLabel;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label PreviewFensterLabel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }
 

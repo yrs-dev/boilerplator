@@ -121,13 +121,16 @@ namespace CodeGenerator.GUI
         /// <param name="filePath_Output">Ausgabepfad im Typ string</param>
         public void CreateController(string filePath_Model, string filePath_Output)
         {
+            bool finish;
             Controller.Controller controller = new Controller.Controller();
-            Exception ex = controller.StartProcess(filePath_Model, filePath_Output);
+            Exception ex = controller.StartProcess(filePath_Model, filePath_Output, out finish);
             if (ex != null)
             {
                 new Form2(ex).ShowDialog();
                 this.Show();
             }
+            if (finish)
+                WritePrewiev(filePath_Output);
         }
         
         #region MouseHover
@@ -283,5 +286,19 @@ namespace CodeGenerator.GUI
             OutputPictureBox.BackColor = DefaultBackColor;
         }
         #endregion
+
+        public bool WritePrewiev(string FilePath_Output)
+        {
+            try
+            {
+
+            }
+            catch(Exception)
+            {
+                new Form2(new GeneralException()).ShowDialog();
+                this.Show();
+            }
+            return true;
+        }
     }
 }
