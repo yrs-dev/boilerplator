@@ -10,72 +10,71 @@ using CodeGenerator.Generator;
 using System.IO;
 using System.Security.Principal;
 using System.Security.AccessControl;
+using Exceptions;
 
 namespace CodeGenerator.Controller
 {
     public class Controller : IController
     {
         /// <summary>
-        /// Interface-Methode StartProcess(). Wenn Berechtigung auf Graphml-Datei erlaubt ist, erstellt Sie Reader
-        /// und Generator, ruft deren Main-Methoden auf und gibt Pfade und Datamodell weiter.
+        /// Interface-Methode StartProcess(). Wenn Berechtigung auf Graphml-Datei erlaubt ist, 
+        /// ruft sie ExchangeData() auf. Fängt Exceptions auf und gibt sie der GUI zurück.
         /// </summary>
         /// <param name="filePath_Model">Graphml-Dateipfad als string vom GUI</param>
         /// <param name="filePath_Output">Ausgabepfad als string vom GUI</param>
-        /// <returns>true, wenn Berechtigung erlaubt ist</returns>
-        public bool StartProcess(string filePath_Model, string filePath_Output)
+        /// <returns>Exception, die abgefangen wird oder bei keiner angegebenen Exception, null</returns>
+        public Exception StartProcess(string filePath_Model, string filePath_Output)
         {
-            if (checkPermission(filePath_Model))
+            if (CheckPermission(filePath_Output))
             {
-                Reader.Reader reader = new Reader.Reader(filePath_Model);
-                Datamodel.Datamodel datamodel = reader.getDatamodel();
-                Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
-                generator.generateCode();
-                return true;
+                try
+                {
+                    ExchangeData(filePath_Model, filePath_Output);
+
+                    return null;
+                }
+                catch (Exception e)
+                {
+                    return e;
+                }
             }
             else
             {
-                return false;
+                return new UnauthorizedAccessException("Dateien konnten im ausgewählten Verzeichnis nicht erstellt werden. Schreibberechtigung verweigert! Bitte überprüfen Sie die Eigenschaften des Verzeichnisses oder ändern Sie den Ausgabeort!");
             }
         }
 
-        public bool checkPermission(string filePath)
+        /// <summary>
+        /// Erstellt Reader und Generator und führt deren Interface-Methoden aus.
+        /// </summary>
+        /// <param name="filePath_Model">Gibt dem Reader den Dateipfad mit.</param>
+        /// <param name="filePath_Output">Gibt dem Generator den Ausgabepfad mit.</param>
+        public void ExchangeData(string filePath_Model, string filePath_Output)
         {
-            //WindowsIdentity principal = WindowsIdentity.GetCurrent();
-            //if (File.Exists(filePath))
-            //{
-            //    FileInfo fi = new FileInfo(filePath);
-            //    if (fi.IsReadOnly)
-            //        return false;
+            Reader.Reader reader = new Reader.Reader(filePath_Model);
+            Datamodel.Datamodel datamodel = reader.getDatamodel();
+            Generator.Generator generator = new Generator.Generator(filePath_Output, datamodel);
+            generator.generateCode();
+        }
 
-            //    AuthorizationRuleCollection acl = fi.GetAccessControl().GetAccessRules(true, true, typeof(SecurityIdentifier));
-            //    for (int i = 0; i < acl.Count; i++)
-            //    {
-            //        System.Security.AccessControl.FileSystemAccessRule rule = (System.Security.AccessControl.FileSystemAccessRule) acl;
-            //        if (principal.User.Equals(rule.IdentityReference))
-            //        {
-            //            if (System.Security.AccessControl.AccessControlType.Deny.Equals
-            //            (rule.AccessControlType))
-            //            {
-            //                if ((((int)FileSystemRights.Write) & (int)rule.FileSystemRights) == (int)(FileSystemRights.Write))
-            //                    return false;
-            //            }
-            //            else if (System.Security.AccessControl.AccessControlType.Allow.Equals
-            //            (rule.AccessControlType))
-            //            {
-            //                if ((((int)FileSystemRights.Write) & (int)rule.FileSystemRights) == (int)(FileSystemRights.Write))
-            //                    return true;
-            //            }
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            //return false;
-
-            return true;
+        /// <summary>
+        /// GetAcessControl() versucht eine Liste von Berechtigungen vom Ausgabeort abzurufen.
+        /// Eine UnauthorizedAccessException wird abgefangen, wenn der Ausgabeort ReadOnly ist 
+        /// oder keine Zugriffsberechtigungen vorliegen.
+        /// </summary>
+        /// <param name="filePath">der Ausgabeort</param>
+        /// <returns>true, wenn Berechtigung vorliegt. false, wenn nicht</returns>
+        public bool CheckPermission(string filePath)
+        {
+            try
+            {
+                DirectorySecurity ds = Directory.GetAccessControl(filePath);
+                return true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
         }
     }
 }
