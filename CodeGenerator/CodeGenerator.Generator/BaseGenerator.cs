@@ -106,10 +106,16 @@ namespace CodeGenerator.Generator
             // Iterate over method list
             foreach (UML_Method umlMethod in umlMethods)
             {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder(structureTab);
 
-                // First line
-                sb.Append($"{structureTab}{umlMethod.accessModifier} {umlMethod.type} {umlMethod.name}(");
+                // First line: acess modifier
+                if (this.isClass) sb.Append($"{umlMethod.accessModifier} ");
+
+                // First line: of extra keyword is set
+                if (!umlMethod.extraKeyword.Equals("")) sb.Append($"{umlMethod.extraKeyword} ");
+
+                // First line: append rest
+                sb.Append($"{umlMethod.type} {umlMethod.name}(");
 
                 // Append parameters
                 if (umlMethod.parameters.Count > 0)

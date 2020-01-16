@@ -22,7 +22,7 @@ namespace CodeGenerator.Datamodel
             this.umlAttributes = new List<UML_Attribute>();
         }
 
-        public UML_BaseExtension(string accessModifier, string name, string id, List<UML_Method> umlMethods, List<UML_Attribute> umlAttributes, string extraKeyword = "") : base(accessModifier, name, id, extraKeyword)
+        public UML_BaseExtension(string id, string accessModifier, string name, List<UML_Method> umlMethods, List<UML_Attribute> umlAttributes, string extraKeyword = "") : base(id, accessModifier, name, extraKeyword)
         {
             // Empty collection
             this.umlMethods = umlMethods ?? new List<UML_Method>();

@@ -31,7 +31,7 @@ namespace CodeGenerator.Datamodel
 
         }
 
-        public UML_Class(string accessModifier, string name, string id, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, List<UML_Interface> implementedInterfaces, string extraKeyword = "", UML_Class parent = null) : base(accessModifier, name, id, umlMethods, umlAttributes, extraKeyword)
+        public UML_Class(string id, string accessModifier, string name, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, List<UML_Interface> implementedInterfaces, string extraKeyword = "", UML_Class parent = null) : base(id, accessModifier, name, umlMethods, umlAttributes, extraKeyword)
         {
             this.parent = parent;
 

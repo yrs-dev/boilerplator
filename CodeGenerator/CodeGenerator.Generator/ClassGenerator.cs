@@ -24,7 +24,7 @@ namespace CodeGenerator.Generator
         public override StringBuilder writeBeginning_Specify(UML_BaseExtension umlClass)
         {
             // Write beginning
-            StringBuilder sb = new StringBuilder($"{umlClass.accessModifier} class {umlClass.name}");
+            StringBuilder sb = umlClass.extraKeyword.Equals("") ? new StringBuilder($"{umlClass.accessModifier} class {umlClass.name}") : new StringBuilder($"{umlClass.accessModifier} {umlClass.extraKeyword} class {umlClass.name}");
 
             // Append parents, interfaces
             writeBeginning_appendElements(sb, (UML_Class)umlClass);
@@ -81,7 +81,7 @@ namespace CodeGenerator.Generator
         {
 
             // Overall attribute structure
-            StringBuilder sb = new StringBuilder($"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name}");
+            StringBuilder sb = umlAttribute.extraKeyword.Equals("") ? new StringBuilder($"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name}") : new StringBuilder($"{umlAttribute.accessModifier} {umlAttribute.extraKeyword} {umlAttribute.type} {umlAttribute.name}");
 
             // Append respective information
             if (umlAttribute.autoGetterSetterSpecified)
