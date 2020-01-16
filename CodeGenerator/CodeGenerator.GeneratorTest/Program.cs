@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using gen = CodeGenerator.Generator;
 using dm = CodeGenerator.Datamodel;
-
+using System;
 
 /* ToDos:
  * Attribute getter setter?
@@ -58,7 +58,9 @@ namespace CodeGenerator.GeneratorTest
             };
 
             // Create generator object
-            gen.Generator gen = new gen.Generator(System.Environment.CurrentDirectory + "/outputFolder", dml);
+            string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/GeneratorTestFiles";
+            System.IO.Directory.CreateDirectory(outputPath);
+            gen.Generator gen = new gen.Generator(outputPath, dml);
             gen.generateCode();
 
         }
