@@ -10,8 +10,10 @@ namespace CodeGenerator.ControllerTest
     {
         static void Main(string[] args)
         {
-
-            StartProcess(Environment.CurrentDirectory + "/filepath.graphml", Environment.CurrentDirectory);
+            string filePath_Output = Environment.CurrentDirectory;
+            int Index = filePath_Output.IndexOf("/Program");
+            string filePath_Model = filePath_Output.Substring(0, Index);
+            StartProcess(filePath_Model, filePath_Output);
 
         }
 
