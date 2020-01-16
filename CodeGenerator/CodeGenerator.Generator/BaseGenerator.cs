@@ -109,7 +109,7 @@ namespace CodeGenerator.Generator
                 StringBuilder sb = new StringBuilder(structureTab);
 
                 // First line: acess modifier
-                if (this.isClass) sb.Append($"{umlMethod.accessModifier} ");
+                if (this.isClass && umlMethod.accessModifier != null) sb.Append($"{umlMethod.accessModifier} ");
 
                 // First line: of extra keyword is set
                 if (!umlMethod.extraKeyword.Equals("")) sb.Append($"{umlMethod.extraKeyword} ");
