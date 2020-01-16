@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using CodeGenerator.Datamodel;
 using System.Xml.Linq;
-using System.IO;
 using CommonInterfaces;
+using IUSE = Exceptions.InvalidUMLShapesException;
 
 /* TODO:
  * 
@@ -35,7 +32,7 @@ using CommonInterfaces;
 
 namespace CodeGenerator.Reader
 {
-    public class Reader : CommonInterfaces.IReader
+    public class Reader : IReader
     {
         #region Members
         public string filepath { get; set; }
@@ -53,7 +50,7 @@ namespace CodeGenerator.Reader
         /// </summary>
         /// <param name="filepath"> Path of the file which was received from Controller Component</param>
         /// <returns></returns>
-        public Datamodel.Datamodel ReadGraphml(string filepath)
+        public Datamodel.Datamodel createDatamodel()
         {
             try
             {
@@ -75,8 +72,9 @@ namespace CodeGenerator.Reader
 
                 return datamodel;
             }
-            finally
+            catch (Exception ex)
             {
+                throw ex;
             }
         }
 
@@ -98,6 +96,7 @@ namespace CodeGenerator.Reader
                 foreach (var nodelabel in node.Descendants(yns + "NodeLabel"))
                 {
                     keys[node.Attribute("id").Value].Add(nodelabel.Value);
+                    keys[node.Attribute("id").Value].Add(nodelabel.Attribute("fontStyle").Value);
                     foreach (var attributeLabel in node.Descendants(yns + "AttributeLabel"))
                     {
                         keys[node.Attribute("id").Value].Add(attributeLabel.Value);
@@ -108,19 +107,28 @@ namespace CodeGenerator.Reader
                     }
                 }
             }
+
+            checkGrapml(doc, keys);
+
             Dictionary<string, List<string>> inheritance = new Dictionary<string, List<string>>();
             foreach (var source in doc.Descendants(ns + "edge"))
             {
                 inheritance[source.Attribute("source").Value] = new List<string>();
-                inheritance[source.Attribute("target").Value] = new List<string>();
-                foreach (var whiteDelta in doc.Descendants(yns + "Arrows"))
+                inheritance[source.Attribute("source").Value].Add(source.Attribute("target").Value);
+
+                foreach (var whiteDelta in source.Descendants(yns + "Arrows"))
                 {
-                    inheritance[source.Attribute("target").Value].Add(whiteDelta.Attribute("target").Value);
+                    inheritance[source.Attribute("source").Value].Add(whiteDelta.Attribute("target").Value);
                 }
+                foreach (var line in source.Descendants(yns + "LineStyle"))
+                {
+                    inheritance[source.Attribute("source").Value].Add(line.Attribute("type").Value);
+                }
+
             }
 
             List<UML_Base> baseModelList = getModel(keys);
-            checkInheritance(baseModelList, inheritance,doc);
+            checkInheritance(baseModelList, inheritance, doc);
 
             return baseModelList;
         }
@@ -130,12 +138,12 @@ namespace CodeGenerator.Reader
         /// </summary>
         /// <param name="dict"> Dictionary stored information about names,attributes and methods for each ID</param>
         /// <returns> List with all objects </returns>
-        List<UML_Base> getModel(Dictionary<string,List<string>> dict)//where T : UML_Base
+        List<UML_Base> getModel(Dictionary<string, List<string>> dict)//where T : UML_Base
         {
             List<UML_Base> baseModels = new List<UML_Base>();
             foreach (var entry in dict)
             {
-                var baseModel = AnalyzeNodeLabel<UML_Base>(entry.Key, entry.Value[0], entry.Value[1], entry.Value[2]);
+                var baseModel = AnalyzeNodeLabel<UML_Base>(entry.Key, entry.Value[0], entry.Value[1], entry.Value[2], entry.Value[3]);
                 if (baseModel.GetType() == typeof(UML_Class))
                 {
                     baseModels.Add(baseModel);
@@ -160,12 +168,12 @@ namespace CodeGenerator.Reader
             bool inheritanceChecker = false;
             foreach (var item in inheritanceDict)
             {
-                foreach (var check in item.Value)
+                if (item.Value.Count > 1)
                 {
-                    if (check == "white_delta")
+                    if (item.Value[1] == "white_delta" && item.Value[2] == "line")
                     {
                         inheritanceChecker = true;
-                        getInheritance(baseList,doc);
+                        getInheritance(baseList, item.Key, item.Value[0]);
                     }
                 }
             }
@@ -176,28 +184,25 @@ namespace CodeGenerator.Reader
         /// Providing the correct relationship between inherited objects 
         /// </summary>
         /// <param name="baseModelList"> Containing all parsed Classes and Interfaces</param>
-        /// <param name="doc"> Graphml Document</param>
-        void getInheritance(List<UML_Base> baseModelList, XDocument doc)
+        /// <param name="doc"> Graphml Document </param>
+        void getInheritance(List<UML_Base> baseModelList, string source, string target)
         {
-            foreach (var inheritance in doc.Descendants(doc.Root.GetDefaultNamespace() + "edge"))
-            {
-                var sourceId = inheritance.Attribute("source").Value;
-                var targetId = inheritance.Attribute("target").Value;
+            var sourceId = source;
+            var targetId = target;
 
-                if (baseModelList.Find(x => x.id == targetId).GetType() == typeof(UML_Interface))
-                {
-                    UML_Class classParent = (UML_Class)baseModelList.Find(y => y.id == sourceId);
-                    UML_Interface implementedInterface = (UML_Interface)baseModelList.Find(y => y.id == targetId);
-                    List<UML_Interface> implementedInterfaceList = new List<UML_Interface>();
-                    implementedInterfaceList.Add(implementedInterface);
-                    classParent.implementedInterfaces = implementedInterfaceList;
-                }
-                if (baseModelList.Find(x => x.id == targetId).GetType() == typeof(UML_Class))
-                {
-                    UML_Class classParent = (UML_Class)baseModelList.Find(y => y.id == sourceId);
-                    UML_Class implementedClass = (UML_Class)baseModelList.Find(y => y.id == targetId);
-                    classParent.parent = implementedClass;
-                }
+            if (baseModelList.Find(x => x.id == targetId).GetType() == typeof(UML_Interface))
+            {
+                UML_Class classParent = (UML_Class)baseModelList.Find(y => y.id == sourceId);
+                UML_Interface implementedInterface = (UML_Interface)baseModelList.Find(y => y.id == targetId);
+                List<UML_Interface> implementedInterfaceList = new List<UML_Interface>();
+                implementedInterfaceList.Add(implementedInterface);
+                classParent.implementedInterfaces = implementedInterfaceList;
+            }
+            if (baseModelList.Find(x => x.id == targetId).GetType() == typeof(UML_Class))
+            {
+                UML_Class classParent = (UML_Class)baseModelList.Find(y => y.id == sourceId);
+                UML_Class implementedClass = (UML_Class)baseModelList.Find(y => y.id == targetId);
+                classParent.parent = implementedClass;
             }
         }
 
@@ -210,15 +215,17 @@ namespace CodeGenerator.Reader
         /// <param name="attributes"> Containing information about existing attributes of each object</param>
         /// <param name="methods"> Containign information about existing methods of each object </param>
         /// <returns> UML_Class object or UML_Interface object </returns>
-        public T AnalyzeNodeLabel<T> (string nodeId, string name, string attributes, string methods) where T : CodeGenerator.Datamodel.UML_Base
+        public T AnalyzeNodeLabel<T>(string nodeId, string name, string fontStyle, string attributes, string methods) where T : CodeGenerator.Datamodel.UML_Base
         {
             string modifierPublic = "public";
             string modifierPrivate = "private";
             string modifierProtected = "protected";
 
+            string abstractKey = "abstract";
+
             if (checkModelInterface(name))
             {
-                string interfaceName = name.Replace("<<interface>>", "").Replace("\n","");
+                string interfaceName = name.Replace("<<interface>>", "").Replace("\n", "");
 
                 if (name.StartsWith("+"))
                 {
@@ -254,6 +261,10 @@ namespace CodeGenerator.Reader
                 if (name.StartsWith("+"))
                 {
                     UML_Class classModel = new UML_Class(name, nodeId);
+                    if (checkAbstractClass(fontStyle))
+                    {
+                        classModel.extraKeyword = abstractKey;
+                    }
                     classModel.accessModifier = modifierPublic;
                     classModel.umlAttributes = AnalyzeAttributeLabel(attributes);
                     return (T)Convert.ChangeType(classModel, typeof(UML_Class));
@@ -261,6 +272,10 @@ namespace CodeGenerator.Reader
                 if (name.StartsWith("-"))
                 {
                     UML_Class classModel = new UML_Class(name, nodeId);
+                    if (checkAbstractClass(fontStyle))
+                    {
+                        classModel.extraKeyword = abstractKey;
+                    }
                     classModel.accessModifier = modifierPrivate;
                     classModel.umlAttributes = AnalyzeAttributeLabel(attributes);
                     return (T)Convert.ChangeType(classModel, typeof(UML_Class));
@@ -268,6 +283,10 @@ namespace CodeGenerator.Reader
                 if (name.StartsWith("#"))
                 {
                     UML_Class classModel = new UML_Class(name, nodeId);
+                    if (checkAbstractClass(fontStyle))
+                    {
+                        classModel.extraKeyword = abstractKey;
+                    }
                     classModel.accessModifier = modifierProtected;
                     classModel.umlAttributes = AnalyzeAttributeLabel(attributes);
                     return (T)Convert.ChangeType(classModel, typeof(UML_Class));
@@ -275,6 +294,10 @@ namespace CodeGenerator.Reader
                 else
                 {
                     UML_Class classModel = new UML_Class(name, nodeId);
+                    if (checkAbstractClass(fontStyle))
+                    {
+                        classModel.extraKeyword = abstractKey;
+                    }
                     classModel.umlAttributes = AnalyzeAttributeLabel(attributes);
                     classModel.umlMethods = AnalyzeMethodLabel(methods);
                     return (T)Convert.ChangeType(classModel, typeof(UML_Class));
@@ -283,6 +306,21 @@ namespace CodeGenerator.Reader
             return null;
         }
 
+        bool checkGrapml(XDocument document, Dictionary<string,List<string>> baseDict)
+        {
+            XNamespace yns = "http://www.yworks.com/xml/graphml";
+            var documentValues = document.Descendants(yns + "UMLClassNode").ToList().Count;
+            if (documentValues == baseDict.Count)
+            {
+                return true;
+            }
+
+            if (documentValues != baseDict.Count)
+            {
+                throw new IUSE("invalid uml shape");
+            }
+            return false;
+        }
         bool checkModelInterface(string name)
         {
             if (name.Contains("<<interface>>") || name.Contains("&lt;&lt;interface&gt;&gt;") || name.Contains("interface") || name.StartsWith("I") && name.Substring(0, 1).ToUpper().Equals(name))
@@ -303,6 +341,16 @@ namespace CodeGenerator.Reader
             return false;
         }
 
+        bool checkAbstractClass(string fontStyle)
+        {
+            if (fontStyle == "italic")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
 
         /// <summary>
         /// Main Method for handling parsed data about existing Attributes
@@ -314,9 +362,6 @@ namespace CodeGenerator.Reader
             BaseReader reader = new BaseReader(this.filepath);
 
             List<UML_Attribute> classAttributes = new List<UML_Attribute>();
-            XDocument doc = XDocument.Load(this.filepath);
-            XNamespace yns = "http://www.yworks.com/xml/graphml";
-
             Dictionary<string, List<string>> attributes = new Dictionary<string, List<string>>();
             classAttributes = reader.getAttribute(attr);
 
@@ -338,7 +383,7 @@ namespace CodeGenerator.Reader
 
         public CodeGenerator.Datamodel.Datamodel getDatamodel()
          {
-            Datamodel.Datamodel datamodel = ReadGraphml(this.filepath);
+            Datamodel.Datamodel datamodel = createDatamodel();
             return datamodel;
          }
 
