@@ -12,7 +12,7 @@ to be filled in
 
 ## Test: Generator
 
-Das Projekt "CodeGenerator.GeneratorTest" testen die Generator-Komponente. Zu Beginn wird ein Dummy-DataModel mit Attributen, Methoden, Interfaces und Klassen erstellt. 
+Das Projekt "CodeGenerator.GeneratorTest" testet die Generator-Komponente. Zu Beginn wird ein Dummy-DataModel mit Attributen, Methoden, Interfaces und Klassen erstellt. 
 Dieses wird dem Generator übergeben, zusammen mit einem Ausgabepfad. 
 Das Ausgabepfad ist standardmäßig der Ordner "GeneratorTestFiles", welcher auf dem Desktop des aktuellen Nutzers erstellt wird, sollte er bisher nicht existieren.
 
