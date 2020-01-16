@@ -50,10 +50,10 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.PreviewTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.PreviewLabel = new System.Windows.Forms.Label();
             this.PreviewFensterLabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel5 = new System.Windows.Forms.Panel();
+            this.PreviewTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).BeginInit();
@@ -222,7 +222,7 @@
             // dateiToolStripMenuItem
             // 
             this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
-            this.dateiToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
+            this.dateiToolStripMenuItem.Size = new System.Drawing.Size(59, 26);
             this.dateiToolStripMenuItem.Text = "Datei";
             // 
             // hilfeToolStripMenuItem
@@ -230,7 +230,7 @@
             this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.hilfeAnzeigenLassenToolStripMenuItem});
             this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
-            this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.hilfeToolStripMenuItem.Text = "Hilfe";
             this.hilfeToolStripMenuItem.MouseLeave += new System.EventHandler(this.HilfeToolStripMenuItem_MouseLeave);
             this.hilfeToolStripMenuItem.MouseHover += new System.EventHandler(this.HilfeToolStripMenuItem_MouseHover);
@@ -265,7 +265,7 @@
             // 
             this.PreviewTableLayoutPanel.ColumnCount = 1;
             this.PreviewTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.PreviewTableLayoutPanel.Controls.Add(this.PreviewLabel, 0, 0);
+            this.PreviewTableLayoutPanel.Controls.Add(this.PreviewTextBox, 0, 0);
             this.PreviewTableLayoutPanel.Location = new System.Drawing.Point(20, 170);
             this.PreviewTableLayoutPanel.Name = "PreviewTableLayoutPanel";
             this.PreviewTableLayoutPanel.RowCount = 1;
@@ -273,19 +273,6 @@
             this.PreviewTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.PreviewTableLayoutPanel.Size = new System.Drawing.Size(750, 250);
             this.PreviewTableLayoutPanel.TabIndex = 12;
-            // 
-            // PreviewLabel
-            // 
-            this.PreviewLabel.AutoSize = true;
-            this.PreviewLabel.BackColor = System.Drawing.SystemColors.InfoText;
-            this.PreviewLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PreviewLabel.ForeColor = System.Drawing.Color.White;
-            this.PreviewLabel.Location = new System.Drawing.Point(3, 0);
-            this.PreviewLabel.MaximumSize = new System.Drawing.Size(750, 0);
-            this.PreviewLabel.Name = "PreviewLabel";
-            this.PreviewLabel.Size = new System.Drawing.Size(744, 250);
-            this.PreviewLabel.TabIndex = 0;
-            this.PreviewLabel.Text = "Hier steht nachher der erstellte Code.";
             // 
             // PreviewFensterLabel
             // 
@@ -311,6 +298,20 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(10, 28);
             this.panel5.TabIndex = 15;
+            // 
+            // PreviewTextBox
+            // 
+            this.PreviewTextBox.BackColor = System.Drawing.SystemColors.InfoText;
+            this.PreviewTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PreviewTextBox.ForeColor = System.Drawing.Color.White;
+            this.PreviewTextBox.Location = new System.Drawing.Point(3, 3);
+            this.PreviewTextBox.Multiline = true;
+            this.PreviewTextBox.Name = "PreviewTextBox";
+            this.PreviewTextBox.ReadOnly = true;
+            this.PreviewTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.PreviewTextBox.Size = new System.Drawing.Size(744, 244);
+            this.PreviewTextBox.TabIndex = 0;
+            this.PreviewTextBox.Text = "Hier steht nachher der generierte Code.";
             // 
             // Form1
             // 
@@ -380,10 +381,10 @@
         private System.Windows.Forms.ToolStripMenuItem hilfeAnzeigenLassenToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.TableLayoutPanel PreviewTableLayoutPanel;
-        private System.Windows.Forms.Label PreviewLabel;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label PreviewFensterLabel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.TextBox PreviewTextBox;
     }
 }
 

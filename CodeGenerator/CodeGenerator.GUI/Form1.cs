@@ -296,21 +296,22 @@ namespace CodeGenerator.GUI
         #endregion
 
         /// <summary>
-        /// Beschreibt das Preview-Panel, indem es aus dem Datamodel die Klassen ausliest
+        /// Beschreibt die Preview-TextBox, indem es aus dem Datamodel die Klassen ausliest
         /// und bei jeder Klassendatei den gesamten Inhalt ausliest
         /// </summary>
         /// <param name="FilePath_Output">der Ausgabepfad damit der Reader weiss, wo er lesen soll</param>
         /// <param name="dtm">das Datamodel, um die erstellten Klassen zu ermitteln</param>
-        /// <returns></returns>
+        /// <returns>true, wenn keine Exception ausgelöst wurde.</returns>
         public bool WritePrewiev(string FilePath_Output, Datamodel.Datamodel dtm)
         {
             try
             {
+                PreviewTextBox.Text = "";
                 foreach(UML_Class umlClass in dtm.umlClasses)
                 {
                     using(StreamReader streamReader = new StreamReader(FilePath_Output + "\\" + umlClass.name + ".cs"))
                     {
-                        PreviewLabel.Text = streamReader.ReadToEnd();
+                        PreviewTextBox.Text += streamReader.ReadToEnd();
                     }
                 }
             }
