@@ -49,7 +49,7 @@
             this.hilfeAnzeigenLassenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.PreviewTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.PreviewLabel = new System.Windows.Forms.Label();
             this.PreviewFensterLabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -59,7 +59,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.PreviewTableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // SelectFileButton
@@ -148,6 +148,7 @@
             // 
             // errorProvider1
             // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
             // FilePictureBox
@@ -214,7 +215,7 @@
             this.hilfeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(834, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(682, 30);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -249,9 +250,9 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 474);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 431);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(834, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(682, 22);
             this.statusStrip1.TabIndex = 11;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -260,17 +261,17 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 16);
             // 
-            // tableLayoutPanel1
+            // PreviewTableLayoutPanel
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.PreviewLabel, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(21, 218);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(813, 256);
-            this.tableLayoutPanel1.TabIndex = 12;
+            this.PreviewTableLayoutPanel.ColumnCount = 1;
+            this.PreviewTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.PreviewTableLayoutPanel.Controls.Add(this.PreviewLabel, 0, 0);
+            this.PreviewTableLayoutPanel.Location = new System.Drawing.Point(21, 218);
+            this.PreviewTableLayoutPanel.Name = "PreviewTableLayoutPanel";
+            this.PreviewTableLayoutPanel.RowCount = 1;
+            this.PreviewTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.PreviewTableLayoutPanel.Size = new System.Drawing.Size(600, 200);
+            this.PreviewTableLayoutPanel.TabIndex = 12;
             // 
             // PreviewLabel
             // 
@@ -280,7 +281,7 @@
             this.PreviewLabel.ForeColor = System.Drawing.Color.White;
             this.PreviewLabel.Location = new System.Drawing.Point(3, 0);
             this.PreviewLabel.Name = "PreviewLabel";
-            this.PreviewLabel.Size = new System.Drawing.Size(807, 256);
+            this.PreviewLabel.Size = new System.Drawing.Size(594, 200);
             this.PreviewLabel.TabIndex = 0;
             this.PreviewLabel.Text = "Hier steht nachher der erstellte Code.";
             // 
@@ -316,10 +317,10 @@
             this.AutoScroll = true;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(854, 467);
+            this.ClientSize = new System.Drawing.Size(682, 453);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.PreviewFensterLabel);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.PreviewTableLayoutPanel);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
@@ -338,7 +339,9 @@
             this.MinimumSize = new System.Drawing.Size(355, 150);
             this.Name = "Form1";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CodeGenerator";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).EndInit();
@@ -346,8 +349,8 @@
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.PreviewTableLayoutPanel.ResumeLayout(false);
+            this.PreviewTableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -375,7 +378,7 @@
         private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hilfeAnzeigenLassenToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel PreviewTableLayoutPanel;
         private System.Windows.Forms.Label PreviewLabel;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label PreviewFensterLabel;
