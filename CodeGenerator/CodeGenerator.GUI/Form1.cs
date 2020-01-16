@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Exceptions;
 using CodeGenerator.Controller;
 using System.IO;
+using CodeGenerator.Datamodel;
 
 namespace CodeGenerator.GUI
 {
@@ -121,16 +122,15 @@ namespace CodeGenerator.GUI
         /// <param name="filePath_Output">Ausgabepfad im Typ string</param>
         public void CreateController(string filePath_Model, string filePath_Output)
         {
-            bool finish;
             Controller.Controller controller = new Controller.Controller();
-            Exception ex = controller.StartProcess(filePath_Model, filePath_Output, out finish);
+            Exception ex = controller.StartProcess(filePath_Model, filePath_Output, out Datamodel.Datamodel dtm);
             if (ex != null)
             {
                 new Form2(ex).ShowDialog();
                 this.Show();
             }
-            if (finish)
-                WritePrewiev(filePath_Output);
+            else if (dtm != null)
+                WritePrewiev(filePath_Output, dtm);
         }
         
         #region MouseHover
@@ -287,11 +287,17 @@ namespace CodeGenerator.GUI
         }
         #endregion
 
-        public bool WritePrewiev(string FilePath_Output)
+        public bool WritePrewiev(string FilePath_Output, Datamodel.Datamodel dtm)
         {
             try
             {
-
+                foreach(UML_Class umlClass in dtm.umlClasses)
+                {
+                    using(StreamReader streamReader = new StreamReader(FilePath_Output + "\\" + umlClass.name + ".cs"))
+                    {
+                        PreviewLabel.Text = streamReader.ReadToEnd();
+                    }
+                }
             }
             catch(Exception)
             {
