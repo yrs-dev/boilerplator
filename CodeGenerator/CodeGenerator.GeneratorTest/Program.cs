@@ -3,11 +3,6 @@ using gen = CodeGenerator.Generator;
 using dm = CodeGenerator.Datamodel;
 using System;
 
-/* ToDos:
- * Attribute getter setter?
- * Discuss moving parameters from method "generateCode" to constructor
- */
-
 namespace CodeGenerator.GeneratorTest
 {
     class Program
