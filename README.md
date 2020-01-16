@@ -1,6 +1,6 @@
 # Project Title
 
-This Software will create ".cs" files which contain generated code based on a provided ".graphml" file.
+Dieses Programm erstellt ".cs"-Dateien und füllt sie mit generiertem Quelltext, welcher auf der bereitgestellten ".graphml"-Datei beruht.
 
 ## Test: GUI and Controller
 
@@ -12,7 +12,9 @@ to be filled in
 
 ## Test: Generator
 
-to be filled in
+Das Projekt "CodeGenerator.GeneratorTest" testen die Generator-Komponente. Zu Beginn wird ein Dummy-DataModel mit Attributen, Methoden, Interfaces und Klassen erstellt. 
+Dieses wird dem Generator übergeben, zusammen mit einem Ausgabepfad. 
+Das Ausgabepfad ist standardmäßig der Ordner "GeneratorTestFiles", welcher auf dem Desktop des aktuellen Nutzers erstellt wird, sollte er bisher nicht existieren.
 
 ## Authors
 
@@ -22,4 +24,4 @@ to be filled in
 
 ## License
 
-This project is licensed under the MIT License
+Dieses Projekt ist lizensiert unter der MIT-Lizenz.
