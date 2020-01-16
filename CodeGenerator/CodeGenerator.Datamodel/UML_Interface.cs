@@ -21,7 +21,7 @@ namespace CodeGenerator.Datamodel
             this.id = id;
         }
 
-        public UML_Interface(string name, string id, string interfaceName, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, string extraKeyword = "") : base("", name, id, umlMethods, umlAttributes, extraKeyword)
+        public UML_Interface(string id, string name, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, string extraKeyword = "") : base(id, "", name, umlMethods, umlAttributes, extraKeyword)
         {
         }
     }

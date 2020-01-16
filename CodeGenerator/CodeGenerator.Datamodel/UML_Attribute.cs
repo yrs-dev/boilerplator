@@ -27,7 +27,7 @@ namespace CodeGenerator.Datamodel
             this.name = attributeName;
         }
 
-        public UML_Attribute(string accessModifier, string type, string name, string id, string extraKeyword = "", bool autoGetterSetter = false) : base(accessModifier, name, id, extraKeyword)
+        public UML_Attribute(string id, string accessModifier, string type, string name, string extraKeyword = "", bool autoGetterSetter = false) : base(id, accessModifier, name, extraKeyword)
         {
             this.type = type;
             this.autoGetterSetterSpecified = autoGetterSetter;

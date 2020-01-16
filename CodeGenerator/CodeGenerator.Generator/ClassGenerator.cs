@@ -23,8 +23,17 @@ namespace CodeGenerator.Generator
         /// <returns></returns>
         public override StringBuilder writeBeginning_Specify(UML_BaseExtension umlClass)
         {
-            // Write beginning
-            StringBuilder sb = new StringBuilder($"{umlClass.accessModifier} class {umlClass.name}");
+
+            StringBuilder sb = new StringBuilder();
+
+            // First line: acess modifier
+            if (umlClass.accessModifier != null) sb.Append($"{umlClass.accessModifier} ");
+
+            // First line: of extra keyword is set
+            if (!umlClass.extraKeyword.Equals("")) sb.Append($"{umlClass.extraKeyword} ");
+
+            // First line: rest
+            sb.Append($"class {umlClass.name}");
 
             // Append parents, interfaces
             writeBeginning_appendElements(sb, (UML_Class)umlClass);
@@ -79,9 +88,16 @@ namespace CodeGenerator.Generator
         /// <returns> Returns the string representing the UML_Attribute object. </returns>
         public override string writeAttribute_Specify(UML_Attribute umlAttribute)
         {
+            StringBuilder sb = new StringBuilder();
 
-            // Overall attribute structure
-            StringBuilder sb = new StringBuilder($"{umlAttribute.accessModifier} {umlAttribute.type} {umlAttribute.name}");
+            // Overall attribute structure: Check access modifier
+            if (umlAttribute.accessModifier != null) sb.Append($"{umlAttribute.accessModifier} ");
+
+            // Overall attribute strucutre: extra keyword
+            if (!umlAttribute.extraKeyword.Equals("")) sb.Append($"{umlAttribute.extraKeyword} ");
+
+            // Overall attribute structure: rest
+            sb.Append($"{umlAttribute.type} {umlAttribute.name}");
 
             // Append respective information
             if (umlAttribute.autoGetterSetterSpecified)

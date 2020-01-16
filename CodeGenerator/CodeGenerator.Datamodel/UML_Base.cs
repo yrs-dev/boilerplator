@@ -28,7 +28,7 @@ namespace CodeGenerator.Datamodel
             this.extraKeyword = "";
         }
 
-        public UML_Base(string accessModifier, string name, string id, string extraKeyword = "")
+        public UML_Base(string id, string accessModifier, string name, string extraKeyword = "")
         {
             this.accessModifier = accessModifier;
             this.name = name;

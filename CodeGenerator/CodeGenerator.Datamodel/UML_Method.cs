@@ -23,7 +23,7 @@ namespace CodeGenerator.Datamodel
             this.parameters = new List<UML_Parameter>();
         }
 
-        public UML_Method(string id, string accessModifier, string type, string name, List<UML_Parameter> parameters, string extraKeyword = "") : base(accessModifier, name, id, extraKeyword)
+        public UML_Method(string id, string accessModifier, string type, string name, List<UML_Parameter> parameters, string extraKeyword = "") : base(id, accessModifier, name, extraKeyword)
         {
             this.type = type;
 
