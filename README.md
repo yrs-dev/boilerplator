@@ -2,7 +2,7 @@
 
 This Software will create ".cs" files which contain generated code based on a provided ".graphml" file.
 
-## GUI and Controller
+## Test: GUI and Controller
 
 to be filled in
 
