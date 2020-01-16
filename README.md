@@ -8,7 +8,10 @@ Die Testkomponente des Controllers "CodeGenerator.ControllerTest" kreiert den Au
 
 ## Test: Reader
 
-to be filled in
+Die Reader-Komponente besitzt im ganzen zwei Test-Komponenten, und zwar einmal "CodeGenerator.ReaderTest" und "CodeGenerator.ReaderUnitTest". Dabei stellt das Projekt "CodeGenerator.ReaderTest" die Haupt-Testkomponente dar. Diese Komponente erzeugt lediglich ein valides Datenmodell aus einem Klassendiagramm, welche in Form einer .Graphml Datei vorliegt. Die Ergebnisse werden in einer Konsolen-Applikation dargestellt. Sinn und Zweck dieser Test-Komponente ist es, feststellen zu können ob ein Datenmodell erzeugt werden kann und ob sie für die weiter Verarbeitung eine korrekte Struktur annimmt.
+
+Das Projekt "CodeGenerator.ReaderUnitTest" testet die Reader-Komponente auf spezielle Fälle. Aus einem Klassendiagramm werden Werte geladen und jeweilige Objekte erzeugt. Diese werden mit den korrekten Ergebnissen, die eigentlich aus dem Diagramm entnommen werden sollten, verglichen. 
+Diese Unit-Test's können innerhalb des Visual-Studio Testexplorers ausgeführt werden.
 
 ## Test: Generator
 
