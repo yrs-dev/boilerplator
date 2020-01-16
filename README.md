@@ -1,4 +1,4 @@
-# Project Title
+# CodeGenerator
 
 Dieses Programm erstellt ".cs"-Dateien und füllt sie mit generiertem Quelltext, welcher auf der bereitgestellten ".graphml"-Datei beruht.
 
