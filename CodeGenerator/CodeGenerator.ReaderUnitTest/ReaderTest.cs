@@ -14,6 +14,8 @@ namespace CodeGenerator.ReaderUnitTest
     
     public class ReaderTest
     {
+        // Test Komponente basierend auf die Struktur des alten Readers
+
         //[Fact]
         //public void checkInterface()
         //{
