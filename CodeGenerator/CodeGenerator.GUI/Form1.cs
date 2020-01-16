@@ -312,6 +312,8 @@ namespace CodeGenerator.GUI
                     using(StreamReader streamReader = new StreamReader(FilePath_Output + "\\" + umlClass.name + ".cs"))
                     {
                         PreviewTextBox.Text += streamReader.ReadToEnd();
+                        GiveColor("class");
+                            
                     }
                 }
             }
@@ -333,5 +335,11 @@ namespace CodeGenerator.GUI
         {
             PreviewTableLayoutPanel.Height = this.Height - PreviewOffset -35;
         }
+
+        public void GiveColor(string keyword)
+        {
+            int index = PreviewTextBox.Text.IndexOf(keyword);
+        }
+
     }
 }

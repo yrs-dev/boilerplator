@@ -53,7 +53,7 @@
             this.PreviewFensterLabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel5 = new System.Windows.Forms.Panel();
-            this.PreviewTextBox = new System.Windows.Forms.TextBox();
+            this.PreviewTextBox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OutputPictureBox)).BeginInit();
@@ -302,13 +302,12 @@
             // PreviewTextBox
             // 
             this.PreviewTextBox.BackColor = System.Drawing.SystemColors.InfoText;
+            this.PreviewTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PreviewTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PreviewTextBox.ForeColor = System.Drawing.Color.White;
             this.PreviewTextBox.Location = new System.Drawing.Point(3, 3);
-            this.PreviewTextBox.Multiline = true;
             this.PreviewTextBox.Name = "PreviewTextBox";
             this.PreviewTextBox.ReadOnly = true;
-            this.PreviewTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.PreviewTextBox.Size = new System.Drawing.Size(744, 244);
             this.PreviewTextBox.TabIndex = 0;
             this.PreviewTextBox.Text = "Hier steht nachher der generierte Code.";
@@ -352,7 +351,6 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.PreviewTableLayoutPanel.ResumeLayout(false);
-            this.PreviewTableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -384,7 +382,7 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label PreviewFensterLabel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.TextBox PreviewTextBox;
+        private System.Windows.Forms.RichTextBox PreviewTextBox;
     }
 }
 
