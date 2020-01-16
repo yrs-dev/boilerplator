@@ -42,6 +42,11 @@ namespace CodeGenerator.Controller
                     dtm = null;
                     return e;
                 }
+                catch(InvalidUMLShapesException e)
+                {
+                    dtm = null;
+                    return e;
+                }
                 // Wenn eine andere Exception ausgelöst wird, wird eine neue GeneralException zurückgegeben.
                 catch (Exception)
                 {
