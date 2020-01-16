@@ -37,66 +37,80 @@ namespace CodeGenerator.Reader
             // Looping through all splitted string-elements
             foreach (string stringValue in readerValueList)
             {
-                if (stringValue.Length > 1)
+                if (checkListValue(stringValue))
                 {
                     UML_Method method = new UML_Method();
 
                     // Separating name and type
                     var tmp = stringValue.Split('(');
+                    string staticKey = "static";
 
                     // Check for valid data
-                    if (checkListValue(stringValue))
+                    if (stringValue.StartsWith("+") == true)
                     {
-                        if (stringValue.StartsWith("+") == true)
+                        method.accessModifier = modifierPublic;
+                        method.name = tmp[0].Trim('+','*');
+                        if (stringValue.Contains(':') == true)
                         {
-                            method.accessModifier = modifierPublic;
-                            method.name = tmp[0].Trim('+');
-                            if (stringValue.Contains(':') == true)
-                            {
-                                method.type = tmp[1].Trim();
-                            }
-                            method.parameters = getParameter(stringValue);
-                        }
-
-                        if (stringValue.StartsWith("-") == true)
-                        {
-                            method.accessModifier = modifierPrivate;
-                            method.name = tmp[0].Trim('-');
-                            if (stringValue.Contains(':') == true)
-                            {
-                                method.type = tmp[1].Trim();
-                            }
-                            method.parameters = getParameter(stringValue);
-                        }
-
-                        if (stringValue.StartsWith("#") == true)
-                        {
-                            method.accessModifier = modifierProtected;
-                            method.name = tmp[0].Trim('#');
-                            if (stringValue.Contains(':') == true)
-                            {
-                                method.type = tmp[1].Trim();
-                            }
                             method.type = tmp[1].Trim();
-                            method.parameters = getParameter(stringValue);
                         }
-
-                        if (stringValue.StartsWith("+") == false && stringValue.StartsWith("-") == false && stringValue.StartsWith("#") == false && stringValue.Length > 1)
+                        if (checkStatic(stringValue))
                         {
-                            method.accessModifier = null;
-                            method.name = tmp[0].Trim('(');
-
-                            if (!stringValue.Contains(':'))
-                            {
-                                method.type = "Void";
-                            }
-                            if (stringValue.Contains(':') == true)
-                            {
-                                var tmp2 = stringValue.Split(')');
-                                method.type = tmp2[1].Trim(':');
-                            }
-                            method.parameters = getParameter(stringValue);
+                            method.extraKeyword = staticKey;
                         }
+                        method.parameters = getParameter(stringValue);
+                    }
+
+                    if (stringValue.StartsWith("-") == true)
+                    {
+                        method.accessModifier = modifierPrivate;
+                        method.name = tmp[0].Trim('-', '*');
+                        if (stringValue.Contains(':') == true)
+                        {
+                            method.type = tmp[1].Trim();
+                        }
+                        if (checkStatic(stringValue))
+                        {
+                            method.extraKeyword = staticKey;
+                        }
+                        method.parameters = getParameter(stringValue);
+                    }
+
+                    if (stringValue.StartsWith("#") == true)
+                    {
+                        method.accessModifier = modifierProtected;
+                        method.name = tmp[0].Trim('#', '*');
+                        if (stringValue.Contains(':') == true)
+                        {
+                            method.type = tmp[1].Trim();
+                        }
+                        if (checkStatic(stringValue))
+                        {
+                            method.extraKeyword = staticKey;
+                        }
+                        method.type = tmp[1].Trim();
+                        method.parameters = getParameter(stringValue);
+                    }
+
+                    if (stringValue.StartsWith("+") == false && stringValue.StartsWith("-") == false && stringValue.StartsWith("#") == false && stringValue.Length > 1)
+                    {
+                        method.accessModifier = null;
+                        method.name = tmp[0].Trim('(', '*');
+
+                        if (!stringValue.Contains(':'))
+                        {
+                            method.type = "Void";
+                        }
+                        if (stringValue.Contains(':') == true)
+                        {
+                            var tmp2 = stringValue.Split(')');
+                            method.type = tmp2[1].Trim(':');
+                        }
+                        if (checkStatic(stringValue))
+                        {
+                            method.extraKeyword = staticKey;
+                        }
+                        method.parameters = getParameter(stringValue);
                     }
                     listMethods.Add(method);
                 }
@@ -134,7 +148,7 @@ namespace CodeGenerator.Reader
         // Null Input Check
         bool checkListValue(string value)
         {
-            if (value != null)
+            if (value != null && value.Length > 1)
             {
                 return true;
             }
@@ -168,44 +182,63 @@ namespace CodeGenerator.Reader
             // Looping through all splitted string-elements
             foreach (string stringValue in readerValueArray)
             {
-                if (stringValue.Length > 1) 
+                if (checkListValue(stringValue)) 
                 {
                     UML_Attribute attribute = new UML_Attribute();
 
                     // Separating name and type
                     var kvp = stringValue.Split(':');
 
+                    string staticKey = "static";
+
                     // Cutting of whitespaces
                     string current = kvp[1].Trim();
 
                     // Checking for valid data
-                    if (checkListValue(stringValue))
+                    // Checking current accessmodifier
+                    if (stringValue.StartsWith("+") == true && kvp[1] != null)
                     {
-                        // Checking current accessmodifier
-                        if (stringValue.StartsWith("+") == true && kvp[1] != null)
+                        attribute.accessModifier = modifierPublic;
+                        attribute.name = kvp[0].Trim('+', ' ', '*');
+                        attribute.type = current;
+                        if (checkStatic(stringValue))
                         {
-                            attribute.accessModifier = modifierPublic;
-                            attribute.name = kvp[0].Trim('+', ' ');
-                            attribute.type = current;
+                            attribute.extraKeyword = staticKey;
                         }
-                        if (stringValue.StartsWith("-") == true && kvp[1] != null)
+                        attribute.autoGetterSetterSpecified = checkGetterSetter(stringValue);
+                    }
+                    if (stringValue.StartsWith("-") == true && kvp[1] != null)
+                    {
+                        attribute.accessModifier = modifierPrivate;
+                        attribute.name = kvp[0].Trim('-', ' ', '*');
+                        attribute.type = current;
+                        if (checkStatic(stringValue))
                         {
-                            attribute.accessModifier = modifierPrivate;
-                            attribute.name = kvp[0].Trim('-', ' ');
-                            attribute.type = current;
+                            attribute.extraKeyword = staticKey;
                         }
-                        if (stringValue.StartsWith("#") == true && kvp[1] != null)
+                        attribute.autoGetterSetterSpecified = checkGetterSetter(stringValue);
+                    }
+                    if (stringValue.StartsWith("#") == true && kvp[1] != null)
+                    {
+                        attribute.accessModifier = modifierProtected;
+                        attribute.name = kvp[0].Trim('#', ' ', '*');
+                        attribute.type = current;
+                        if (checkStatic(stringValue))
                         {
-                            attribute.accessModifier = modifierProtected;
-                            attribute.name = kvp[0].Trim('#', ' ');
-                            attribute.type = current;
+                            attribute.extraKeyword = staticKey;
                         }
-                        if (stringValue.StartsWith("+") == false && stringValue.StartsWith("-") == false && stringValue.StartsWith("#") == false && kvp[1] != null)
+                        attribute.autoGetterSetterSpecified = checkGetterSetter(stringValue);
+                    }
+                    if (stringValue.StartsWith("+") == false && stringValue.StartsWith("-") == false && stringValue.StartsWith("#") == false && kvp[1] != null)
+                    {
+                        attribute.accessModifier = null;
+                        attribute.name = kvp[0].Trim(' ', '*');
+                        attribute.type = current;
+                        if (checkStatic(stringValue))
                         {
-                            attribute.accessModifier = null;
-                            attribute.name = kvp[0].Trim(' ');
-                            attribute.type = current;
+                            attribute.extraKeyword = staticKey;
                         }
+                        attribute.autoGetterSetterSpecified = checkGetterSetter(stringValue);
                     }
 
                     // List of all existing attributes as objects
@@ -214,6 +247,24 @@ namespace CodeGenerator.Reader
             }
 
             return listAttributes;
+        }
+
+        bool checkGetterSetter(string objectValue)
+        {
+            if (!objectValue.Contains("readonly"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        bool checkStatic(string nameValue)
+        {
+            if (nameValue.StartsWith("*") && nameValue.EndsWith("*"))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

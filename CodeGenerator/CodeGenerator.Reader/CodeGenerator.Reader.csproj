@@ -54,6 +54,10 @@
       <Project>{aa99e002-7d47-4dc1-9fab-b856d675bb48}</Project>
       <Name>CommonInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj">
+      <Project>{2dfcec8f-1511-4f82-af58-100b1ccee9bd}</Project>
+      <Name>Exceptions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
