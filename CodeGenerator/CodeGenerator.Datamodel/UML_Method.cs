@@ -18,17 +18,18 @@ namespace CodeGenerator.Datamodel
         
         // Constructors
         public UML_Method()
-        {
+        { 
             // Empty collection
             this.parameters = new List<UML_Parameter>();
         }
 
-        public UML_Method(string accessModifier, string type, string name, List<UML_Parameter> parameters)
+        public UML_Method(string id, string accessModifier, string type, string name, List<UML_Parameter> parameters, string extraKeyword = "") : base(accessModifier, name, id, extraKeyword)
         {
-            this.accessModifier = accessModifier;
             this.type = type;
-            this.name = name;
-            this.parameters = parameters;
+
+            // Check parameter
+            this.parameters = parameters ?? new List<UML_Parameter>();
+            
         }
 
 

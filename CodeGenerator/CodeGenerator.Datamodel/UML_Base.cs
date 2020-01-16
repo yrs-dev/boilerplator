@@ -13,28 +13,27 @@ namespace CodeGenerator.Datamodel
         // "public", "private", etc
         public string accessModifier { get; set; }
 
+        // static / const / abstract
+        public string extraKeyword { get; set; }
+
         // "variable name" or "method name" or "class name"
         public string name { get; set; }
 
         // .graphml class node notation --> important for Inheritance
         public string id { get; set; }
 
-
-        /*
         // Constructor
-        public UML_Base(char accessModifier, string name)
+        public UML_Base()
+        {
+            this.extraKeyword = "";
+        }
+
+        public UML_Base(string accessModifier, string name, string id, string extraKeyword = "")
         {
             this.accessModifier = accessModifier;
             this.name = name;
-        }
-        */
-
-        public override bool Equals(object obj)
-        {
-            //return obj.GetType() == typeof(UML_Class) || 
-            //obj.GetType() == typeof(UML_Interface);
-            return
-                this.id == ((UML_Base)obj).id && this.name == ((UML_Base)obj).name;
+            this.id = id;
+            this.extraKeyword = extraKeyword;
         }
 
     }
