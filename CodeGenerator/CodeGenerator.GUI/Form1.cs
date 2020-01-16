@@ -19,7 +19,15 @@ namespace CodeGenerator.GUI
         public Form1()
         {
             InitializeComponent();
+
+            // Sobald das Form erstellt wurde, wird die Höhe des Preview Fensters berechnet(Formhöhe- Oberer Abstand)
+            PreviewTableLayoutPanel.Height = this.Height - 170;
+            // Ausserdem wird der Gesamtabstand zwischen Form und PreviewPanel berechnet(Oben und Unten)
+            PreviewOffset = this.Height - PreviewTableLayoutPanel.Height;
         }
+
+        // Die Eigenschaft Offset beinhaltet den Abstand zwischen Form und PreviewPanel
+        int PreviewOffset { get; set; }
 
         #region Clicks
         /// <summary>
@@ -287,6 +295,13 @@ namespace CodeGenerator.GUI
         }
         #endregion
 
+        /// <summary>
+        /// Beschreibt das Preview-Panel, indem es aus dem Datamodel die Klassen ausliest
+        /// und bei jeder Klassendatei den gesamten Inhalt ausliest
+        /// </summary>
+        /// <param name="FilePath_Output">der Ausgabepfad damit der Reader weiss, wo er lesen soll</param>
+        /// <param name="dtm">das Datamodel, um die erstellten Klassen zu ermitteln</param>
+        /// <returns></returns>
         public bool WritePrewiev(string FilePath_Output, Datamodel.Datamodel dtm)
         {
             try
@@ -305,6 +320,17 @@ namespace CodeGenerator.GUI
                 this.Show();
             }
             return true;
+        }
+
+        /// <summary>
+        /// Sobald man die Größe des Forms verändert, wird die Höhe des Preview Panels mit Hilfe der
+        /// Eigenschaften PreviewOffset und der Höhe des Forms, sowie der untere Abstand "35", neu angepasst.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            PreviewTableLayoutPanel.Height = this.Height - PreviewOffset -35;
         }
     }
 }
