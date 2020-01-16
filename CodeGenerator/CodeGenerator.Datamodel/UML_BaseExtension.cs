@@ -16,10 +16,17 @@ namespace CodeGenerator.Datamodel
         public List<UML_Attribute> umlAttributes { get; set; }
 
         // Constructor
-        public UML_BaseExtension()
+        public UML_BaseExtension() 
         {
             this.umlMethods = new List<UML_Method>();
             this.umlAttributes = new List<UML_Attribute>();
+        }
+
+        public UML_BaseExtension(string accessModifier, string name, string id, List<UML_Method> umlMethods, List<UML_Attribute> umlAttributes, string extraKeyword = "") : base(accessModifier, name, id, extraKeyword)
+        {
+            // Empty collection
+            this.umlMethods = umlMethods ?? new List<UML_Method>();
+            this.umlAttributes = umlAttributes ?? new List<UML_Attribute>();
         }
     }
 }

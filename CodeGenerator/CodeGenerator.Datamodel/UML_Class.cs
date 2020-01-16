@@ -31,14 +31,13 @@ namespace CodeGenerator.Datamodel
 
         }
 
-        public UML_Class(string accessModifier, string className, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, List<UML_Interface> implementedInterfaces, UML_Class parent = null)
+        public UML_Class(string accessModifier, string name, string id, List<UML_Attribute> umlAttributes, List<UML_Method> umlMethods, List<UML_Interface> implementedInterfaces, string extraKeyword = "", UML_Class parent = null) : base(accessModifier, name, id, umlMethods, umlAttributes, extraKeyword)
         {
-            this.accessModifier = accessModifier;
-            this.name = className;
-            this.umlAttributes = umlAttributes;
-            this.umlMethods = umlMethods;
             this.parent = parent;
-            this.implementedInterfaces = implementedInterfaces;
+
+            // Empty collection
+            this.implementedInterfaces = implementedInterfaces ?? new List<UML_Interface>();
+            
         }
 
         public override bool Equals(object obj)

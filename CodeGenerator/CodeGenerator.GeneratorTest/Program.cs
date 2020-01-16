@@ -56,7 +56,7 @@ namespace CodeGenerator.GeneratorTest
             dml.umlInterfaces = new List<dm.UML_Interface>() { interface1, interface2 };
 
             // Create generator object
-            gen.Generator gen = new gen.Generator("C:\\Users\\Yannik\\Desktop\\testFolder", dml);
+            gen.Generator gen = new gen.Generator(System.Environment.CurrentDirectory + "/outputFolder", dml);
             gen.generateCode();
 
         }
