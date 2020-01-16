@@ -2,9 +2,9 @@
 
 Dieses Programm erstellt ".cs"-Dateien und füllt sie mit generiertem Quelltext, welcher auf der bereitgestellten ".graphml"-Datei beruht.
 
-## Test: GUI and Controller
+## Test: Controller
 
-to be filled in
+Die Testkomponente des Controllers "CodeGenerator.ControllerTest" kreiert den Ausgabepfad im Verzeichnis der Program-Klasse und den Dateipfad der (im Verzeichnis der Komponente abgespeicherten) "classdiagram.cs"-Datei. Mit übergabe dieser Pfade, ruft sie die Methode StartProcess auf, welche die Komponenten "CodeGenerator.Reader" und "CodeGenerator.Generator" erstellt und einen Datenaustausch simuliert. Dabei erhält der Controller, nach übergabe des Dateipfades, vom Reader ein Datamodel und gibt dieses, zusammen mit dem Ausgabepfad, dem Generator weiter. 
 
 ## Test: Reader
 
