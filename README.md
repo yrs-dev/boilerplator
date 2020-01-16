@@ -18,9 +18,9 @@ Das Ausgabepfad ist standardmäßig der Ordner "GeneratorTestFiles", welcher auf
 
 ## Authors
 
-* **Emircan Yüksel** - GUI and Controller
+* **Emircan Yüksel** - GUI und Controller
 * **Baris Tikir** - Reader
-* **Yannik Sahl** - Generator and DataModel
+* **Yannik Sahl** - Generator und DataModel
 
 ## License
 
