@@ -15,9 +15,9 @@ The idea was for users to take their .graphml file (a file that contains a UML c
 
 # Authors
 
-* **Emircan Yüksel** - GUI und Controller
+* **Emircan Yüksel** - GUI and Controller
 * **Baris Tikir** - Reader
-* **Yannik Sahl** - Generator und DataModel
+* **Yannik Sahl** - Generator and DataModel
 
 # License
 
