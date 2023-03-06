@@ -1,9 +1,9 @@
 
 <h1 align="center">
-  CodeGenerator
+  Code-Generator
 </h1>
 <p align="center">
-  An application to create barebone C# code from .graphml files
+  An application to create barebone C# code from .graphml files.
 </p>
 
 # Overview
