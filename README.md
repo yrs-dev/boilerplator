@@ -1,6 +1,6 @@
 
 <h1 align="center">
-  Code-Generator
+  Boilerplator
 </h1>
 <p align="center">
   An application to create barebone C# code from .graphml files.
